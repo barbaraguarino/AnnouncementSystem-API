@@ -39,6 +39,11 @@ public class Announcement implements Serializable {
     @JoinColumn(name = "id_author")
     private User author;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_city")
+    private City city;
+
     private Timestamp date;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
