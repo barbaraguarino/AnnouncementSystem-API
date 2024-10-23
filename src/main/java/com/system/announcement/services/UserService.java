@@ -4,10 +4,10 @@ import com.system.announcement.dtos.requestAuthenticationRecordDTO;
 import com.system.announcement.dtos.responseAuthenticationRecordDTO;
 import com.system.announcement.infra.security.TokenService;
 import com.system.announcement.models.User;
-import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 @Service
