@@ -1,6 +1,5 @@
 package com.system.announcement.services;
 
-import com.system.announcement.models.User;
 import com.system.announcement.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class AuthorizationService implements UserDetailsService {
 
-    final UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public AuthorizationService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -24,7 +23,4 @@ public class AuthorizationService implements UserDetailsService {
         return userRepository.findByEmail(username);
     }
 
-    public void save(User user) {
-        userRepository.save(user);
-    }
 }

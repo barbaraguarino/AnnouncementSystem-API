@@ -1,4 +1,4 @@
-package com.system.announcement.configuration.security;
+package com.system.announcement.infra.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

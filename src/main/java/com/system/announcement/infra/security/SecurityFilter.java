@@ -1,4 +1,4 @@
-package com.system.announcement.configuration.security;
+package com.system.announcement.infra.security;
 
 import com.system.announcement.services.AuthorizationService;
 import jakarta.servlet.FilterChain;
