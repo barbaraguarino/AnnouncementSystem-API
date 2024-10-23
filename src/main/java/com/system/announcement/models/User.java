@@ -1,10 +1,9 @@
 package com.system.announcement.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.system.announcement.auxiliary.enums.UserRole;
 import com.system.announcement.auxiliary.enums.UserType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,8 +13,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -29,14 +31,28 @@ public class User implements Serializable, UserDetails {
 
     @Id
     private String email;
+
     private String password;
+
     private String name;
+
     private UserType type;
+
     private UserRole role;
+
     private boolean blocked;
+
+    private boolean deleted;
+
+    private Timestamp deletedDate;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    private Set<Announcement> announcements = new HashSet<>();
 
     public User() {
         this.blocked = false;
+        this.deleted = false;
     }
 
     public User(String email,
@@ -48,6 +64,7 @@ public class User implements Serializable, UserDetails {
         this.type = type;
         this.blocked = false;
         this.role = role;
+        this.deleted = false;
     }
 
     @Override
@@ -74,7 +91,7 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !blocked;
+        return !this.isBlocked() && !this.isDeleted();
     }
 
     @Override
@@ -84,6 +101,6 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return !this.isDeleted();
     }
 }
