@@ -28,6 +28,7 @@ public class City implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column(unique = true, nullable = false)
     private String name;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

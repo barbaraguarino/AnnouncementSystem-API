@@ -5,7 +5,6 @@ import com.system.announcement.auxiliary.enums.AnnouncementStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serial;
@@ -18,7 +17,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "TB_ANNOUNCEMENT")
 public class Announcement implements Serializable {
@@ -30,18 +28,20 @@ public class Announcement implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String content;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_author")
+    @JoinColumn(name = "id_author", nullable = false)
     private User author;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_city")
+    @JoinColumn(name = "id_city", nullable = false)
     private City city;
 
     private Timestamp date;
@@ -55,12 +55,17 @@ public class Announcement implements Serializable {
     )
     private Set<Category> categories = new HashSet<>();
 
-    private boolean isSale;
-
     private float price;
 
+    @Column(nullable = false)
     private AnnouncementStatus status;
 
     private Timestamp deletionDate;
+
+    public Announcement(){
+        this.date = new Timestamp(System.currentTimeMillis());
+        this.deletionDate = null;
+        this.status = AnnouncementStatus.VISIBLE;
+    }
 
 }

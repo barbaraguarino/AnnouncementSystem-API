@@ -27,6 +27,8 @@ public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
+    @Column(nullable = false, unique = true)
     private String name;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

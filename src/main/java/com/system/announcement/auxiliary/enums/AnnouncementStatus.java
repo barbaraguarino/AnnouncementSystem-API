@@ -2,9 +2,10 @@ package com.system.announcement.auxiliary.enums;
 
 public enum AnnouncementStatus {
 
-    VISIBLE("Suspenso"),
-    SUSPENDED("Excluido"),
-    DELETED("Visível");
+    VISIBLE("Visível"),
+    CLOSED("Fechado"),
+    SUSPENDED("Suspenso"),
+    DELETED("Excluido");
 
     private final String status;
 
