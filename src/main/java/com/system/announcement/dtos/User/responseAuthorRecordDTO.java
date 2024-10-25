@@ -1,4 +1,4 @@
-package com.system.announcement.dtos;
+package com.system.announcement.dtos.User;
 
 import com.system.announcement.models.User;
 import jakarta.validation.constraints.NotBlank;

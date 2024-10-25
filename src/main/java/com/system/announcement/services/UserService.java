@@ -1,7 +1,7 @@
 package com.system.announcement.services;
 
-import com.system.announcement.dtos.requestAuthenticationRecordDTO;
-import com.system.announcement.dtos.responseAuthenticationRecordDTO;
+import com.system.announcement.dtos.Authentication.requestAuthenticationRecordDTO;
+import com.system.announcement.dtos.Authentication.responseAuthenticationRecordDTO;
 import com.system.announcement.infra.security.TokenService;
 import com.system.announcement.models.User;
 import org.springframework.security.authentication.AuthenticationManager;

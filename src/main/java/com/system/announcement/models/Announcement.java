@@ -31,7 +31,7 @@ public class Announcement implements Serializable {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "text")
     private String content;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -51,7 +51,8 @@ public class Announcement implements Serializable {
     @JoinTable(
             name = "TB_ANNOUNCEMENT_CATEGORY",
             joinColumns = @JoinColumn(name = "id_announcement"),
-            inverseJoinColumns = @JoinColumn(name = "id_category")
+            inverseJoinColumns = @JoinColumn(name = "id_category",
+                    nullable = false)
     )
     private Set<Category> categories = new HashSet<>();
 
@@ -61,6 +62,10 @@ public class Announcement implements Serializable {
     private AnnouncementStatus status;
 
     private Timestamp deletionDate;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "announcement", fetch = FetchType.LAZY)
+    private Set<File> files = new HashSet<>();
 
     public Announcement(){
         this.date = new Timestamp(System.currentTimeMillis());

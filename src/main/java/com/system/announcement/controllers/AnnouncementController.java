@@ -1,6 +1,6 @@
 package com.system.announcement.controllers;
 
-import com.system.announcement.dtos.requestAnnouncementRecordDTO;
+import com.system.announcement.dtos.Announcement.requestAnnouncementRecordDTO;
 import com.system.announcement.services.AnnouncementService;
 import com.system.announcement.services.CategoryService;
 import jakarta.validation.Valid;
