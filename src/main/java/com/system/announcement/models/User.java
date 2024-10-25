@@ -32,16 +32,24 @@ public class User implements Serializable, UserDetails {
     @Id
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String name;
 
+    private String icon;
+
+    @Column(nullable = false)
     private UserType type;
 
+    @Column(nullable = false)
     private UserRole role;
 
+    @Column(nullable = false)
     private boolean blocked;
 
+    @Column(nullable = false)
     private boolean deleted;
 
     private Timestamp deletedDate;
