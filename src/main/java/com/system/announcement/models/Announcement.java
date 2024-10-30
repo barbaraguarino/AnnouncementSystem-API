@@ -34,19 +34,19 @@ public class Announcement implements Serializable {
     private String content;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_author", nullable = false)
     private User author;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_city", nullable = false)
     private City city;
 
     private Timestamp date;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "TB_ANNOUNCEMENT_CATEGORY",
             joinColumns = @JoinColumn(name = "id_announcement"),
@@ -63,7 +63,7 @@ public class Announcement implements Serializable {
     private Timestamp deletionDate;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "announcement", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "announcement", fetch = FetchType.EAGER)
     private Set<File> files = new HashSet<>();
 
     public Announcement(){
