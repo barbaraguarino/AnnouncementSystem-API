@@ -2,6 +2,7 @@ package com.system.announcement.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,4 +35,13 @@ public class City implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "city", fetch = FetchType.LAZY)
     private Set<Announcement> announcements = new HashSet<>();
+
+    public City(UUID id, @NotNull String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public City(String name) {
+        this.name = name;
+    }
 }

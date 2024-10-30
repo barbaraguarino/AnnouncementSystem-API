@@ -1,6 +1,5 @@
 package com.system.announcement.dtos.Announcement;
 
-import com.system.announcement.dtos.File.responseFileRecordDTO;
 import com.system.announcement.dtos.User.responseAuthorRecordDTO;
 import com.system.announcement.models.Announcement;
 import com.system.announcement.models.Category;
