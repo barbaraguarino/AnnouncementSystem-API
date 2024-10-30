@@ -16,7 +16,6 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @Entity
 @Table(name = "TB_ANNOUNCEMENT")
 public class Announcement implements Serializable {
@@ -73,4 +72,24 @@ public class Announcement implements Serializable {
         this.status = AnnouncementStatus.VISIBLE;
     }
 
+    public Announcement(UUID id,
+                        String title,
+                        String content,
+                        User author,
+                        City city,
+                        Set<Category> categories,
+                        float price,
+                        Set<File> files) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.author = author;
+        this.city = city;
+        this.categories = categories;
+        this.price = price;
+        this.files = files;
+        this.date = new Timestamp(System.currentTimeMillis());
+        this.deletionDate = null;
+        this.status = AnnouncementStatus.VISIBLE;
+    }
 }

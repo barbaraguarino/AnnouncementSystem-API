@@ -34,4 +34,13 @@ public class Category implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
     private Set<Announcement> announcements = new HashSet<>();
+
+    public Category(UUID id, String name) {
+        this.name = name;
+        this.id = id;
+    }
+
+    public Category(String name) {
+        this.name = name;
+    }
 }

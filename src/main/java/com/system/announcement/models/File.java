@@ -38,4 +38,8 @@ public class File implements Serializable {
         this.path = path;
         this.announcement = announcement;
     }
+
+    public File(String path) {
+        this.path = path;
+    }
 }
