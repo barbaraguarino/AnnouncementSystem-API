@@ -6,7 +6,7 @@ import com.system.announcement.auxiliary.enums.UserType;
 import com.system.announcement.dtos.Authentication.requestAuthenticationRecordDTO;
 import com.system.announcement.dtos.Authentication.responseAuthenticationRecordDTO;
 
-import com.system.announcement.infra.security.TokenService;
+import com.system.announcement.infra.token.TokenService;
 import com.system.announcement.models.User;
 
 import org.mockito.junit.jupiter.MockitoExtension;
