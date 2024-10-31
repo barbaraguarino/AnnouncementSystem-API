@@ -1,4 +1,4 @@
-package com.system.announcement.services;
+package com.system.announcement.dtos.Announcement;
 
 import com.system.announcement.auxiliary.enums.AnnouncementStatus;
 import com.system.announcement.auxiliary.enums.UserType;

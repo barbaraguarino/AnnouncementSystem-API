@@ -3,7 +3,7 @@ package com.system.announcement.infra.specifications;
 import com.system.announcement.auxiliary.enums.AnnouncementStatus;
 import com.system.announcement.models.Announcement;
 import com.system.announcement.models.User;
-import com.system.announcement.services.requestFilterAnnouncementRecordDTO;
+import com.system.announcement.dtos.Announcement.requestFilterAnnouncementRecordDTO;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
