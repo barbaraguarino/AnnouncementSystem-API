@@ -5,6 +5,7 @@ import com.system.announcement.auxiliary.enums.AnnouncementStatus;
 import com.system.announcement.dtos.Announcement.requestAnnouncementRecordDTO;
 import com.system.announcement.dtos.Announcement.requestFilterAnnouncementRecordDTO;
 import com.system.announcement.dtos.Announcement.responseOneAnnouncementRecordDTO;
+import com.system.announcement.exceptions.AnnouncementNotFoundException;
 import com.system.announcement.infra.specifications.AnnouncementSpecification;
 import com.system.announcement.models.Announcement;
 import com.system.announcement.repositories.AnnouncementRepository;
@@ -13,6 +14,8 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -54,4 +57,9 @@ public class AnnouncementService {
         return announcements.map(responseOneAnnouncementRecordDTO::new);
     }
 
+    public responseOneAnnouncementRecordDTO findById(UUID id){
+        var optional = announcementRepository.findById(id);
+        if(optional.isPresent()) return new responseOneAnnouncementRecordDTO(optional.get());
+        throw new AnnouncementNotFoundException();
+    }
 }
