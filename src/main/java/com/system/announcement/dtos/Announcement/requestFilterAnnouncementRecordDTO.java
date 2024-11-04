@@ -12,6 +12,5 @@ public record requestFilterAnnouncementRecordDTO(
         Set<String> categories,
         Float minPrice,
         Float maxPrice,
-        UserType userType,
-        AnnouncementStatus announcementStatus
+        UserType userType
 ) {}
