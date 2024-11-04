@@ -2,7 +2,6 @@ package com.system.announcement.infra.specifications;
 
 import com.system.announcement.auxiliary.enums.AnnouncementStatus;
 import com.system.announcement.models.Announcement;
-import com.system.announcement.models.User;
 import com.system.announcement.dtos.Announcement.requestFilterAnnouncementRecordDTO;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -16,17 +15,17 @@ public class AnnouncementSpecification implements Specification<Announcement> {
 
     private final requestFilterAnnouncementRecordDTO filterDTO;
     private final AnnouncementStatus announcementStatus;
-    private final User author;
 
-    public AnnouncementSpecification(requestFilterAnnouncementRecordDTO filterDTO, AnnouncementStatus announcementStatus, User author) {
+    public AnnouncementSpecification(requestFilterAnnouncementRecordDTO filterDTO) {
         this.filterDTO = filterDTO;
-        this.announcementStatus = announcementStatus;
-        this.author = author;
+        this.announcementStatus = AnnouncementStatus.VISIBLE;
     }
 
     @Override
     public Predicate toPredicate(Root<Announcement> announcementRoot, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = new ArrayList<>();
+
+        predicates.add(criteriaBuilder.equal(announcementRoot.get("status"), announcementStatus));
 
         if (filterDTO.title() != null && !filterDTO.title().isEmpty()) {
             predicates.add(criteriaBuilder.like(announcementRoot.get("title"), "%" + filterDTO.title() + "%"));
@@ -50,14 +49,6 @@ public class AnnouncementSpecification implements Specification<Announcement> {
 
         if (filterDTO.maxPrice() != null) {
             predicates.add(criteriaBuilder.le(announcementRoot.get("price"), filterDTO.maxPrice()));
-        }
-
-        if (announcementStatus != null) {
-            predicates.add(criteriaBuilder.equal(announcementRoot.get("status"), announcementStatus));
-        }
-
-        if (author != null) {
-            predicates.add(criteriaBuilder.equal(announcementRoot.get("author"), author));
         }
 
         if (filterDTO.userType() != null) {

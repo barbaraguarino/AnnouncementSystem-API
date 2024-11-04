@@ -53,7 +53,7 @@ public class AnnouncementService {
     }
 
     public Page<responseOneAnnouncementRecordDTO> findAllWithFilter(requestFilterAnnouncementRecordDTO filterDTO, Pageable pageable) {
-        Page<Announcement> announcements = announcementRepository.findAll(new AnnouncementSpecification(filterDTO, AnnouncementStatus.VISIBLE, null), pageable);
+        Page<Announcement> announcements = announcementRepository.findAll(new AnnouncementSpecification(filterDTO), pageable);
         return announcements.map(responseOneAnnouncementRecordDTO::new);
     }
 
