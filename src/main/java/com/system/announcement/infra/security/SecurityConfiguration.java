@@ -1,6 +1,5 @@
 package com.system.announcement.infra.security;
 
-import com.system.announcement.infra.exception.CustomAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

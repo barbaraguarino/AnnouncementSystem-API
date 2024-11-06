@@ -36,4 +36,20 @@ public class AnnouncementController {
     public ResponseEntity<Object> getAnnouncementById(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(announcementService.findById(id));
     }
+
+    @GetMapping("/closed")
+    public ResponseEntity<Object> getClosedAnnouncements(Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(announcementService.findAllClosed(pageable));
+    }
+
+    @GetMapping("/suspended")
+    public ResponseEntity<Object> getSuspendedAnnouncements(Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(announcementService.findAllSuspended(pageable));
+    }
+
+    @GetMapping("/open")
+    public ResponseEntity<Object> getOpenAnnouncements(Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(announcementService.findAllOpen(pageable));
+    }
+
 }

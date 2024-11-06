@@ -47,7 +47,6 @@ public class AnnouncementService {
         announcement.setAuthor(user);
         announcement = announcementRepository.save(announcement);
         if(requestDTO.paths() != null && !requestDTO.paths().isEmpty()) announcement.setFiles(fileService.createObjectsFile(requestDTO.paths(), announcement));
-
         return new responseOneAnnouncementRecordDTO(announcement);
 
     }
@@ -61,5 +60,20 @@ public class AnnouncementService {
         var optional = announcementRepository.findById(id);
         if(optional.isPresent()) return new responseOneAnnouncementRecordDTO(optional.get());
         throw new AnnouncementNotFoundException();
+    }
+
+    public Page<responseOneAnnouncementRecordDTO> findAllClosed(Pageable pageable){
+        Page<Announcement> announcements = announcementRepository.findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(), AnnouncementStatus.CLOSED, pageable);
+        return announcements.map(responseOneAnnouncementRecordDTO::new);
+    }
+
+    public Page<responseOneAnnouncementRecordDTO> findAllSuspended(Pageable pageable) {
+        Page<Announcement> announcements = announcementRepository.findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(), AnnouncementStatus.SUSPENDED, pageable);
+        return announcements.map(responseOneAnnouncementRecordDTO::new);
+    }
+
+    public Page<responseOneAnnouncementRecordDTO> findAllOpen(Pageable pageable){
+        Page<Announcement> announcements = announcementRepository.findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(), AnnouncementStatus.VISIBLE, pageable);
+        return announcements.map(responseOneAnnouncementRecordDTO::new);
     }
 }
