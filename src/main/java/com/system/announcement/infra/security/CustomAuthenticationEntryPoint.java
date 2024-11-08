@@ -1,4 +1,4 @@
-package com.system.announcement.infra.exception;
+package com.system.announcement.infra.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
