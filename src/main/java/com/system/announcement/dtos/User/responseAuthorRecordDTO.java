@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public record responseAuthorRecordDTO(
         @NotBlank String email,
-        @NotBlank String nome
+        @NotBlank String name
 ) {
     public responseAuthorRecordDTO(User author) {
         this(author.getEmail(), author.getName());
