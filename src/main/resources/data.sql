@@ -28,7 +28,7 @@ values ('2905ffd5-7976-4fd6-9f61-e19dbc19ce65', 'Aluguel'),
        ('f67efd2a-01a9-4c13-9eae-034e3bb23c77','Venda'),
        ('b8153492-95a6-4312-9048-8f881f7f73d9','Aulas'),
        ('a8648c4c-7a31-4c79-bebe-ab5ca149e0f4','Oportunidade de Estágio'),
-       ('0f6c0155-0bd3-46ba-9f60-a86851905565', 'Carnoas e Transporte'),
+       ('0f6c0155-0bd3-46ba-9f60-a86851905565', 'Caronas e Transporte'),
        ('9e3bcf1c-f6e0-402f-a8a4-93e3dfd8b908', 'Eventos e Festas'),
        ('2aef8f9b-6e98-4829-9579-3d6f75c1e0a3', 'Atividades Acadêmicas'),
        ('b5abeb92-9c5b-47d8-88ec-2c1041f5bc3a', 'Ações Sociais'),
@@ -174,11 +174,3 @@ values
     ('e4b5d4f2-4ac1-4b43-8b9d-e1b9d8ddefb5', '707fbaf8-d46d-4b3b-9e1c-742849d41c14'),
     ('c8e682c8-bbba-429e-b5f3-e743c2e8e3c7', '707fbaf8-d46d-4b3b-9e1c-742849d41c14'),
     ('db1a8f76-5b38-490c-a5c4-8f484d39e9da', '707fbaf8-d46d-4b3b-9e1c-742849d41c14');
-
-insert into tb_file (id, path, id_announcement)
-values
-    ('2a3d8c12-1234-4f63-b7de-2b1f4a3f5e8b', '/files/image1.jpg', 'a432e2ec-1989-4e73-aad7-7d0d59ec32ec'),
-    ('8b1c4e36-56f0-4eb4-8e9e-b43d7b5e3a9f', '/files/image2.jpg', 'f3fbc9bb-4ff3-40fa-a548-8a0f4f84f35e'),
-    ('4c2a1e15-fc1b-4af0-bd4e-1f1c82a6f4e5', '/files/image3.jpg', 'db1a8f76-5b38-490c-a5c4-8f484d39e9da'),
-    ('d85c64e3-14f0-4e38-99af-6575288e21d9', '/files/image4.jpg', 'db1a8f76-5b38-490c-a5c4-8f484d39e9da'),
-    ('a6f50c94-7634-4af8-abc3-2465c2bba5c2', '/files/image5.jpg', '7f23de70-6ae1-4657-b3f7-67a6fcd45830');

@@ -62,9 +62,7 @@ public class Announcement implements Serializable {
 
     private Timestamp deletionDate;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "announcement", fetch = FetchType.EAGER)
-    private Set<File> files = new HashSet<>();
+    private String imageArchive;
 
     public Announcement(){
         this.date = new Timestamp(System.currentTimeMillis());
@@ -79,7 +77,7 @@ public class Announcement implements Serializable {
                         City city,
                         Set<Category> categories,
                         float price,
-                        Set<File> files) {
+                        String imageArchive) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -87,7 +85,7 @@ public class Announcement implements Serializable {
         this.city = city;
         this.categories = categories;
         this.price = price;
-        this.files = files;
+        this.imageArchive = imageArchive;
         this.date = new Timestamp(System.currentTimeMillis());
         this.deletionDate = null;
         this.status = AnnouncementStatus.VISIBLE;
