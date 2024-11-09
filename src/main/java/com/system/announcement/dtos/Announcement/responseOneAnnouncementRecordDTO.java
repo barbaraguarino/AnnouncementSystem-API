@@ -4,7 +4,6 @@ import com.system.announcement.dtos.User.responseAuthorRecordDTO;
 import com.system.announcement.models.Announcement;
 import com.system.announcement.models.Category;
 import com.system.announcement.models.City;
-import com.system.announcement.models.File;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -20,8 +19,8 @@ public record responseOneAnnouncementRecordDTO(
         @NotNull City city,
         @NotNull Set<Category> categories,
         @NotNull Timestamp date,
-        Set<File> files,
-        @NotNull String status,
+        String imageArchive,
+        String status,
         Timestamp deletionDate,
         float price
 ) {
@@ -34,7 +33,7 @@ public record responseOneAnnouncementRecordDTO(
                 announcement.getCity(),
                 announcement.getCategories(),
                 announcement.getDate(),
-                announcement.getFiles(),
+                announcement.getImageArchive(),
                 announcement.getStatus().getStatus(),
                 announcement.getDeletionDate(),
                 announcement.getPrice()

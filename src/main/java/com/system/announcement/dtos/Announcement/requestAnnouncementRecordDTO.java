@@ -10,7 +10,7 @@ public record requestAnnouncementRecordDTO(
         @NotBlank String content,
         @NotNull String city,
         @NotNull Set<String> categories,
-        Set<String> paths,
+        String imageArchive,
         float price
 ) {
 }

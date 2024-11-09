@@ -25,14 +25,12 @@ public class AnnouncementService {
     private final AnnouncementRepository announcementRepository;
     private final CityService cityService;
     private final CategoryService categoryService;
-    private final FileService fileService;
 
-    public AnnouncementService(AuthDetails authDetails, AnnouncementRepository announcementRepository, CityService cityService, CategoryService categoryService, FileService fileService) {
+    public AnnouncementService(AuthDetails authDetails, AnnouncementRepository announcementRepository, CityService cityService, CategoryService categoryService) {
         this.authDetails = authDetails;
         this.announcementRepository = announcementRepository;
         this.cityService = cityService;
         this.categoryService = categoryService;
-        this.fileService = fileService;
     }
 
     public responseOneAnnouncementRecordDTO save(@Valid requestAnnouncementRecordDTO requestDTO) {
@@ -45,8 +43,8 @@ public class AnnouncementService {
         announcement.setCity(cityService.getOrSave(requestDTO.city()));
         announcement.setCategories(categoryService.getAllOrSave(requestDTO.categories()));
         announcement.setAuthor(user);
+        if(requestDTO.imageArchive() != null && !requestDTO.imageArchive().isEmpty()) announcement.setImageArchive(requestDTO.imageArchive());
         announcement = announcementRepository.save(announcement);
-        if(requestDTO.paths() != null && !requestDTO.paths().isEmpty()) announcement.setFiles(fileService.createObjectsFile(requestDTO.paths(), announcement));
         return new responseOneAnnouncementRecordDTO(announcement);
 
     }
