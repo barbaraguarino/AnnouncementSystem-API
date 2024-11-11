@@ -6,6 +6,9 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Service
 @Transactional
 public class CityService {
@@ -25,5 +28,9 @@ public class CityService {
             newCity.setName(city);
             return cityRepository.save(newCity);
         }
+    }
+
+    public Set<City> getAll() {
+        return new HashSet<>(cityRepository.findAll());
     }
 }

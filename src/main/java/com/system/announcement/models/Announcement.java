@@ -34,19 +34,19 @@ public class Announcement implements Serializable {
     private String content;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_author", nullable = false)
     private User author;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_city", nullable = false)
     private City city;
 
     private Timestamp date;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "TB_ANNOUNCEMENT_CATEGORY",
             joinColumns = @JoinColumn(name = "id_announcement"),
@@ -62,9 +62,7 @@ public class Announcement implements Serializable {
 
     private Timestamp deletionDate;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "announcement", fetch = FetchType.LAZY)
-    private Set<File> files = new HashSet<>();
+    private String imageArchive;
 
     public Announcement(){
         this.date = new Timestamp(System.currentTimeMillis());
@@ -79,7 +77,7 @@ public class Announcement implements Serializable {
                         City city,
                         Set<Category> categories,
                         float price,
-                        Set<File> files) {
+                        String imageArchive) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -87,7 +85,7 @@ public class Announcement implements Serializable {
         this.city = city;
         this.categories = categories;
         this.price = price;
-        this.files = files;
+        this.imageArchive = imageArchive;
         this.date = new Timestamp(System.currentTimeMillis());
         this.deletionDate = null;
         this.status = AnnouncementStatus.VISIBLE;

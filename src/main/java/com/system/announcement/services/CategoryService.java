@@ -36,4 +36,8 @@ public class CategoryService {
         if(responseCategories.isEmpty()) throw new CategoryIsEmptyException();
         else return responseCategories;
     }
+
+    public Set<Category> getAll() {
+        return new HashSet<>(categoryRepository.findAll());
+    }
 }

@@ -1,13 +1,21 @@
 package com.system.announcement.services;
 
 import com.system.announcement.auxiliary.components.AuthDetails;
+import com.system.announcement.auxiliary.enums.AnnouncementStatus;
 import com.system.announcement.dtos.Announcement.requestAnnouncementRecordDTO;
+import com.system.announcement.dtos.Announcement.requestFilterAnnouncementRecordDTO;
 import com.system.announcement.dtos.Announcement.responseOneAnnouncementRecordDTO;
+import com.system.announcement.exceptions.AnnouncementNotFoundException;
+import com.system.announcement.infra.specifications.AnnouncementSpecification;
 import com.system.announcement.models.Announcement;
 import com.system.announcement.repositories.AnnouncementRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -17,14 +25,12 @@ public class AnnouncementService {
     private final AnnouncementRepository announcementRepository;
     private final CityService cityService;
     private final CategoryService categoryService;
-    private final FileService fileService;
 
-    public AnnouncementService(AuthDetails authDetails, AnnouncementRepository announcementRepository, CityService cityService, CategoryService categoryService, FileService fileService) {
+    public AnnouncementService(AuthDetails authDetails, AnnouncementRepository announcementRepository, CityService cityService, CategoryService categoryService) {
         this.authDetails = authDetails;
         this.announcementRepository = announcementRepository;
         this.cityService = cityService;
         this.categoryService = categoryService;
-        this.fileService = fileService;
     }
 
     public responseOneAnnouncementRecordDTO save(@Valid requestAnnouncementRecordDTO requestDTO) {
@@ -37,10 +43,35 @@ public class AnnouncementService {
         announcement.setCity(cityService.getOrSave(requestDTO.city()));
         announcement.setCategories(categoryService.getAllOrSave(requestDTO.categories()));
         announcement.setAuthor(user);
+        if(requestDTO.imageArchive() != null && !requestDTO.imageArchive().isEmpty()) announcement.setImageArchive(requestDTO.imageArchive());
         announcement = announcementRepository.save(announcement);
-        if(!requestDTO.paths().isEmpty()) announcement.setFiles(fileService.createObjectsFile(requestDTO.paths(), announcement));
-
         return new responseOneAnnouncementRecordDTO(announcement);
 
+    }
+
+    public Page<responseOneAnnouncementRecordDTO> findAllWithFilter(requestFilterAnnouncementRecordDTO filterDTO, Pageable pageable) {
+        Page<Announcement> announcements = announcementRepository.findAll(new AnnouncementSpecification(filterDTO), pageable);
+        return announcements.map(responseOneAnnouncementRecordDTO::new);
+    }
+
+    public responseOneAnnouncementRecordDTO findById(UUID id){
+        var optional = announcementRepository.findById(id);
+        if(optional.isPresent()) return new responseOneAnnouncementRecordDTO(optional.get());
+        throw new AnnouncementNotFoundException();
+    }
+
+    public Page<responseOneAnnouncementRecordDTO> findAllClosed(Pageable pageable){
+        Page<Announcement> announcements = announcementRepository.findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(), AnnouncementStatus.CLOSED, pageable);
+        return announcements.map(responseOneAnnouncementRecordDTO::new);
+    }
+
+    public Page<responseOneAnnouncementRecordDTO> findAllSuspended(Pageable pageable) {
+        Page<Announcement> announcements = announcementRepository.findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(), AnnouncementStatus.SUSPENDED, pageable);
+        return announcements.map(responseOneAnnouncementRecordDTO::new);
+    }
+
+    public Page<responseOneAnnouncementRecordDTO> findAllOpen(Pageable pageable){
+        Page<Announcement> announcements = announcementRepository.findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(), AnnouncementStatus.VISIBLE, pageable);
+        return announcements.map(responseOneAnnouncementRecordDTO::new);
     }
 }
