@@ -2,9 +2,9 @@ insert into tb_user (email, blocked, name, password, role, type, deleted)
 values ('tatiana.costa@id.uff.br', 'false', 'Tatiana Costa', '$2a$10$ldFbPwNYtHLNqNhg8lN7M.vadBTH85kTgRyW3m9YkOUzbW1SqOzmW', '2', '2', 'false'),
        ('arthur.lima@id.uff.br', 'false', 'Arthur Lima', '$2a$10$mbxFlKCmQjoiWQG7.l1pyuR.Q5B0b3lUpB/sf4V7HlFeGjnLTaaHe', '1', '2', 'false'),
        ('julia.medeiros@id.uff.br', 'false', 'Julia Medeiros', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '0', 'false'),
-       ('luiza.monteiro@id.uff.br', 'false', 'Luiza Monteiro', '$2a$10$ldFbPwNYtHLNqNhg8lN7M.vadBTH85kTgRyW3m9YkOUzbW1SqOzmW', '0', '1', 'false'),
+       ('luiza.monteiro@id.uff.br', 'false', 'Luiza Monteiro', '$2a$10$ldFbPwNYtHLNqNhg8lN7M.vadBTH85kTgRyW3m9YkOUzbW1SqOzmW', '0', '0', 'false'),
        ('jp.fernandes@id.uff.br', 'false', 'João Pedro Fernandes', '$2a$10$mbxFlKCmQjoiWQG7.l1pyuR.Q5B0b3lUpB/sf4V7HlFeGjnLTaaHe', '1', '2', 'false'),
-       ('dutra.tony@id.uff.br', 'false', 'Antonio Dutra', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '0', 'false');
+       ('dutra.tony@id.uff.br', 'false', 'Antônio Dutra Vasconcelos', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '1', 'false');
 
 insert into tb_city (id, name)
 values ('a8648c4c-7a31-4c79-bebe-ab5ca149e0f4','Rio de Janeiro'),
