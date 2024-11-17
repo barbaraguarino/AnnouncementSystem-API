@@ -12,7 +12,9 @@ import com.system.announcement.repositories.AnnouncementRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -50,7 +52,8 @@ public class AnnouncementService {
     }
 
     public Page<responseOneAnnouncementRecordDTO> findAllWithFilter(requestFilterAnnouncementRecordDTO filterDTO, Pageable pageable) {
-        Page<Announcement> announcements = announcementRepository.findAll(new AnnouncementSpecification(filterDTO), pageable);
+        Pageable pageableWithSorting = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Order.desc("date")));
+        Page<Announcement> announcements = announcementRepository.findAll(new AnnouncementSpecification(filterDTO), pageableWithSorting);
         return announcements.map(responseOneAnnouncementRecordDTO::new);
     }
 

@@ -44,6 +44,9 @@ public class User implements Serializable, UserDetails {
     private UserType type;
 
     @Column(nullable = false)
+    private float score;
+
+    @Column(nullable = false)
     private UserRole role;
 
     @Column(nullable = false)
@@ -73,6 +76,7 @@ public class User implements Serializable, UserDetails {
         this.blocked = false;
         this.role = role;
         this.deleted = false;
+        this.score = 0;
     }
 
     @Override

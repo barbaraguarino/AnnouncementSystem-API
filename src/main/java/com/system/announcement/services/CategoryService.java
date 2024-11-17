@@ -38,6 +38,6 @@ public class CategoryService {
     }
 
     public Set<Category> getAll() {
-        return new HashSet<>(categoryRepository.findAll());
+        return new HashSet<>(categoryRepository.findAllByOrderByName());
     }
 }

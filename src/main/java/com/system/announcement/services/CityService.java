@@ -31,6 +31,6 @@ public class CityService {
     }
 
     public Set<City> getAll() {
-        return new HashSet<>(cityRepository.findAll());
+        return new HashSet<>(cityRepository.findAllByOrderByName());
     }
 }

@@ -1,10 +1,10 @@
-insert into tb_user (email, blocked, name, password, role, type, deleted)
-values ('tatiana.costa@id.uff.br', 'false', 'Tatiana Costa', '$2a$10$ldFbPwNYtHLNqNhg8lN7M.vadBTH85kTgRyW3m9YkOUzbW1SqOzmW', '2', '2', 'false'),
-       ('arthur.lima@id.uff.br', 'false', 'Arthur Lima', '$2a$10$mbxFlKCmQjoiWQG7.l1pyuR.Q5B0b3lUpB/sf4V7HlFeGjnLTaaHe', '1', '2', 'false'),
-       ('julia.medeiros@id.uff.br', 'false', 'Julia Medeiros', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '0', 'false'),
-       ('luiza.monteiro@id.uff.br', 'false', 'Luiza Monteiro', '$2a$10$ldFbPwNYtHLNqNhg8lN7M.vadBTH85kTgRyW3m9YkOUzbW1SqOzmW', '0', '1', 'false'),
-       ('jp.fernandes@id.uff.br', 'false', 'João Pedro Fernandes', '$2a$10$mbxFlKCmQjoiWQG7.l1pyuR.Q5B0b3lUpB/sf4V7HlFeGjnLTaaHe', '1', '2', 'false'),
-       ('dutra.tony@id.uff.br', 'false', 'Antonio Dutra', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '0', 'false');
+insert into tb_user (icon, email, blocked, name, password, role, type, deleted, score)
+values ('icone/tatiana.JPG', 'tatiana.costa@id.uff.br', 'false', 'Tatiana Costa', '$2a$10$ldFbPwNYtHLNqNhg8lN7M.vadBTH85kTgRyW3m9YkOUzbW1SqOzmW', '2', '2', 'false', 0),
+       ('icone/arthur.JPG', 'arthur.lima@id.uff.br', 'false', 'Arthur Lima', '$2a$10$mbxFlKCmQjoiWQG7.l1pyuR.Q5B0b3lUpB/sf4V7HlFeGjnLTaaHe', '1', '2', 'false', 0),
+       ('icone/julia.JPG', 'julia.medeiros@id.uff.br', 'false', 'Julia Medeiros', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '0', 'false', 0),
+       ('icone/luiza.JPG', 'luiza.monteiro@id.uff.br', 'false', 'Luiza Monteiro', '$2a$10$ldFbPwNYtHLNqNhg8lN7M.vadBTH85kTgRyW3m9YkOUzbW1SqOzmW', '0', '0', 'false', 0),
+       ('icone/jp.JPG', 'jp.fernandes@id.uff.br', 'false', 'João Pedro Fernandes', '$2a$10$mbxFlKCmQjoiWQG7.l1pyuR.Q5B0b3lUpB/sf4V7HlFeGjnLTaaHe', '1', '2', 'false', 0),
+       ('icone/antonio.JPG', 'dutra.tony@id.uff.br', 'false', 'Antônio Dutra Vasconcelos', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '1', 'false', 0);
 
 insert into tb_city (id, name)
 values ('a8648c4c-7a31-4c79-bebe-ab5ca149e0f4','Rio de Janeiro'),
@@ -27,7 +27,7 @@ insert into tb_category (id, name)
 values ('2905ffd5-7976-4fd6-9f61-e19dbc19ce65', 'Aluguel'),
        ('f67efd2a-01a9-4c13-9eae-034e3bb23c77','Venda'),
        ('b8153492-95a6-4312-9048-8f881f7f73d9','Aulas'),
-       ('a8648c4c-7a31-4c79-bebe-ab5ca149e0f4','Oportunidade de Estágio'),
+       ('a8648c4c-7a31-4c79-bebe-ab5ca149e0f4','Estágio'),
        ('0f6c0155-0bd3-46ba-9f60-a86851905565', 'Caronas e Transporte'),
        ('9e3bcf1c-f6e0-402f-a8a4-93e3dfd8b908', 'Eventos e Festas'),
        ('2aef8f9b-6e98-4829-9579-3d6f75c1e0a3', 'Atividades Acadêmicas'),
@@ -38,7 +38,7 @@ values ('2905ffd5-7976-4fd6-9f61-e19dbc19ce65', 'Aluguel'),
        ('d1723449-056a-44f5-b234-39680efbca82', 'Troca e Escambo'),
        ('22c2d0a1-61d2-4fa1-b60a-89e3e07f24f1', 'Equipamentos Esportivos'),
        ('4d447c02-f6fc-48d2-9178-07c9f5b1f6be', 'Comida e Bebida'),
-       ('5d29e612-dc5f-48d5-9c5e-fc364cf1b08e', 'Oportunidades de Emprego'),
+       ('5d29e612-dc5f-48d5-9c5e-fc364cf1b08e', 'Emprego'),
        ('12a28bff-69af-4767-85bb-6e5671c2e83b', 'Grupo de Estudo'),
        ('9a4c3e3b-567b-4922-9eb8-f9d8c15f8d84', 'Projeto de Pesquisa'),
        ('6f3d1a4b-cc8e-4a19-8b6d-99b495558ce5', 'Doação'),
