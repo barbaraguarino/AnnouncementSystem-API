@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -39,5 +40,19 @@ public class CategoryService {
 
     public Set<Category> getAll() {
         return new HashSet<>(categoryRepository.findAllByOrderByName());
+    }
+
+    public Set<Category> getAllById(@NotNull Set<UUID> categories) {
+        Set<Category> responseCategories = new HashSet<>();
+        for(UUID id : categories){
+            var optionalCategory = categoryRepository.findById(id);
+            if(optionalCategory.isPresent()){
+                responseCategories.add(optionalCategory.get());
+            }else{
+                throw new CategoryNotFoundException();
+            }
+        }
+        if(responseCategories.isEmpty()) throw new CategoryIsEmptyException();
+        return responseCategories;
     }
 }

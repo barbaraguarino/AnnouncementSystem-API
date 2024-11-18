@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.Set;
 
-public record requestAnnouncementRecordDTO(
+public record CreateAnnouncementDTO(
         @NotBlank String title,
         @NotBlank String content,
         @NotNull String city,
