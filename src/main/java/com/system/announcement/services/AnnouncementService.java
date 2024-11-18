@@ -87,9 +87,9 @@ public class AnnouncementService {
         announcement.setTitle(editAnnouncementDTO.title());
         announcement.setContent(editAnnouncementDTO.content());
         if(editAnnouncementDTO.price() != 0.0f) announcement.setPrice(editAnnouncementDTO.price());
-        announcement.setCity(cityService.getOrSave(editAnnouncementDTO.city()));
+        announcement.setCity(cityService.getById(editAnnouncementDTO.city()));
         announcement.setCategories(categoryService.getAllById(editAnnouncementDTO.categories()));
-        if(editAnnouncementDTO.imageArchive() != null && !editAnnouncementDTO.imageArchive().isEmpty()) announcement.setImageArchive(requestDTO.imageArchive());
+        if(editAnnouncementDTO.imageArchive() != null && !editAnnouncementDTO.imageArchive().isEmpty()) announcement.setImageArchive(editAnnouncementDTO.imageArchive());
         announcement = announcementRepository.save(announcement);
         return new AnnouncementDTO(announcement);
     }
