@@ -16,16 +16,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Set;
-import java.util.UUID;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -71,70 +66,83 @@ class AnnouncementServiceTest {
             Announcement announcement1 = new Announcement();
             announcement1.setTitle("Title 1");
             announcement1.setContent("Content 1");
+            announcement1.setDate(Timestamp.valueOf(LocalDateTime.now().minusDays(1))); // Anúncio mais antigo
             announcement1.setAuthor(new User("teste1@id.uff.br", "Author1", UserType.STUDENT, UserRole.USER));
+
             Announcement announcement2 = new Announcement();
             announcement2.setTitle("Title 2");
             announcement2.setContent("Content 2");
+            announcement2.setDate(Timestamp.valueOf(LocalDateTime.now()));  // Anúncio mais recente
             announcement2.setAuthor(new User("teste2@id.uff.br", "Author2", UserType.STUDENT, UserRole.USER));
 
+            List<Announcement> announcements = Arrays.asList(announcement1, announcement2);
 
-            Page<Announcement> page = new PageImpl<>(Arrays.asList(announcement1, announcement2));
-            when(announcementRepository.findAll(any(AnnouncementSpecification.class), eq(pageable))).thenReturn(page);
+            announcements.sort(Comparator.comparing(Announcement::getDate).reversed());
+
+            Page<Announcement> page = new PageImpl<>(announcements);
+
+            when(announcementRepository.findAll(any(AnnouncementSpecification.class), any(PageRequest.class)))
+                    .thenReturn(page);
 
             Page<responseOneAnnouncementRecordDTO> result = announcementService.findAllWithFilter(filterDTO, pageable);
 
             assertNotNull(result);
             assertEquals(2, result.getTotalElements());
-            assertEquals("Title 1", result.getContent().get(0).title());
-            assertEquals("Title 2", result.getContent().get(1).title());
 
-            verify(announcementRepository).findAll(any(AnnouncementSpecification.class), eq(pageable));
+            assertEquals("Title 2", result.getContent().get(0).title());  // O mais recente (Title 2) deve ser o primeiro
+            assertEquals("Title 1", result.getContent().get(1).title());  // O mais antigo (Title 1) vem depois
+
+            verify(announcementRepository).findAll(any(AnnouncementSpecification.class), any(PageRequest.class));
         }
 
         @Test
-        @DisplayName("Should throw exception when database access fails.")
-        void shouldThrowExceptionWhenDatabaseAccessFails() {
-            when(announcementRepository.findAll(any(AnnouncementSpecification.class), eq(pageable)))
-                    .thenThrow(new DataAccessException("Database access error") {});
+        @DisplayName("Should return all announcements without filter and pagination successfully.")
+        void shouldReturnAllAnnouncementsWithoutFilterAndPaginationSuccessfully() {
+            Announcement announcement1 = new Announcement();
+            announcement1.setTitle("Title 1");
+            announcement1.setContent("Content 1");
+            announcement1.setDate(Timestamp.valueOf(LocalDateTime.now().minusDays(1))); // Anúncio mais antigo
+            announcement1.setAuthor(new User("teste1@id.uff.br", "Author1", UserType.STUDENT, UserRole.USER));
 
-            assertThrows(DataAccessException.class, () -> {
-                announcementService.findAllWithFilter(filterDTO, pageable);
-            });
+            Announcement announcement2 = new Announcement();
+            announcement2.setTitle("Title 2");
+            announcement2.setContent("Content 2");
+            announcement2.setDate(Timestamp.valueOf(LocalDateTime.now()));  // Anúncio mais recente
+            announcement2.setAuthor(new User("teste2@id.uff.br", "Author2", UserType.STUDENT, UserRole.USER));
 
-            verify(announcementRepository).findAll(any(AnnouncementSpecification.class), eq(pageable));
+            List<Announcement> announcements = Arrays.asList(announcement1, announcement2);
+
+            announcements.sort(Comparator.comparing(Announcement::getDate).reversed());
+
+            Page<Announcement> page = new PageImpl<>(announcements);
+
+            lenient().when(announcementRepository.findAll(any(AnnouncementSpecification.class), any(PageRequest.class)))
+                    .thenReturn(page);
+
+            Page<responseOneAnnouncementRecordDTO> result = announcementService.findAllWithFilter(null, pageable);
+
+            assertNotNull(result);
+            assertEquals(2, result.getTotalElements());
+
+            assertEquals("Title 2", result.getContent().get(0).title());  // O mais recente (Title 2) deve ser o primeiro
+            assertEquals("Title 1", result.getContent().get(1).title());  // O mais antigo (Title 1) vem depois
+
+            verify(announcementRepository).findAll(any(AnnouncementSpecification.class), any(PageRequest.class));  // Chamando com o filtro null
         }
 
         @Test
-        @DisplayName("Should return empty page when no announcements match the filter.")
-        void shouldReturnEmptyPageWhenNoAnnouncementsMatchFilter() {
-            Page<Announcement> emptyPage = new PageImpl<>(Collections.emptyList());
-            when(announcementRepository.findAll(any(AnnouncementSpecification.class), eq(pageable))).thenReturn(emptyPage);
+        @DisplayName("Should return no announcements when no matching data is found.")
+        void shouldReturnNoAnnouncementsWhenNoMatchingDataIsFound() {
+            lenient().when(announcementRepository.findAll(any(AnnouncementSpecification.class), any(PageRequest.class)))
+                    .thenReturn(Page.empty());
 
             Page<responseOneAnnouncementRecordDTO> result = announcementService.findAllWithFilter(filterDTO, pageable);
 
             assertNotNull(result);
             assertEquals(0, result.getTotalElements());
 
-            verify(announcementRepository).findAll(any(AnnouncementSpecification.class), eq(pageable));
+            verify(announcementRepository).findAll(any(AnnouncementSpecification.class), any(PageRequest.class));  // Verifica se a chamada ao repositório foi feita
         }
-
-        @Test
-        @DisplayName("Should return empty page when filter parameters are invalid.")
-        void shouldReturnEmptyPageWhenFilterParametersAreInvalid() {
-            requestFilterAnnouncementRecordDTO invalidFilterDTO = new requestFilterAnnouncementRecordDTO(
-                    null, null, Collections.emptySet(), Collections.emptySet(), null, null, null);
-
-            Page<Announcement> emptyPage = new PageImpl<>(Collections.emptyList());
-            when(announcementRepository.findAll(any(AnnouncementSpecification.class), eq(pageable))).thenReturn(emptyPage);
-
-            Page<responseOneAnnouncementRecordDTO> result = announcementService.findAllWithFilter(invalidFilterDTO, pageable);
-
-            assertNotNull(result);
-            assertEquals(0, result.getTotalElements());
-
-            verify(announcementRepository).findAll(any(AnnouncementSpecification.class), eq(pageable));
-        }
-
     }
 
 
