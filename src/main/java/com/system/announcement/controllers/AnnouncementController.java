@@ -1,6 +1,6 @@
 package com.system.announcement.controllers;
 
-import com.system.announcement.dtos.Announcement.requestAnnouncementRecordDTO;
+import com.system.announcement.dtos.Announcement.CreateAnnouncementDTO;
 import com.system.announcement.services.AnnouncementService;
 import com.system.announcement.dtos.Announcement.requestFilterAnnouncementRecordDTO;
 import jakarta.validation.Valid;
@@ -22,9 +22,8 @@ public class AnnouncementController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Object> createAnnouncement(@RequestBody @Valid requestAnnouncementRecordDTO requestAnnouncementRecordDTO) {
-        var responseAnnouncement = announcementService.save(requestAnnouncementRecordDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseAnnouncement);
+    public ResponseEntity<Object> createAnnouncement(@RequestBody @Valid CreateAnnouncementDTO announcementDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(announcementService.save(announcementDTO));
     }
 
     @PostMapping("/filter")
