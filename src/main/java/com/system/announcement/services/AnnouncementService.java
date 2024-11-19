@@ -2,7 +2,7 @@ package com.system.announcement.services;
 
 import com.system.announcement.auxiliary.components.AuthDetails;
 import com.system.announcement.auxiliary.enums.AnnouncementStatus;
-import com.system.announcement.dtos.Announcement.requestAnnouncementRecordDTO;
+import com.system.announcement.dtos.Announcement.CreateAnnouncementDTO;
 import com.system.announcement.dtos.Announcement.requestFilterAnnouncementRecordDTO;
 import com.system.announcement.dtos.Announcement.responseOneAnnouncementRecordDTO;
 import com.system.announcement.exceptions.AnnouncementNotFoundException;
@@ -35,15 +35,15 @@ public class AnnouncementService {
         this.categoryService = categoryService;
     }
 
-    public responseOneAnnouncementRecordDTO save(@Valid requestAnnouncementRecordDTO requestDTO) {
+    public responseOneAnnouncementRecordDTO save(@Valid CreateAnnouncementDTO requestDTO) {
         var user = authDetails.getAuthenticatedUser();
         var announcement = new Announcement();
 
         announcement.setTitle(requestDTO.title());
         announcement.setContent(requestDTO.content());
         if(requestDTO.price() != 0.0f) announcement.setPrice(requestDTO.price());
-        announcement.setCity(cityService.getOrSave(requestDTO.city()));
-        announcement.setCategories(categoryService.getAllOrSave(requestDTO.categories()));
+        announcement.setCity(cityService.getById(requestDTO.city()));
+        announcement.setCategories(categoryService.getAllById(requestDTO.categories()));
         announcement.setAuthor(user);
         if(requestDTO.imageArchive() != null && !requestDTO.imageArchive().isEmpty()) announcement.setImageArchive(requestDTO.imageArchive());
         announcement = announcementRepository.save(announcement);
