@@ -43,8 +43,8 @@ public class AnnouncementService {
         announcement.setTitle(requestDTO.title());
         announcement.setContent(requestDTO.content());
         if(requestDTO.price() != 0.0f) announcement.setPrice(requestDTO.price());
-        announcement.setCity(cityService.getOrSave(requestDTO.city()));
-        announcement.setCategories(categoryService.getAllOrSave(requestDTO.categories()));
+        announcement.setCity(cityService.getById(requestDTO.city()));
+        announcement.setCategories(categoryService.getAllById(requestDTO.categories()));
         announcement.setAuthor(user);
         if(requestDTO.imageArchive() != null && !requestDTO.imageArchive().isEmpty()) announcement.setImageArchive(requestDTO.imageArchive());
         announcement = announcementRepository.save(announcement);

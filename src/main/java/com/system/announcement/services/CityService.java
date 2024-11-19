@@ -21,17 +21,6 @@ public class CityService {
         this.cityRepository = cityRepository;
     }
 
-    public City getOrSave(@NotNull String city){
-        var optionalCity = cityRepository.findByName(city);
-        if(optionalCity.isPresent()){
-            return optionalCity.get();
-        }else{
-            var newCity = new City();
-            newCity.setName(city);
-            return cityRepository.save(newCity);
-        }
-    }
-
     public Set<City> getAll() {
         return new HashSet<>(cityRepository.findAllByOrderByName());
     }

@@ -23,22 +23,6 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public Set<Category> getAllOrSave(@NotNull Set<String> categories){
-        Set<Category> responseCategories = new HashSet<>();
-        for(String category : categories){
-            var optionalCategory = categoryRepository.findByName(category);
-            if(optionalCategory.isPresent()){
-                responseCategories.add(optionalCategory.get());
-            }else{
-                var newCategory = new Category();
-                newCategory.setName(category);
-                responseCategories.add(categoryRepository.save(newCategory));
-            }
-        }
-        if(responseCategories.isEmpty()) throw new CategoryIsEmptyException();
-        else return responseCategories;
-    }
-
     public Set<Category> getAll() {
         return new HashSet<>(categoryRepository.findAllByOrderByName());
     }
