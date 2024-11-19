@@ -1,10 +1,13 @@
 package com.system.announcement.exceptions;
 
 public class CategoryNotFoundException extends RuntimeException {
-    public CategoryNotFoundException(String message) {
+
+    public CategoryNotFoundException(String message){
         super(message);
     }
-    public CategoryNotFoundException() {
+
+    public CategoryNotFoundException(){
         super("Category not found");
     }
+
 }

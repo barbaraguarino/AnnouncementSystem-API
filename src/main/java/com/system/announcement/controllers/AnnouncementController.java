@@ -1,5 +1,6 @@
 package com.system.announcement.controllers;
 
+import com.system.announcement.dtos.Announcement.EditAnnouncementDTO;
 import com.system.announcement.dtos.Announcement.CreateAnnouncementDTO;
 import com.system.announcement.services.AnnouncementService;
 import com.system.announcement.dtos.Announcement.requestFilterAnnouncementRecordDTO;
@@ -22,8 +23,13 @@ public class AnnouncementController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Object> createAnnouncement(@RequestBody @Valid CreateAnnouncementDTO announcementDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(announcementService.save(announcementDTO));
+    public ResponseEntity<Object> createAnnouncement(@RequestBody @Valid CreateAnnouncementDTO createAnnouncementDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(announcementService.save(createAnnouncementDTO));
+    }
+
+    @PostMapping("/edit")
+    public ResponseEntity<Object> editAnnouncement(@RequestBody @Valid EditAnnouncementDTO editAnnouncementDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(announcementService.editById(editAnnouncementDTO));
     }
 
     @PostMapping("/filter")

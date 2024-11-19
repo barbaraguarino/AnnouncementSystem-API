@@ -2,9 +2,10 @@ package com.system.announcement.services;
 
 import com.system.announcement.auxiliary.components.AuthDetails;
 import com.system.announcement.auxiliary.enums.AnnouncementStatus;
+import com.system.announcement.dtos.Announcement.EditAnnouncementDTO;
 import com.system.announcement.dtos.Announcement.CreateAnnouncementDTO;
 import com.system.announcement.dtos.Announcement.requestFilterAnnouncementRecordDTO;
-import com.system.announcement.dtos.Announcement.responseOneAnnouncementRecordDTO;
+import com.system.announcement.dtos.Announcement.AnnouncementDTO;
 import com.system.announcement.exceptions.AnnouncementNotFoundException;
 import com.system.announcement.infra.specifications.AnnouncementSpecification;
 import com.system.announcement.models.Announcement;
@@ -35,7 +36,7 @@ public class AnnouncementService {
         this.categoryService = categoryService;
     }
 
-    public responseOneAnnouncementRecordDTO save(@Valid CreateAnnouncementDTO requestDTO) {
+    public AnnouncementDTO save(@Valid CreateAnnouncementDTO requestDTO) {
         var user = authDetails.getAuthenticatedUser();
         var announcement = new Announcement();
 
@@ -47,34 +48,49 @@ public class AnnouncementService {
         announcement.setAuthor(user);
         if(requestDTO.imageArchive() != null && !requestDTO.imageArchive().isEmpty()) announcement.setImageArchive(requestDTO.imageArchive());
         announcement = announcementRepository.save(announcement);
-        return new responseOneAnnouncementRecordDTO(announcement);
+        return new AnnouncementDTO(announcement);
 
     }
 
-    public Page<responseOneAnnouncementRecordDTO> findAllWithFilter(requestFilterAnnouncementRecordDTO filterDTO, Pageable pageable) {
+    public Page<AnnouncementDTO> findAllWithFilter(requestFilterAnnouncementRecordDTO filterDTO, Pageable pageable) {
         Pageable pageableWithSorting = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Order.desc("date")));
         Page<Announcement> announcements = announcementRepository.findAll(new AnnouncementSpecification(filterDTO), pageableWithSorting);
-        return announcements.map(responseOneAnnouncementRecordDTO::new);
+        return announcements.map(AnnouncementDTO::new);
     }
 
-    public responseOneAnnouncementRecordDTO findById(UUID id){
+    public AnnouncementDTO findById(UUID id){
         var optional = announcementRepository.findById(id);
-        if(optional.isPresent()) return new responseOneAnnouncementRecordDTO(optional.get());
+        if(optional.isPresent()) return new AnnouncementDTO(optional.get());
         throw new AnnouncementNotFoundException();
     }
 
-    public Page<responseOneAnnouncementRecordDTO> findAllClosed(Pageable pageable){
+    public Page<AnnouncementDTO> findAllClosed(Pageable pageable){
         Page<Announcement> announcements = announcementRepository.findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(), AnnouncementStatus.CLOSED, pageable);
-        return announcements.map(responseOneAnnouncementRecordDTO::new);
+        return announcements.map(AnnouncementDTO::new);
     }
 
-    public Page<responseOneAnnouncementRecordDTO> findAllSuspended(Pageable pageable) {
+    public Page<AnnouncementDTO> findAllSuspended(Pageable pageable) {
         Page<Announcement> announcements = announcementRepository.findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(), AnnouncementStatus.SUSPENDED, pageable);
-        return announcements.map(responseOneAnnouncementRecordDTO::new);
+        return announcements.map(AnnouncementDTO::new);
     }
 
-    public Page<responseOneAnnouncementRecordDTO> findAllOpen(Pageable pageable){
+    public Page<AnnouncementDTO> findAllOpen(Pageable pageable){
         Page<Announcement> announcements = announcementRepository.findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(), AnnouncementStatus.VISIBLE, pageable);
-        return announcements.map(responseOneAnnouncementRecordDTO::new);
+        return announcements.map(AnnouncementDTO::new);
+    }
+
+    public AnnouncementDTO editById(@Valid EditAnnouncementDTO editAnnouncementDTO) {
+        var announcementOptional = announcementRepository.findById(editAnnouncementDTO.id());
+        if(announcementOptional.isEmpty()) throw new AnnouncementNotFoundException();
+        var announcement = announcementOptional.get();
+
+        announcement.setTitle(editAnnouncementDTO.title());
+        announcement.setContent(editAnnouncementDTO.content());
+        if(editAnnouncementDTO.price() != 0.0f) announcement.setPrice(editAnnouncementDTO.price());
+        announcement.setCity(cityService.getById(editAnnouncementDTO.city()));
+        announcement.setCategories(categoryService.getAllById(editAnnouncementDTO.categories()));
+        if(editAnnouncementDTO.imageArchive() != null && !editAnnouncementDTO.imageArchive().isEmpty()) announcement.setImageArchive(editAnnouncementDTO.imageArchive());
+        announcement = announcementRepository.save(announcement);
+        return new AnnouncementDTO(announcement);
     }
 }

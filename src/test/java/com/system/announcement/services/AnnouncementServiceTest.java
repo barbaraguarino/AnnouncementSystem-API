@@ -4,7 +4,7 @@ import com.system.announcement.auxiliary.components.AuthDetails;
 import com.system.announcement.auxiliary.enums.UserRole;
 import com.system.announcement.auxiliary.enums.UserType;
 import com.system.announcement.dtos.Announcement.requestFilterAnnouncementRecordDTO;
-import com.system.announcement.dtos.Announcement.responseOneAnnouncementRecordDTO;
+import com.system.announcement.dtos.Announcement.AnnouncementDTO;
 import com.system.announcement.infra.specifications.AnnouncementSpecification;
 import com.system.announcement.models.*;
 import com.system.announcement.repositories.AnnouncementRepository;
@@ -84,7 +84,7 @@ class AnnouncementServiceTest {
             when(announcementRepository.findAll(any(AnnouncementSpecification.class), any(PageRequest.class)))
                     .thenReturn(page);
 
-            Page<responseOneAnnouncementRecordDTO> result = announcementService.findAllWithFilter(filterDTO, pageable);
+            Page<AnnouncementDTO> result = announcementService.findAllWithFilter(filterDTO, pageable);
 
             assertNotNull(result);
             assertEquals(2, result.getTotalElements());
@@ -119,7 +119,7 @@ class AnnouncementServiceTest {
             lenient().when(announcementRepository.findAll(any(AnnouncementSpecification.class), any(PageRequest.class)))
                     .thenReturn(page);
 
-            Page<responseOneAnnouncementRecordDTO> result = announcementService.findAllWithFilter(null, pageable);
+            Page<AnnouncementDTO> result = announcementService.findAllWithFilter(null, pageable);
 
             assertNotNull(result);
             assertEquals(2, result.getTotalElements());
@@ -136,7 +136,7 @@ class AnnouncementServiceTest {
             lenient().when(announcementRepository.findAll(any(AnnouncementSpecification.class), any(PageRequest.class)))
                     .thenReturn(Page.empty());
 
-            Page<responseOneAnnouncementRecordDTO> result = announcementService.findAllWithFilter(filterDTO, pageable);
+            Page<AnnouncementDTO> result = announcementService.findAllWithFilter(filterDTO, pageable);
 
             assertNotNull(result);
             assertEquals(0, result.getTotalElements());
