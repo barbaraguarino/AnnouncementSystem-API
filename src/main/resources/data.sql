@@ -6,6 +6,11 @@ values ('icones/tatiana.JPG', 'tatiana.costa@id.uff.br', 'false', 'Tatiana Costa
        ('icones/jp.JPG', 'jp.fernandes@id.uff.br', 'false', 'João Pedro Fernandes', '$2a$10$mbxFlKCmQjoiWQG7.l1pyuR.Q5B0b3lUpB/sf4V7HlFeGjnLTaaHe', '1', '2', 'false', 0),
        ('icones/antonio.JPG', 'dutra.tony@id.uff.br', 'false', 'Antônio Dutra Vasconcelos', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '1', 'false', 0);
 
+insert into tb_chat (status, date_open, id, id_announcement, id_user)
+values
+    ('0', '2024-11-20 15:40:56.000000', '6e41c98b-0c13-4bae-942d-710efa65986c', 'c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'tatiana.costa@id.uff.br');
+
+
 insert into tb_city (id, name)
 values ('a8648c4c-7a31-4c79-bebe-ab5ca149e0f4','Rio de Janeiro'),
        ('0f6c0155-0bd3-46ba-9f60-a86851905565','Angras dos Reis'),
