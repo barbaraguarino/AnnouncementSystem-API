@@ -1,5 +1,6 @@
-package com.system.announcement.infra.websocket;
+package com.system.announcement.infra.config.websocket;
 
+import com.system.announcement.exceptions.AuthenticationCredentialsNotFoundException;
 import com.system.announcement.infra.token.TokenService;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
@@ -22,24 +23,23 @@ public class WebSocketAuthInterceptor implements ChannelInterceptor {
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
-        // Extrai o token do cabeçalho "Authorization" (ou outra fonte)
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
         String token = accessor.getFirstNativeHeader("Authorization");
 
         if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7); // Remove "Bearer " do início
+            token = token.substring(7);
             String userEmail = tokenService.validateToken(token);
 
             if (!userEmail.isEmpty()) {
-                // Cria um objeto Authentication com o usuário autenticado
                 Authentication authentication = new UsernamePasswordAuthenticationToken(userEmail, null, List.of());
-                accessor.setUser(authentication); // Define o usuário no contexto da mensagem
+                accessor.setUser(authentication);
             } else {
-                throw new IllegalArgumentException("Token inválido");
+                throw new AuthenticationCredentialsNotFoundException("Token inválido ou expirado");
             }
         }
 
         return message;
     }
+
 
 }

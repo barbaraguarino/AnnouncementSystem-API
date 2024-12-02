@@ -1,4 +1,4 @@
-package com.system.announcement.infra.cors;
+package com.system.announcement.infra.config.cors;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

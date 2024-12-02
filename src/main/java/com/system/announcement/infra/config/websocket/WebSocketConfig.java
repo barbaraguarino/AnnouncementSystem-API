@@ -1,4 +1,4 @@
-package com.system.announcement.infra.websocket;
+package com.system.announcement.infra.config.websocket;
 
 import com.system.announcement.infra.token.TokenService;
 import org.springframework.context.annotation.Configuration;
@@ -20,8 +20,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic"); // Broker para mensagens
-        config.setApplicationDestinationPrefixes("/app"); // Prefixo para mensagens do cliente
+        config.enableSimpleBroker("/topic");
+        config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override

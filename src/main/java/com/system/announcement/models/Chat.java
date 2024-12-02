@@ -56,4 +56,11 @@ public class Chat implements Serializable {
         this.dateOpen = new Timestamp(System.currentTimeMillis());
         this.status = ChatStatus.OPEN;
     }
+
+    public Chat(User user, Announcement announcement) {
+        this.dateOpen = new Timestamp(System.currentTimeMillis());
+        this.status = ChatStatus.OPEN;
+        this.user = user;
+        this.announcement = announcement;
+    }
 }

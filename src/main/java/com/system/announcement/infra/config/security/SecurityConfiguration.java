@@ -1,4 +1,4 @@
-package com.system.announcement.infra.security;
+package com.system.announcement.infra.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(customAuthenticationEntryPoint))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("authentication/login").permitAll()
+                        .requestMatchers("authentication/login", "/ws/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

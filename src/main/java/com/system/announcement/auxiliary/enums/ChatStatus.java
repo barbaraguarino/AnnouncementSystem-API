@@ -1,6 +1,7 @@
 package com.system.announcement.auxiliary.enums;
 
 public enum ChatStatus {
+
     OPEN("Aberto"),
     CLOSED("Fechado"),
     DELETED("Deletado");
