@@ -5,6 +5,7 @@ import com.system.announcement.dtos.chat.ReceiveMessageDTO;
 import com.system.announcement.dtos.chat.SendMessageDTO;
 import com.system.announcement.exceptions.AnnouncementNotFoundException;
 import com.system.announcement.exceptions.ChatNotFoundException;
+import com.system.announcement.exceptions.NoAuthorizationException;
 import com.system.announcement.models.Chat;
 import com.system.announcement.models.Message;
 import com.system.announcement.repositories.AnnouncementRepository;
@@ -14,8 +15,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.stereotype.Controller;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,19 +24,21 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/chat")
+@RequestMapping("/chat")
 public class ChatController {
 
     private final MessageRepository messageRepository;
     private final AuthDetails authDetails;
     private final ChatRepository chatRepository;
     private final AnnouncementRepository announcementRepository;
+    private final SimpMessagingTemplate messagingTemplate;
 
-    public ChatController(MessageRepository messageRepository, AuthDetails authDetails, ChatRepository chatRepository, AnnouncementRepository announcementRepository) {
+    public ChatController(MessageRepository messageRepository, AuthDetails authDetails, ChatRepository chatRepository, AnnouncementRepository announcementRepository, SimpMessagingTemplate messagingTemplate) {
         this.messageRepository = messageRepository;
         this.authDetails = authDetails;
         this.chatRepository = chatRepository;
         this.announcementRepository = announcementRepository;
+        this.messagingTemplate = messagingTemplate;
     }
 
     @PostMapping("/create/{id}")
@@ -45,6 +47,7 @@ public class ChatController {
         if(annoncementOptional.isEmpty()) throw new AnnouncementNotFoundException();
         var announcement  = annoncementOptional.get();
         var user = authDetails.getAuthenticatedUser();
+        if(announcement.getAuthor().getEmail().equals(user.getEmail())) throw new NoAuthorizationException();
         var charOptional = chatRepository.findChatByUserAndAnnouncement(user, announcement);
         if(charOptional.isPresent())
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(charOptional.get().getId());
@@ -53,18 +56,26 @@ public class ChatController {
 
     }
 
-    @MessageMapping("/chat/send") // Endpoint para receber mensagens
-    @SendTo("/topic/chat") // Canal para broadcast das mensagens
-    public SendMessageDTO sendMessage(ReceiveMessageDTO messageDTO) {
-        Message message = new Message();
-        message.setChat(chatRepository.findById(messageDTO.chat()).orElseThrow(
-                ChatNotFoundException::new
-        ));
-        message.setSender(authDetails.getAuthenticatedUser());
-        message.setContent(messageDTO.message());
-        message = messageRepository.save(message);
+    @MessageMapping("/chat")
+    public void sendMessage(ReceiveMessageDTO messageDTO) {
+        var chat = chatRepository.findById(messageDTO.chat()).orElseThrow(ChatNotFoundException::new);
+        var user = authDetails.getAuthenticatedUser();
 
-        return new SendMessageDTO(message);
+        if(chat.getUser().getEmail().equals(user.getEmail()) || chat.getAnnouncement().getAuthor().getEmail().equals(user.getEmail())){
+            Message message = new Message();
+            message.setChat(chat);
+            message.setSender(user);
+            message.setContent(messageDTO.message());
+            message = messageRepository.save(message);
+
+            sendToChatParticipants(message);
+        }else throw new NoAuthorizationException();
     }
+
+    private void sendToChatParticipants(Message message) {
+        messagingTemplate.convertAndSend("/topic/chat/" + message.getChat().getId(), new SendMessageDTO(message));
+    }
+
+
 }
 

@@ -8,6 +8,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,19 +27,19 @@ public class WebSocketAuthInterceptor implements ChannelInterceptor {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
         String token = accessor.getFirstNativeHeader("Authorization");
 
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
-            String userEmail = tokenService.validateToken(token);
+        System.out.println("O Token encontrado: " + token);
 
+        if (token != null && token.startsWith("Bearer ")) {
+            String userEmail = tokenService.validateToken(token.replace("Bearer ", ""));
             if (!userEmail.isEmpty()) {
                 Authentication authentication = new UsernamePasswordAuthenticationToken(userEmail, null, List.of());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
                 accessor.setUser(authentication);
-            } else {
-                throw new AuthenticationCredentialsNotFoundException("Token inválido ou expirado");
-            }
-        }
-
-        return message;
+                return message;
+            } else
+                throw new AuthenticationCredentialsNotFoundException();
+        }else
+            throw new AuthenticationCredentialsNotFoundException();
     }
 
 
