@@ -38,7 +38,7 @@ public class AnnouncementController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getAnnouncementById(@PathVariable UUID id) {
+    public ResponseEntity<Object> getAnnouncementById(@Valid @PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(announcementService.findById(id));
     }
 

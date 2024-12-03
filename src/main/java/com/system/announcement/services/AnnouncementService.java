@@ -93,4 +93,10 @@ public class AnnouncementService {
         announcement = announcementRepository.save(announcement);
         return new AnnouncementDTO(announcement);
     }
+
+    public Announcement getById(UUID id){
+        var optional = announcementRepository.findById(id);
+        if(optional.isEmpty()) throw new AnnouncementNotFoundException();
+        return optional.get();
+    }
 }
