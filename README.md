@@ -74,7 +74,7 @@ Representa as categorias de anúncios (ex.: eletrônicos, móveis, carros).
 
 
 ### 4. **User**
-Representa um usuário do sistema (anunciante ou interessado).
+Representa um usuário do sistema.
 
 **Atributos:**
 - `email` (String) — Identificador único do usuário (email).
@@ -89,6 +89,13 @@ Representa um usuário do sistema (anunciante ou interessado).
 - `deletedDate` (Timestamp) — Data de exclusão do usuário, se aplicável.
 - `announcements` (Set<Announcement>) — Conjunto de anúncios criados pelo usuário (relacionamento OneToMany com a entidade `Announcement`).
 
+### 4. **Favorite**
+Representa os anúncios favoritos de cada um dos usuários do sistema.
+
+**Atributos:**
+- `announcement` (Announcement) — Identifica o anúncio.
+- `user` (User) — Idenficia o usuário.
+
 ## Endpoints da API
 
 ### 1. **Anúncios**
@@ -101,6 +108,9 @@ Representa um usuário do sistema (anunciante ou interessado).
 
 - **GET /announcement/{id}**  
   Retorna os detalhes de um anúncio específico.
+
+- **POST /announcement/edit/{id}**  
+  Edita o anúncio passado pelo id na url.
 
 - **GET /announcement/closed**  
   Retorna uma lista de todos os anúncios fechados que o usuário requisidor possui.
@@ -125,3 +135,17 @@ Representa um usuário do sistema (anunciante ou interessado).
 
 - **GET /city**  
   Realiza uma lista com as cidades cadastradas no sistema.
+
+### 3. **Favoritos**
+
+- **POST /favorite/{id}**  
+  Adiciona o anúncio passado pelo id como favorito do usuário que fez a requisição.
+
+- **GET /favorite/{id}**  
+  Verifica se o anúncio passo por id é um favorito.
+
+- **GET /favorite**  
+  Retorna uma lista de anúncios favoritos do usuário. 
+
+- **DELETE /favorite/{id}**  
+  Remove o anúncio da lista de favoritos.  
