@@ -89,8 +89,8 @@ class AnnouncementServiceTest {
             assertNotNull(result);
             assertEquals(2, result.getTotalElements());
 
-            assertEquals("Title 2", result.getContent().get(0).title());  // O mais recente (Title 2) deve ser o primeiro
-            assertEquals("Title 1", result.getContent().get(1).title());  // O mais antigo (Title 1) vem depois
+            assertEquals("Title 2", result.getContent().get(0).title());
+            assertEquals("Title 1", result.getContent().get(1).title());
 
             verify(announcementRepository).findAll(any(AnnouncementSpecification.class), any(PageRequest.class));
         }
@@ -101,13 +101,13 @@ class AnnouncementServiceTest {
             Announcement announcement1 = new Announcement();
             announcement1.setTitle("Title 1");
             announcement1.setContent("Content 1");
-            announcement1.setDate(Timestamp.valueOf(LocalDateTime.now().minusDays(1))); // Anúncio mais antigo
+            announcement1.setDate(Timestamp.valueOf(LocalDateTime.now().minusDays(1)));
             announcement1.setAuthor(new User("teste1@id.uff.br", "Author1", UserType.STUDENT, UserRole.USER));
 
             Announcement announcement2 = new Announcement();
             announcement2.setTitle("Title 2");
             announcement2.setContent("Content 2");
-            announcement2.setDate(Timestamp.valueOf(LocalDateTime.now()));  // Anúncio mais recente
+            announcement2.setDate(Timestamp.valueOf(LocalDateTime.now()));
             announcement2.setAuthor(new User("teste2@id.uff.br", "Author2", UserType.STUDENT, UserRole.USER));
 
             List<Announcement> announcements = Arrays.asList(announcement1, announcement2);

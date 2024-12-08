@@ -2,8 +2,7 @@ package com.system.announcement.services;
 
 import com.system.announcement.auxiliary.components.AuthDetails;
 import com.system.announcement.auxiliary.enums.AnnouncementStatus;
-import com.system.announcement.dtos.Announcement.EditAnnouncementDTO;
-import com.system.announcement.dtos.Announcement.CreateAnnouncementDTO;
+import com.system.announcement.dtos.Announcement.SaveAnnouncementDTO;
 import com.system.announcement.dtos.Announcement.requestFilterAnnouncementRecordDTO;
 import com.system.announcement.dtos.Announcement.AnnouncementDTO;
 import com.system.announcement.exceptions.AnnouncementNotFoundException;
@@ -12,6 +11,7 @@ import com.system.announcement.models.Announcement;
 import com.system.announcement.repositories.AnnouncementRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +36,7 @@ public class AnnouncementService {
         this.categoryService = categoryService;
     }
 
-    public AnnouncementDTO save(@Valid CreateAnnouncementDTO requestDTO) {
+    public AnnouncementDTO save(@Valid SaveAnnouncementDTO requestDTO) {
         var user = authDetails.getAuthenticatedUser();
         var announcement = new Announcement();
 
@@ -79,8 +79,8 @@ public class AnnouncementService {
         return announcements.map(AnnouncementDTO::new);
     }
 
-    public AnnouncementDTO editById(@Valid EditAnnouncementDTO editAnnouncementDTO) {
-        var announcementOptional = announcementRepository.findById(editAnnouncementDTO.id());
+    public AnnouncementDTO editById(@Valid @NotNull SaveAnnouncementDTO editAnnouncementDTO, @NotNull UUID id) {
+        var announcementOptional = announcementRepository.findById(id);
         if(announcementOptional.isEmpty()) throw new AnnouncementNotFoundException();
         var announcement = announcementOptional.get();
 
@@ -90,8 +90,7 @@ public class AnnouncementService {
         announcement.setCity(cityService.getById(editAnnouncementDTO.city()));
         announcement.setCategories(categoryService.getAllById(editAnnouncementDTO.categories()));
         if(editAnnouncementDTO.imageArchive() != null && !editAnnouncementDTO.imageArchive().isEmpty()) announcement.setImageArchive(editAnnouncementDTO.imageArchive());
-        announcement = announcementRepository.save(announcement);
-        return new AnnouncementDTO(announcement);
+        return new AnnouncementDTO(announcementRepository.save(announcement));
     }
 
     public Announcement getById(UUID id){
