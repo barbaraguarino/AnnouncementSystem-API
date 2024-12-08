@@ -64,6 +64,10 @@ public class Announcement implements Serializable {
 
     private String imageArchive;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "announcement", fetch = FetchType.LAZY)
+    private Set<Favorite> favorites = new HashSet<>();
+
     public Announcement(){
         this.date = new Timestamp(System.currentTimeMillis());
         this.deletionDate = null;

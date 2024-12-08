@@ -28,19 +28,25 @@ public class AnnouncementSpecification implements Specification<Announcement> {
         predicates.add(criteriaBuilder.equal(announcementRoot.get("status"), announcementStatus));
 
         if (filterDTO.title() != null && !filterDTO.title().isEmpty()) {
-            predicates.add(criteriaBuilder.like(announcementRoot.get("title"), "%" + filterDTO.title() + "%"));
+            predicates.add(criteriaBuilder.like(
+                    criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(announcementRoot.get("title"))),
+                    "%" + filterDTO.title().toLowerCase() + "%"
+            ));
         }
 
         if (filterDTO.content() != null && !filterDTO.content().isEmpty()) {
-            predicates.add(criteriaBuilder.like(announcementRoot.get("content"), "%" + filterDTO.content() + "%"));
+            predicates.add(criteriaBuilder.like(
+                    criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(announcementRoot.get("content"))),
+                    "%" + filterDTO.content().toLowerCase() + "%"
+            ));
         }
 
         if (filterDTO.cities() != null && !filterDTO.cities().isEmpty()) {
-            predicates.add(announcementRoot.join("city").get("name").in(filterDTO.cities()));
+            predicates.add(announcementRoot.join("city").get("id").in(filterDTO.cities()));
         }
 
         if (filterDTO.categories() != null && !filterDTO.categories().isEmpty()) {
-            predicates.add(announcementRoot.join("categories").get("name").in(filterDTO.categories()));
+            predicates.add(announcementRoot.join("categories").get("id").in(filterDTO.categories()));
         }
 
         if (filterDTO.minPrice() != null) {

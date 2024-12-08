@@ -1,9 +1,10 @@
 package com.system.announcement.controllers;
 
-import com.system.announcement.dtos.Announcement.requestAnnouncementRecordDTO;
+import com.system.announcement.dtos.Announcement.SaveAnnouncementDTO;
 import com.system.announcement.services.AnnouncementService;
 import com.system.announcement.dtos.Announcement.requestFilterAnnouncementRecordDTO;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +23,13 @@ public class AnnouncementController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Object> createAnnouncement(@RequestBody @Valid requestAnnouncementRecordDTO requestAnnouncementRecordDTO) {
-        var responseAnnouncement = announcementService.save(requestAnnouncementRecordDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseAnnouncement);
+    public ResponseEntity<Object> createAnnouncement(@RequestBody @Valid SaveAnnouncementDTO saveAnnouncementDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(announcementService.save(saveAnnouncementDTO));
+    }
+
+    @PostMapping("/edit/{id}")
+    public ResponseEntity<Object> editAnnouncement(@RequestBody @Valid SaveAnnouncementDTO saveAnnouncementDTO, @PathVariable @NotNull UUID id) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(announcementService.editById(saveAnnouncementDTO, id));
     }
 
     @PostMapping("/filter")
@@ -33,7 +38,7 @@ public class AnnouncementController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getAnnouncementById(@PathVariable UUID id) {
+    public ResponseEntity<Object> getAnnouncementById(@Valid @PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(announcementService.findById(id));
     }
 

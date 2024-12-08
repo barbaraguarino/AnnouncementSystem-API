@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 import java.util.Set;
 import java.util.UUID;
 
-public record responseOneAnnouncementRecordDTO(
+public record AnnouncementDTO(
         @NotNull UUID id,
         @NotBlank String title,
         @NotBlank String content,
@@ -24,7 +24,7 @@ public record responseOneAnnouncementRecordDTO(
         Timestamp deletionDate,
         float price
 ) {
-    public responseOneAnnouncementRecordDTO(Announcement announcement) {
+    public AnnouncementDTO(Announcement announcement) {
         this(
                 announcement.getId(),
                 announcement.getTitle(),

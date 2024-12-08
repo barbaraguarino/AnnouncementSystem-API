@@ -44,6 +44,9 @@ public class User implements Serializable, UserDetails {
     private UserType type;
 
     @Column(nullable = false)
+    private float score;
+
+    @Column(nullable = false)
     private UserRole role;
 
     @Column(nullable = false)
@@ -57,6 +60,10 @@ public class User implements Serializable, UserDetails {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private Set<Announcement> announcements = new HashSet<>();
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Favorite> favorites = new HashSet<>();
 
     public User() {
         this.blocked = false;
@@ -73,6 +80,7 @@ public class User implements Serializable, UserDetails {
         this.blocked = false;
         this.role = role;
         this.deleted = false;
+        this.score = 0;
     }
 
     @Override

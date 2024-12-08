@@ -30,45 +30,6 @@ class CityServiceTest {
     @Nested
     class GetOrSaveTest{
 
-        @Test
-        @DisplayName("Should save new city when it does not exist.")
-        void shouldSaveNewCityWhenNotExists() {
-            String cityName = "New City";
-            City newCity = new City(cityName);
-
-            // Arrange
-            when(cityRepository.findByName(cityName)).thenReturn(Optional.empty());
-            when(cityRepository.save(any(City.class))).thenReturn(newCity);
-
-            // Act
-            City result = cityService.getOrSave(cityName);
-
-            // Assert
-            assertNotNull(result);
-            assertEquals(cityName, result.getName());
-            verify(cityRepository, times(1)).findByName(cityName);
-            verify(cityRepository, times(1)).save(any(City.class));
-        }
-
-        @Test
-        @DisplayName("Should return existing city when it exists.")
-        void shouldReturnExistingCityWhenExists() {
-            // Data
-            String cityName = "Existing City";
-            City existingCity = new City(cityName);
-
-            // Arrange
-            when(cityRepository.findByName(cityName)).thenReturn(Optional.of(existingCity));
-
-            // Act
-            City result = cityService.getOrSave(cityName);
-
-            // Assert
-            assertNotNull(result);
-            assertEquals(cityName, result.getName());
-            verify(cityRepository, times(1)).findByName(cityName);
-            verify(cityRepository, never()).save(any(City.class));
-        }
 
     }
 
