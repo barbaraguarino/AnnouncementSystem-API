@@ -92,4 +92,10 @@ public class AnnouncementService {
         if(editAnnouncementDTO.imageArchive() != null && !editAnnouncementDTO.imageArchive().isEmpty()) announcement.setImageArchive(editAnnouncementDTO.imageArchive());
         return new AnnouncementDTO(announcementRepository.save(announcement));
     }
+
+    public Announcement getById(UUID id){
+        var optional = announcementRepository.findById(id);
+        if(optional.isEmpty()) throw new AnnouncementNotFoundException();
+        return optional.get();
+    }
 }

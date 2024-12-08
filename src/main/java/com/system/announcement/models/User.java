@@ -61,6 +61,10 @@ public class User implements Serializable, UserDetails {
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private Set<Announcement> announcements = new HashSet<>();
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Favorite> favorites = new HashSet<>();
+
     public User() {
         this.blocked = false;
         this.deleted = false;
