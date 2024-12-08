@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Set;
 import java.util.UUID;
 
-public record CreateAnnouncementDTO(
+public record SaveAnnouncementDTO(
         @NotBlank String title,
         @NotBlank String content,
         @NotNull UUID city,
