@@ -57,4 +57,10 @@ public class AnnouncementController {
         return ResponseEntity.status(HttpStatus.OK).body(announcementService.findAllOpen(pageable));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteAnnouncement(@PathVariable @Valid UUID id) {
+        announcementService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 }

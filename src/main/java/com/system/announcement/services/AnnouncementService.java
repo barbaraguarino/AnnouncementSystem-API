@@ -6,6 +6,7 @@ import com.system.announcement.dtos.Announcement.SaveAnnouncementDTO;
 import com.system.announcement.dtos.Announcement.requestFilterAnnouncementRecordDTO;
 import com.system.announcement.dtos.Announcement.AnnouncementDTO;
 import com.system.announcement.exceptions.AnnouncementNotFoundException;
+import com.system.announcement.exceptions.WithoutAuthorizationException;
 import com.system.announcement.infra.specifications.AnnouncementSpecification;
 import com.system.announcement.models.Announcement;
 import com.system.announcement.repositories.AnnouncementRepository;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Service
@@ -28,12 +30,14 @@ public class AnnouncementService {
     private final AnnouncementRepository announcementRepository;
     private final CityService cityService;
     private final CategoryService categoryService;
+    private final FavoriteService favoriteService;
 
-    public AnnouncementService(AuthDetails authDetails, AnnouncementRepository announcementRepository, CityService cityService, CategoryService categoryService) {
+    public AnnouncementService(AuthDetails authDetails, AnnouncementRepository announcementRepository, CityService cityService, CategoryService categoryService, FavoriteService favoriteService) {
         this.authDetails = authDetails;
         this.announcementRepository = announcementRepository;
         this.cityService = cityService;
         this.categoryService = categoryService;
+        this.favoriteService = favoriteService;
     }
 
     public AnnouncementDTO save(@Valid SaveAnnouncementDTO requestDTO) {
@@ -97,5 +101,19 @@ public class AnnouncementService {
         var optional = announcementRepository.findById(id);
         if(optional.isEmpty()) throw new AnnouncementNotFoundException();
         return optional.get();
+    }
+
+    public void delete(@Valid UUID id) {
+        var optional = announcementRepository.findById(id);
+        if(optional.isEmpty()) throw new AnnouncementNotFoundException();
+        var announcement = optional.get();
+
+        if(announcement.getAuthor().getEmail().equals(authDetails.getAuthenticatedUser().getEmail())) throw new WithoutAuthorizationException();
+
+        announcement.setStatus(AnnouncementStatus.DELETED);
+        announcement.setDeletionDate(new Timestamp(System.currentTimeMillis()));
+        announcementRepository.save(announcement);
+
+        favoriteService.deleteAll(announcement);
     }
 }

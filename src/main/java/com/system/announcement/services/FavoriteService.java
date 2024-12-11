@@ -2,6 +2,7 @@ package com.system.announcement.services;
 
 import com.system.announcement.auxiliary.components.AuthDetails;
 import com.system.announcement.dtos.Announcement.AnnouncementDTO;
+import com.system.announcement.models.Announcement;
 import com.system.announcement.models.Favorite;
 import com.system.announcement.repositories.FavoriteRepository;
 import jakarta.transaction.Transactional;
@@ -49,5 +50,9 @@ public class FavoriteService {
         var announcement = announcementService.getById(idAnnouncement);
         var user = authDetails.getAuthenticatedUser();
         favoriteRepository.deleteByAnnouncementAndUser(announcement, user);
+    }
+
+    public void deleteAll(Announcement announcement){
+        favoriteRepository.deleteAllByAnnouncement(announcement);
     }
 }
