@@ -1,7 +1,112 @@
 # AnnouncementSystem-API
 
-Este é o repositório da API para o [sistema de anúncios](https://github.com/Gabs543/AnnouncementSystem-FrontEnd), onde usuários podem criar, visualizar e buscar anúncios com diferentes filtros, além de interagir com outros
-usuários através de um sistema de mensagens.
+Este é o repositório da API para o [sistema de anúncios](https://github.com/Gabs543/AnnouncementSystem-FrontEnd) , onde usuários podem criar, visualizar e buscar anúncios com diferentes filtros, além de interagir com outros usuários através de um sistema de mensagens.
+
+## Como Instalar e Rodar o Projeto
+
+Este guia descreve os passos necessários para configurar, instalar e rodar o projeto localmente.
+### Pré-requisitos
+
+Certifique-se de que os seguintes softwares estão instalados na sua máquina:
+
+1. Java Development Kit (JDK) - Versão 17 ou superior.
+    > [Download JDK](https://www.oracle.com/java/technologies/downloads/)
+2. Banco de Dados - PostgreSQL (ou outro configurado no projeto).
+    > [Download PostgreSQL](https://www.postgresql.org/download/)
+3. IDE - Visual Studio Code ou IntelliJ IDEA.
+    > [Download VS Code](https://code.visualstudio.com/)
+
+    > [Download Intellij](https://www.jetbrains.com/pt-br/idea/)
+4. Maven - Para gerenciar as dependências (Caso não utilize uma IDE).
+    > [Download Maven](https://maven.apache.org/download.cgi)
+
+## Passos para Configuração
+
+### 1. Clone o repositório
+
+```bash
+    git clone https://github.com/seu-usuario/nome-do-repositorio.git
+    cd nome-do-repositorio
+```
+
+### 2. Configurar as variáveis de ambiente
+
+Configure o arquivo `application.properties`, localizado na pasta `src/main/resources`,  modifique apenas as linhas relacionadas aos seguintes itens:
+````properties
+    # Configuração do Banco de Dados
+    spring.datasource.url=jdbc:postgresql://localhost:5432/announcement-api
+    spring.datasource.username=seu_usuario
+    spring.datasource.password=sua_senha
+````
+
+### 3. Configure o Banco de Dados
+
+1. Crie o banco de dados no PostegreSQL
+    ````sql
+       CREATE DATABASE announcement-api;
+   ````
+2. Verifique as credenciais do banco de dados estão corretas no arquivo `application.properties`.
+
+## Passos para Compilação e Execução
+
+### Intellij IDEA
+
+1. Abrir o Projeto
+   1. Abra o Intellij IDEA
+   2. Clique em **File > Open** e selecione a pasta raiz do projeto.
+
+
+3. Configurar o SDK
+   1. Certifique-se de que o JDK está configurado:
+        - Vá em **File > Project Structure > Project Settings > Project** e escolha a versão do JDK (Java 17 ou superior).
+
+
+4. Rodar a Aplicação
+    1. Navegue até a classe principal (`@SpringBootApplication`)
+       - Está localizado no arquivo `AnnouncementSystemApiApplication.java` na pasta `src/main/java/com/system/announcement`.
+    2. Clique com o botão direito na classe e selecione Run 'Application' (ou o nome equivalente da classe).
+
+### Visual Studio Code (VS Code)
+
+1. Abrir o Projeto
+   1. Abra o VS Code.
+   2. Selecione a pasta do projeto com **File > Open Folder** e selecione a pasta raiz do projeto.
+
+
+3. Configure o Ambiente
+   1. Certifique-se de ter o Extension Pack for Java instalado.
+       - Instale na seção Extensions do VS Code.
+   2. Verifique se o JDK está configurado corretamente.
+
+
+3. Rodar a Aplicação
+   1. Navegue até a classe principal (`@SpringBootApplication`)
+       - Está localizado no arquivo `AnnouncementSystemApiApplication.java` na pasta `src/main/java/com/system/announcement`.
+   2. Clique no botão **Run/Debug** que aparece acima do método `main` da classe.
+
+### Terminal / Prompt de Comando (CMD)
+
+1. Navegar até o Projeto
+   1. Abra o terminal ou CMD.
+   2. Navegue até a pasta raiz do projeto:
+        ````bash
+        cd caminho/para/a/pasta/AnnouncementSystem-API
+        ````
+2. Compilar o Projeto
+    1. Compile o projeto e baixe as dependências com o Maven
+        ```bash
+       mvn clean install
+       ```
+3. Rodar a Aplicação
+   1. Use o Mavem para executar o projeto diretamente
+        ```bash
+       mvn spring-boot:run
+       ```
+        Ou execute o arquvido JAR gerado (normalmente na pasta `target/`)
+      ```bash
+      cd target
+      java -jar nome-do-projeto.jar
+       ```
 
 ## Funcionalidades
 
@@ -11,18 +116,28 @@ usuários através de um sistema de mensagens.
     - Usuários autenticados podem criar anúncios, especificando informações como título, conteúdo, cidade, categorias, preço e imagens.
     - A criação de anúncios utiliza DTOs para garantir que os dados sejam validados e corretamente processados.
 
+
 2. **Exibição de Anúncios**
     - Anúncios podem ser visualizados em formato de lista com suporte à paginação.
     - Filtros de pesquisa são aplicados para permitir a busca por categorias, cidades e preços.
     - A exibição é feita com a ordenação dos anúncios pela data em ordem decrescente.
 
+
 3. **Detalhes do Anúncio**
     - Cada anúncio tem uma página detalhada com todas as informações sobre o mesmo, incluindo as opções de contato com o anunciante.
+
 
 4. **Autenticação**
     - O sistema de autenticação utiliza Spring Security para proteger as rotas da API, permitindo que apenas usuários autenticados acessem todas as funcionalidades.
     - Utilização de JWT (JSON Web Token) para autenticação e autorização.
 
+
+5. **Favoritor, Remover do Favorito e Listar Favoritos**
+   - O sistema permite que usuários possam favoritar anúncios ou remover dos favoritos, dessa forma é criado uma lista de anúncios favoritos. 
+
+
+6. **Editar Anúncio**
+    - O sistema permite que o autor do anúncio possa ediar o anúncio já criado.
 
 ## Tecnologias Utilizadas
 
