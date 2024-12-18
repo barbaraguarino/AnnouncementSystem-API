@@ -12,7 +12,6 @@ public record SendMessageDTO(
         @NotNull UUID id,
         @NotNull Timestamp date,
         @NotBlank UserBasicDTO sender,
-        @NotBlank String status,
         @NotBlank String message
 ){
     public SendMessageDTO(Message message){
@@ -20,7 +19,6 @@ public record SendMessageDTO(
                 message.getId(),
                 message.getDate(),
                 new UserBasicDTO(message.getSender()),
-                message.getStatus().getStatus(),
                 message.getContent()
         );
     }

@@ -35,6 +35,11 @@ public class Chat implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_advertiser", nullable = false)
+    private User advertiser;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_announcement", nullable = false)
     private Announcement announcement;
 

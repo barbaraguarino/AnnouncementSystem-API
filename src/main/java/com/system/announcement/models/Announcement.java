@@ -3,7 +3,6 @@ package com.system.announcement.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.system.announcement.auxiliary.enums.AnnouncementStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
