@@ -5,7 +5,9 @@ import com.system.announcement.auxiliary.enums.AnnouncementStatus;
 import com.system.announcement.dtos.Announcement.SaveAnnouncementDTO;
 import com.system.announcement.dtos.Announcement.requestFilterAnnouncementRecordDTO;
 import com.system.announcement.dtos.Announcement.AnnouncementDTO;
+import com.system.announcement.exceptions.AdClosedException;
 import com.system.announcement.exceptions.AnnouncementNotFoundException;
+import com.system.announcement.exceptions.WithoutAuthorizationException;
 import com.system.announcement.infra.specifications.AnnouncementSpecification;
 import com.system.announcement.models.Announcement;
 import com.system.announcement.repositories.AnnouncementRepository;
@@ -83,6 +85,9 @@ public class AnnouncementService {
         var announcementOptional = announcementRepository.findById(id);
         if(announcementOptional.isEmpty()) throw new AnnouncementNotFoundException();
         var announcement = announcementOptional.get();
+        var user = authDetails.getAuthenticatedUser();
+        if(!announcement.getAuthor().getEmail().equals(user.getEmail())) throw new WithoutAuthorizationException();
+        if(!announcement.getStatus().equals(AnnouncementStatus.VISIBLE)) throw new AdClosedException();
 
         announcement.setTitle(editAnnouncementDTO.title());
         announcement.setContent(editAnnouncementDTO.content());
