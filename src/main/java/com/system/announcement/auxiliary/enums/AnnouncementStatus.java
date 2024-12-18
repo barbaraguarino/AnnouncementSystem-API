@@ -1,5 +1,8 @@
 package com.system.announcement.auxiliary.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum AnnouncementStatus {
 
     VISIBLE("Visível"),
@@ -13,7 +16,4 @@ public enum AnnouncementStatus {
         this.status = status;
     }
 
-    public String getStatus() {
-        return this.status;
-    }
 }

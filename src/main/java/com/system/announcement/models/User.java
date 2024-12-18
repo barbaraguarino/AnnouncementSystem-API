@@ -63,7 +63,11 @@ public class User implements Serializable, UserDetails {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private Set<Chat> chats = new HashSet<>();
+    private Set<Chat> chatsUser = new HashSet<>();
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "advertiser", fetch = FetchType.LAZY)
+    private Set<Chat> chatsAdvertiser = new HashSet<>();
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)

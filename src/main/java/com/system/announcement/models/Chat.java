@@ -35,6 +35,11 @@ public class Chat implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_advertiser", nullable = false)
+    private User advertiser;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_announcement", nullable = false)
     private Announcement announcement;
 
@@ -61,6 +66,17 @@ public class Chat implements Serializable {
         this.dateOpen = new Timestamp(System.currentTimeMillis());
         this.status = ChatStatus.OPEN;
         this.user = user;
+        this.advertiser = announcement.getAuthor();
         this.announcement = announcement;
+    }
+
+    public void closeChat(){
+        this.status = ChatStatus.CLOSED;
+        this.dateClose = new Timestamp(System.currentTimeMillis());
+    }
+
+    public void deleteChat(){
+        this.dateDeleted = new Timestamp(System.currentTimeMillis());
+        this.status = ChatStatus.DELETED;
     }
 }

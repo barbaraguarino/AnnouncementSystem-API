@@ -1,7 +1,6 @@
 package com.system.announcement.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.system.announcement.auxiliary.enums.MessageStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,13 +38,16 @@ public class Message implements Serializable {
     @Column(nullable = false, columnDefinition = "text")
     private String content;
 
-    @Column(nullable = false)
-    private MessageStatus status;
-
     private Timestamp date;
 
     public Message() {
         this.date = new Timestamp(System.currentTimeMillis());
-        this.status = MessageStatus.SENT;
+    }
+
+    public Message(Chat chat, User sender, String content) {
+        this.chat = chat;
+        this.sender = sender;
+        this.content = content;
+        this.date = new Timestamp(System.currentTimeMillis());
     }
 }
