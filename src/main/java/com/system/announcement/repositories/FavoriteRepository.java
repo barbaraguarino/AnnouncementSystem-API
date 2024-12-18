@@ -18,4 +18,6 @@ public interface FavoriteRepository extends JpaRepository<Favorite, FavoriteId> 
 
     void deleteByAnnouncementAndUser(Announcement announcement, User user);
 
+    void deleteAllByAnnouncement(Announcement announcement);
+
 }
