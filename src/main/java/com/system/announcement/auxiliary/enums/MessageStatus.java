@@ -1,15 +1,13 @@
 package com.system.announcement.auxiliary.enums;
 
-public enum AnnouncementStatus {
-
-    VISIBLE("Visível"),
-    CLOSED("Fechado"),
-    SUSPENDED("Suspenso"),
-    DELETED("Excluido");
+public enum MessageStatus {
+    READ("Lido"),
+    SENT("Enviado"),
+    NOT_SENT("Não Enviado");
 
     private final String status;
 
-    AnnouncementStatus(String status){
+    MessageStatus(String status) {
         this.status = status;
     }
 

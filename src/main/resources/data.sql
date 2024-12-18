@@ -175,6 +175,6 @@ values
     ('c8e682c8-bbba-429e-b5f3-e743c2e8e3c7', '707fbaf8-d46d-4b3b-9e1c-742849d41c14'),
     ('db1a8f76-5b38-490c-a5c4-8f484d39e9da', '707fbaf8-d46d-4b3b-9e1c-742849d41c14');
 
-insert into tb_chat (status, date_open, id, id_announcement, id_user, id_advertiser)
+insert into tb_chat (status, date_open, id, id_announcement, id_user)
 values
-    ('0', '2024-11-20 15:40:56', '6e41c98b-0c13-4bae-942d-710efa65986c', 'c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'tatiana.costa@id.uff.br', 'luiza.monteiro@id.uff.br');
+    ('0', '2024-11-20 15:40:56', '6e41c98b-0c13-4bae-942d-710efa65986c', 'c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'tatiana.costa@id.uff.br');
