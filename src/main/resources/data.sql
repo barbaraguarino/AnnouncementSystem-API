@@ -178,3 +178,12 @@ values
 insert into tb_chat (status, date_open, id, id_announcement, id_user, id_advertiser)
 values
     ('0', '2024-11-20 15:40:56', '6e41c98b-0c13-4bae-942d-710efa65986c', 'c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'tatiana.costa@id.uff.br', 'luiza.monteiro@id.uff.br');
+
+insert into tb_message(id, id_chat, id_sender, content, date)
+values
+    ('db1a8f76-5b38-490c-a5c4-8f484d39e9da', '6e41c98b-0c13-4bae-942d-710efa65986c', 'tatiana.costa@id.uff.br', 'Oi, estou interessado no anuncio', '2024-11-20 15:40:56'),
+    ('c8e682c8-bbba-429e-b5f3-e743c2e8e3c7', '6e41c98b-0c13-4bae-942d-710efa65986c', 'luiza.monteiro@id.uff.br', 'Oi, boa tarde! Que bom que você está interessado. Quais dados a mais você precisa?', '2024-11-20 16:15:57'),
+    ('e4b5d4f2-4ac1-4b43-8b9d-e1b9d8ddefb5', '6e41c98b-0c13-4bae-942d-710efa65986c', 'tatiana.costa@id.uff.br', 'Preciso saber como faço para encontrar você?', '2024-11-20 16:30:41'),
+    ('f3e9a8c4-1f67-41f8-b3f1-0983f0b4b197', '6e41c98b-0c13-4bae-942d-710efa65986c', 'luiza.monteiro@id.uff.br', 'Podemos fechar a transação por aqui?', '2024-11-20 18:10:00'),
+    ('a432e2ec-1989-4e73-aad7-7d0d59ec32ec', '6e41c98b-0c13-4bae-942d-710efa65986c', 'tatiana.costa@id.uff.br', 'Acho melhor nos encontramos. Que dia você pode?', '2024-11-20 18:15:00'),
+    ('707fbaf8-d46d-4b3b-9e1c-742849d41c14', '6e41c98b-0c13-4bae-942d-710efa65986c', 'luiza.monteiro@id.uff.br', '... Não sei porque a está assim... ', '2024-11-20 18:16:50');
