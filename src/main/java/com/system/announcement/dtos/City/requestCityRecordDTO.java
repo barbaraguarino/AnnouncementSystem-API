@@ -1,4 +1,4 @@
-package com.system.announcement.dtos.City;
+package com.system.announcement.dtos.city;
 
 import jakarta.validation.constraints.NotBlank;
 

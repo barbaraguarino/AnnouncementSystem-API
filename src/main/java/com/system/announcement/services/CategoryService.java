@@ -1,6 +1,5 @@
 package com.system.announcement.services;
 
-import com.system.announcement.dtos.Category.requestCategoryRecordDTO;
 import com.system.announcement.exceptions.CategoryIsEmptyException;
 import com.system.announcement.models.Category;
 import com.system.announcement.repositories.CategoryRepository;

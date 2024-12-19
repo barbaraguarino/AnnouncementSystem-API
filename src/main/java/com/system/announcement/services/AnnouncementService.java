@@ -2,9 +2,9 @@ package com.system.announcement.services;
 
 import com.system.announcement.auxiliary.components.AuthDetails;
 import com.system.announcement.auxiliary.enums.AnnouncementStatus;
-import com.system.announcement.dtos.Announcement.requestAnnouncementRecordDTO;
-import com.system.announcement.dtos.Announcement.requestFilterAnnouncementRecordDTO;
-import com.system.announcement.dtos.Announcement.responseOneAnnouncementRecordDTO;
+import com.system.announcement.dtos.announcement.requestAnnouncementRecordDTO;
+import com.system.announcement.dtos.announcement.requestFilterAnnouncementRecordDTO;
+import com.system.announcement.dtos.announcement.responseOneAnnouncementRecordDTO;
 import com.system.announcement.exceptions.AnnouncementNotFoundException;
 import com.system.announcement.infra.specifications.AnnouncementSpecification;
 import com.system.announcement.models.Announcement;

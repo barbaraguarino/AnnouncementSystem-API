@@ -1,6 +1,6 @@
 package com.system.announcement.dtos.chat;
 
-import com.system.announcement.dtos.User.UserBasicDTO;
+import com.system.announcement.dtos.user.UserBasicDTO;
 import com.system.announcement.models.Message;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
