@@ -8,11 +8,13 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import java.util.Map;
 
+@Component
 public class JwtHandshakeInterceptor implements HandshakeInterceptor {
 
     private final TokenService tokenService;
@@ -25,7 +27,8 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
 
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
-        String token = request.getHeaders().getFirst("Authorization"); // Token enviado pelo cliente no cabeçalho
+        String token = request.getHeaders().getFirst("Authorization");
+
         if (token == null || token.isBlank()) {
             response.setStatusCode(org.springframework.http.HttpStatus.UNAUTHORIZED);
             return false;
@@ -39,7 +42,7 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
                 return false;
             }
 
-            attributes.put("userEmail", email); // Adiciona o email do usuário autenticado
+            attributes.put("userEmail", email);
 
             UserDetails user = authorizationService.loadUserByUsername(email);
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
@@ -49,10 +52,7 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
 
             return true;
         } catch (JWTVerificationException e) {
-
             response.setStatusCode(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR);
-            System.err.println("Erro inesperado no handshake WebSocket: " + e.getMessage());
-
             return false;
         }
     }

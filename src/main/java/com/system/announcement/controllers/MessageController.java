@@ -33,14 +33,11 @@ public class MessageController {
     @MessageMapping("/send-message")
     public void sendMessage(@RequestBody ReceiveMessageDTO receiveMessageDTO,
                             @AuthenticationPrincipal User sender) {
-        // Recupera o chat
         Chat chat = chatService.findById(receiveMessageDTO.chat());
 
-        // Cria a mensagem
         Message message = new Message(chat, sender, receiveMessageDTO.message());
         message = messageService.saveMessage(message);
 
-        // Envia para os participantes do chat
         var sendMessageDTO = new SendMessageDTO(message);
         messagingTemplate.convertAndSendToUser(chat.getUser().getEmail(), "/queue/messages", sendMessageDTO);
         messagingTemplate.convertAndSendToUser(chat.getAdvertiser().getEmail(), "/queue/messages", sendMessageDTO);
