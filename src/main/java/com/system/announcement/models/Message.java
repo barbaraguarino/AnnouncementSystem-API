@@ -43,4 +43,11 @@ public class Message implements Serializable {
     public Message() {
         this.date = new Timestamp(System.currentTimeMillis());
     }
+
+    public Message(Chat chat, User sender, String content) {
+        this.chat = chat;
+        this.sender = sender;
+        this.content = content;
+        this.date = new Timestamp(System.currentTimeMillis());
+    }
 }

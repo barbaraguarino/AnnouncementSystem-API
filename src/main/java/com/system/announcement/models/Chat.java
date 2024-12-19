@@ -66,6 +66,17 @@ public class Chat implements Serializable {
         this.dateOpen = new Timestamp(System.currentTimeMillis());
         this.status = ChatStatus.OPEN;
         this.user = user;
+        this.advertiser = announcement.getAuthor();
         this.announcement = announcement;
+    }
+
+    public void close(){
+        this.dateClose = new Timestamp(System.currentTimeMillis());
+        this.status = ChatStatus.CLOSED;
+    }
+
+    public void delete(){
+        this.dateDeleted = new Timestamp(System.currentTimeMillis());
+        this.status = ChatStatus.DELETED;
     }
 }
