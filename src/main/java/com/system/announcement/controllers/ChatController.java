@@ -2,6 +2,7 @@ package com.system.announcement.controllers;
 
 import com.system.announcement.models.User;
 import com.system.announcement.services.ChatService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,7 +21,7 @@ public class ChatController {
     }
 
     @GetMapping
-    public ResponseEntity<Object> getChats(@AuthenticationPrincipal User user) {
-        return ResponseEntity.status(HttpStatus.OK).body(chatService.getChats(user));
+    public ResponseEntity<Object> getChats(@AuthenticationPrincipal User user, Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(chatService.getChats(user, pageable));
     }
 }
