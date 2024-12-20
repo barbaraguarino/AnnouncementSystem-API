@@ -29,6 +29,8 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         System.out.println("Entrou no Before Handshake");
 
+        System.out.println("Cabeçalhos recebidos: " + request.getHeaders());
+
         String token = request.getHeaders().getFirst("Authorization");
 
         System.out.println("Token recebido no cabeçalho: " + token);
