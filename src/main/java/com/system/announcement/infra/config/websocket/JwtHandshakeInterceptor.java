@@ -27,20 +27,31 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
 
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
+        System.out.println("Entrou no Before Handshake");
+
         String token = request.getHeaders().getFirst("Authorization");
 
+        System.out.println("Token recebido no cabeçalho: " + token);
+
         if (token == null || token.isBlank()) {
+            System.out.println("Token nao encontrado");
             response.setStatusCode(org.springframework.http.HttpStatus.UNAUTHORIZED);
             return false;
         }
 
         try {
+
+            System.out.println("Token encontrado");
+
             String email = tokenService.validateToken(token.replace("Bearer ", ""));
 
             if (email.isEmpty()) {
+                System.out.println("Email nao encontrado");
                 response.setStatusCode(org.springframework.http.HttpStatus.UNAUTHORIZED);
                 return false;
             }
+
+            System.out.println("Email encontrado: " + email);
 
             attributes.put("userEmail", email);
 
