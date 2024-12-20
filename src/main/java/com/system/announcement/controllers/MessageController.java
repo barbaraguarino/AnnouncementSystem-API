@@ -1,5 +1,6 @@
 package com.system.announcement.controllers;
 
+import com.system.announcement.auxiliary.components.AuthDetails;
 import com.system.announcement.dtos.chat.ReceiveMessageDTO;
 import com.system.announcement.dtos.chat.SendMessageDTO;
 import com.system.announcement.models.Chat;
@@ -14,6 +15,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Set;
 import java.util.UUID;
@@ -26,17 +28,21 @@ public class MessageController {
     private final MessageService messageService;
     private final ChatService chatService;
     private final SimpMessagingTemplate messagingTemplate;
+    private final AuthDetails authDetails;
 
-    public MessageController(MessageService messageService, ChatService chatService, SimpMessagingTemplate messagingTemplate) {
+    public MessageController(MessageService messageService, ChatService chatService, SimpMessagingTemplate messagingTemplate, AuthDetails authDetails) {
         this.messageService = messageService;
         this.chatService = chatService;
         this.messagingTemplate = messagingTemplate;
+        this.authDetails = authDetails;
     }
 
     @MessageMapping("/send-message")
-    public void sendMessage(@RequestBody ReceiveMessageDTO receiveMessageDTO,
-                            @AuthenticationPrincipal User sender) {
+    public void sendMessage(@RequestBody ReceiveMessageDTO receiveMessageDTO, Principal principal) {
         Chat chat = chatService.findById(receiveMessageDTO.chat());
+        var sender = authDetails.getAuthenticatedUser();
+        System.out.println("User: " + sender.getUsername());
+        System.out.println("Usando o Principal: " + principal.getName());
 
         Message message = new Message(chat, sender, receiveMessageDTO.message());
         message = messageService.saveMessage(message);

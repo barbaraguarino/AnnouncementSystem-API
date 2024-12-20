@@ -29,13 +29,13 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         System.out.println("Entrou no Before Handshake");
 
-        System.out.println("Cabeçalhos recebidos: " + request.getHeaders());
+        System.out.println("Query recebidas: " + request.getURI().getQuery());
 
-        String token = request.getHeaders().getFirst("Authorization");
+        String token = request.getURI().getQuery().replaceAll("token=", "");
 
-        System.out.println("Token recebido no cabeçalho: " + token);
+        System.out.println("Token recebido na query: " + token);
 
-        if (token == null || token.isBlank()) {
+        if (token.isBlank()) {
             System.out.println("Token nao encontrado");
             response.setStatusCode(org.springframework.http.HttpStatus.UNAUTHORIZED);
             return false;
@@ -58,7 +58,8 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
             attributes.put("userEmail", email);
 
             UserDetails user = authorizationService.loadUserByUsername(email);
-            var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             System.out.println("Usuário autenticado via WebSocket: " + email);
