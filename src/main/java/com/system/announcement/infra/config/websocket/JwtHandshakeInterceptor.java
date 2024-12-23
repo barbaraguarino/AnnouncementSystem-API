@@ -57,11 +57,6 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
 
             attributes.put("userEmail", email);
 
-            UserDetails user = authorizationService.loadUserByUsername(email);
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
             System.out.println("Usuário autenticado via WebSocket: " + email);
 
             return true;

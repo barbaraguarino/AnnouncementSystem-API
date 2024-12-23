@@ -4,6 +4,7 @@ import com.system.announcement.dtos.authentication.requestAuthenticationRecordDT
 import com.system.announcement.dtos.authentication.responseAuthenticationRecordDTO;
 import com.system.announcement.infra.token.TokenService;
 import com.system.announcement.models.User;
+import com.system.announcement.repositories.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import jakarta.transaction.Transactional;
@@ -16,10 +17,12 @@ public class UserService {
 
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
+    private final UserRepository userRepository;
 
-    public UserService(AuthenticationManager authenticationManager, TokenService tokenService) {
+    public UserService(AuthenticationManager authenticationManager, TokenService tokenService, UserRepository userRepository) {
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
+        this.userRepository = userRepository;
     }
 
     public responseAuthenticationRecordDTO login(@Valid requestAuthenticationRecordDTO authenticationRecordDTO) {
@@ -27,5 +30,9 @@ public class UserService {
         var auth = this.authenticationManager.authenticate(usernamePassword);
         var token = tokenService.generateToken((User) auth.getPrincipal());
         return new responseAuthenticationRecordDTO((User) auth.getPrincipal(), token);
+    }
+
+    public User getUserByEmail(String email) {
+        return (User) userRepository.findByEmail(email);
     }
 }

@@ -1,11 +1,13 @@
 package com.system.announcement.dtos.chat;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
 public record ReceiveMessageDTO(
-        @NotBlank UUID chat,
+        @NotNull UUID chat,
+        @NotBlank String email,
         @NotBlank String message
 ) {
 }
