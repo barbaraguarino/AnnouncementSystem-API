@@ -18,46 +18,33 @@ import java.util.Map;
 public class JwtHandshakeInterceptor implements HandshakeInterceptor {
 
     private final TokenService tokenService;
-    private final AuthorizationService authorizationService;
 
-    public JwtHandshakeInterceptor(TokenService tokenService, AuthorizationService authorizationService) {
+    public JwtHandshakeInterceptor(TokenService tokenService) {
         this.tokenService = tokenService;
-        this.authorizationService = authorizationService;
     }
 
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
-        System.out.println("Entrou no Before Handshake");
-
-        System.out.println("Query recebidas: " + request.getURI().getQuery());
-
         String token = request.getURI().getQuery().replaceAll("token=", "");
 
-        System.out.println("Token recebido na query: " + token);
-
         if (token.isBlank()) {
-            System.out.println("Token nao encontrado");
             response.setStatusCode(org.springframework.http.HttpStatus.UNAUTHORIZED);
             return false;
         }
 
         try {
-
-            System.out.println("Token encontrado");
-
             String email = tokenService.validateToken(token.replace("Bearer ", ""));
 
             if (email.isEmpty()) {
-                System.out.println("Email nao encontrado");
                 response.setStatusCode(org.springframework.http.HttpStatus.UNAUTHORIZED);
                 return false;
             }
 
-            System.out.println("Email encontrado: " + email);
-
             attributes.put("userEmail", email);
 
-            System.out.println("Usuário autenticado via WebSocket: " + email);
+            SecurityContextHolder.getContext().setAuthentication(
+                    new UsernamePasswordAuthenticationToken(email, null, null)
+            );
 
             return true;
         } catch (JWTVerificationException e) {
