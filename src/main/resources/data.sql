@@ -177,7 +177,9 @@ values
 
 insert into tb_chat (status, date_open, id, id_announcement, id_user, id_advertiser)
 values
-    ('0', '2024-11-20 15:40:56', '6e41c98b-0c13-4bae-942d-710efa65986c', 'c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'tatiana.costa@id.uff.br', 'luiza.monteiro@id.uff.br');
+    ('0', '2024-10-30 14:08:56', '6e41c98b-0c13-4bae-942d-710efa65986c', 'c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'tatiana.costa@id.uff.br', 'luiza.monteiro@id.uff.br'),
+    ('0', '2024-12-20 11:10:56', 'db1a8f76-5b38-490c-a5c4-8f484d39e9da', 'b07d028f-e4c6-4e1e-b37f-6828f2255c12', 'tatiana.costa@id.uff.br', 'jp.fernandes@id.uff.br'),
+    ('0', '2024-09-20 15:40:56', '92f14b73-0ccf-4b1f-92b5-0f634d5a7c15', 'c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'tatiana.costa@id.uff.br', 'arthur.lima@id.uff.br');
 
 insert into tb_message(id, id_chat, id_sender, content, date)
 values
