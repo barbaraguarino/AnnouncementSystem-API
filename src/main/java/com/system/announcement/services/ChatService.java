@@ -5,7 +5,6 @@ import com.system.announcement.dtos.chat.ChatDTO;
 import com.system.announcement.exceptions.ChatNotFoundException;
 import com.system.announcement.infra.specifications.ChatSpecification;
 import com.system.announcement.models.Chat;
-import com.system.announcement.models.User;
 import com.system.announcement.repositories.ChatRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -16,10 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional

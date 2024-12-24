@@ -27,6 +27,5 @@ public class ChatController {
     @PostMapping("/{id}")
     public ResponseEntity<Object> createChat(@PathVariable @Valid UUID id) {
         return ResponseEntity.status(HttpStatus.CREATED).body(chatService.createChat(id));
-
     }
 }

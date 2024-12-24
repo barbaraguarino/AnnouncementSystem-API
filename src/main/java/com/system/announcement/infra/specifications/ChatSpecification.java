@@ -27,8 +27,12 @@ public class ChatSpecification implements Specification<Chat> {
 
         List<Predicate> predicates = new ArrayList<>();
 
-        predicates.add(criteriaBuilder.equal(root.get("user"), user));
-        predicates.add(criteriaBuilder.equal(root.get("advertiser"), user));
+        Predicate userPredicate = criteriaBuilder.or(
+                criteriaBuilder.equal(root.get("user"), user),
+                criteriaBuilder.equal(root.get("advertiser"), user)
+        );
+        predicates.add(userPredicate);
+
         predicates.add(criteriaBuilder.notEqual(root.get("status"), status));
 
         return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
