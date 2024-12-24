@@ -1,14 +1,13 @@
 package com.system.announcement.controllers;
 
-import com.system.announcement.models.User;
 import com.system.announcement.services.ChatService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/chat")
@@ -21,7 +20,13 @@ public class ChatController {
     }
 
     @GetMapping
-    public ResponseEntity<Object> getChats(@AuthenticationPrincipal User user, Pageable pageable) {
-        return ResponseEntity.status(HttpStatus.OK).body(chatService.getChats(user, pageable));
+    public ResponseEntity<Object> getChats(Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(chatService.getChats(pageable));
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<Object> createChat(@PathVariable @Valid UUID id) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(chatService.createChat(id));
+
     }
 }
