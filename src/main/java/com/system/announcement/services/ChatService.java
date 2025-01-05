@@ -35,7 +35,7 @@ public class ChatService {
 
     public Page<ChatDTO> getChats(Pageable pageable) {
         var user = authDetails.getAuthenticatedUser();
-        Pageable pageableWithSorting = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Order.desc("dateLastMessage")));
+        Pageable pageableWithSorting = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Order.asc("dateLastMessage")));
         Page<Chat> chats = chatRepository.findAll(new ChatSpecification(user), pageableWithSorting);
         return chats.map((chat) -> new ChatDTO(chat, user));
     }

@@ -51,10 +51,6 @@ public class MessageController {
 
     @GetMapping("/{chatId}")
     public ResponseEntity<Object> getMessages(@PathVariable UUID chatId) {
-        Chat chat = chatService.findById(chatId);
-        var messages = messageService.getMessagesByChat(chat).stream()
-                .map(SendMessageDTO::new)
-                .collect(Collectors.toSet());
-        return ResponseEntity.status(HttpStatus.OK).body(messages);
+        return ResponseEntity.status(HttpStatus.OK).body(messageService.getMessagesByChat(chatId));
     }
 }

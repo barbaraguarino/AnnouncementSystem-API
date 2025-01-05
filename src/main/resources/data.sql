@@ -188,4 +188,4 @@ values
     ('e4b5d4f2-4ac1-4b43-8b9d-e1b9d8ddefb5', '6e41c98b-0c13-4bae-942d-710efa65986c', 'tatiana.costa@id.uff.br', 'Preciso saber como faço para encontrar você?', '2024-11-20 16:30:41'),
     ('f3e9a8c4-1f67-41f8-b3f1-0983f0b4b197', '6e41c98b-0c13-4bae-942d-710efa65986c', 'luiza.monteiro@id.uff.br', 'Podemos fechar a transação por aqui?', '2024-11-20 18:10:00'),
     ('a432e2ec-1989-4e73-aad7-7d0d59ec32ec', '6e41c98b-0c13-4bae-942d-710efa65986c', 'tatiana.costa@id.uff.br', 'Acho melhor nos encontramos. Que dia você pode?', '2024-11-20 18:15:00'),
-    ('707fbaf8-d46d-4b3b-9e1c-742849d41c14', '6e41c98b-0c13-4bae-942d-710efa65986c', 'luiza.monteiro@id.uff.br', '... Não sei porque a está assim... ', '2024-11-20 18:16:50');
+    ('707fbaf8-d46d-4b3b-9e1c-742849d41c14', '6e41c98b-0c13-4bae-942d-710efa65986c', 'luiza.monteiro@id.uff.br', '... Não sei porque está assim... ', '2024-11-20 18:16:50');
