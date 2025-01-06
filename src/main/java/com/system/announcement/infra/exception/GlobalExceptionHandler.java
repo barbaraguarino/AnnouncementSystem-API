@@ -1,9 +1,6 @@
 package com.system.announcement.infra.exception;
 
-import com.system.announcement.exceptions.AnnouncementNotFoundException;
-import com.system.announcement.exceptions.AuthenticationException;
-import com.system.announcement.exceptions.CategoryIsEmptyException;
-import com.system.announcement.exceptions.DuplicateResourceException;
+import com.system.announcement.exceptions.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,32 +17,59 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(AuthenticationException.class)
     private ResponseEntity<Object> AuthenticationExceptionHandler(AuthenticationException authenticationException){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(authenticationException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(authenticationException.getMessage());
     }
 
     @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid JSON format. Please check your request body.");
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+                                                                  HttpHeaders headers,
+                                                                  HttpStatusCode status,
+                                                                  WebRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("Invalid JSON format. Please check your request body.");
     }
 
     @ExceptionHandler(CategoryIsEmptyException.class)
     private ResponseEntity<Object> CategoryIsEmptyExceptionHandler(CategoryIsEmptyException categoryIsEmptyException){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(categoryIsEmptyException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(categoryIsEmptyException.getMessage());
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("Duplicate resource, please check what was sent.");
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body("Duplicate resource, please check what was sent.");
     }
 
     @ExceptionHandler(DuplicateResourceException.class)
     public ResponseEntity<Object> DuplicateResourceExceptionHandler(DuplicateResourceException duplicateResourceException){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(duplicateResourceException.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(duplicateResourceException.getMessage());
     }
 
     @ExceptionHandler(AnnouncementNotFoundException.class)
     public ResponseEntity<Object> AnnouncementNotFoundExceptionHandler(AnnouncementNotFoundException announcementNotFoundException){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(announcementNotFoundException.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(announcementNotFoundException.getMessage());
+    }
+
+    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
+    public ResponseEntity<Object> AuthenticationCredentialsNotFoundExceptionHandler(AuthenticationCredentialsNotFoundException authenticationCredentialsNotFoundException){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(authenticationCredentialsNotFoundException.getMessage());
+    }
+
+    @ExceptionHandler(ChatNotFoundException.class)
+    public ResponseEntity<Object> ChatNotFoundExceptionHandler(ChatNotFoundException chatNotFoundException){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(chatNotFoundException.getMessage());
+    }
+
+    @ExceptionHandler(NoAuthorizationException.class)
+    public ResponseEntity<Object> NoAuthorizationExceptionHandler(NoAuthorizationException noAuthorizationException){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(noAuthorizationException.getMessage());
     }
 
 

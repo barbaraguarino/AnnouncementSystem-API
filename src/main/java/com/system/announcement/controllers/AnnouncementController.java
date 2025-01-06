@@ -1,8 +1,8 @@
 package com.system.announcement.controllers;
 
-import com.system.announcement.dtos.Announcement.SaveAnnouncementDTO;
+import com.system.announcement.dtos.announcement.SaveAnnouncementDTO;
 import com.system.announcement.services.AnnouncementService;
-import com.system.announcement.dtos.Announcement.requestFilterAnnouncementRecordDTO;
+import com.system.announcement.dtos.announcement.requestFilterAnnouncementRecordDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Pageable;

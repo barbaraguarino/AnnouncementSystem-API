@@ -65,6 +65,18 @@ public class User implements Serializable, UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Favorite> favorites = new HashSet<>();
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Chat> chatsUser = new HashSet<>();
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "advertiser", fetch = FetchType.LAZY)
+    private Set<Chat> chatsAdvertiser = new HashSet<>();
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
+    private Set<Message> messages = new HashSet<>();
+
     public User() {
         this.blocked = false;
         this.deleted = false;

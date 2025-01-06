@@ -1,6 +1,6 @@
 package com.system.announcement.controllers;
 
-import com.system.announcement.dtos.Authentication.requestAuthenticationRecordDTO;
+import com.system.announcement.dtos.authentication.requestAuthenticationRecordDTO;
 import com.system.announcement.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

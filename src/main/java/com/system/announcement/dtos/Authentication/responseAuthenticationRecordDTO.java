@@ -1,4 +1,4 @@
-package com.system.announcement.dtos.Authentication;
+package com.system.announcement.dtos.authentication;
 
 import com.system.announcement.models.User;
 

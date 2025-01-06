@@ -1,6 +1,6 @@
-package com.system.announcement.dtos.Announcement;
+package com.system.announcement.dtos.announcement;
 
-import com.system.announcement.dtos.User.responseAuthorRecordDTO;
+import com.system.announcement.dtos.user.responseAuthorRecordDTO;
 import com.system.announcement.models.Announcement;
 import com.system.announcement.models.Category;
 import com.system.announcement.models.City;

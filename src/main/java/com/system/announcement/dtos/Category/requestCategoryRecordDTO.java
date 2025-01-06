@@ -1,4 +1,4 @@
-package com.system.announcement.dtos.Category;
+package com.system.announcement.dtos.category;
 
 import jakarta.validation.constraints.NotBlank;
 
