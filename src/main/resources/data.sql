@@ -1,10 +1,10 @@
-insert into tb_user (icon, email, blocked, name, password, role, type, deleted, score)
-values ('icones/tatiana.JPG', 'tatiana.costa@id.uff.br', 'false', 'Tatiana Costa', '$2a$10$ldFbPwNYtHLNqNhg8lN7M.vadBTH85kTgRyW3m9YkOUzbW1SqOzmW', '2', '2', 'false', 0),
-       ('icones/arthur.JPG', 'arthur.lima@id.uff.br', 'false', 'Arthur Lima', '$2a$10$mbxFlKCmQjoiWQG7.l1pyuR.Q5B0b3lUpB/sf4V7HlFeGjnLTaaHe', '1', '2', 'false', 0),
-       ('icones/julia.JPG', 'julia.medeiros@id.uff.br', 'false', 'Julia Medeiros', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '0', 'false', 0),
-       ('icones/luiza.JPG', 'luiza.monteiro@id.uff.br', 'false', 'Luiza Monteiro', '$2a$10$ldFbPwNYtHLNqNhg8lN7M.vadBTH85kTgRyW3m9YkOUzbW1SqOzmW', '0', '0', 'false', 0),
-       ('icones/jp.JPG', 'jp.fernandes@id.uff.br', 'false', 'João Pedro Fernandes', '$2a$10$mbxFlKCmQjoiWQG7.l1pyuR.Q5B0b3lUpB/sf4V7HlFeGjnLTaaHe', '1', '2', 'false', 0),
-       ('icones/antonio.JPG', 'dutra.tony@id.uff.br', 'false', 'Antônio Dutra Vasconcelos', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '1', 'false', 0);
+insert into tb_user (icon, email, blocked, name, password, role, type, deleted, score, grade, num_assessment)
+values ('icones/tatiana.JPG', 'tatiana.costa@id.uff.br', 'false', 'Tatiana Costa', '$2a$10$ldFbPwNYtHLNqNhg8lN7M.vadBTH85kTgRyW3m9YkOUzbW1SqOzmW', '2', '2', 'false', 0, 0, 0),
+       ('icones/arthur.JPG', 'arthur.lima@id.uff.br', 'false', 'Arthur Lima', '$2a$10$mbxFlKCmQjoiWQG7.l1pyuR.Q5B0b3lUpB/sf4V7HlFeGjnLTaaHe', '1', '2', 'false', 0, 0, 0),
+       ('icones/julia.JPG', 'julia.medeiros@id.uff.br', 'false', 'Julia Medeiros', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '0', 'false', 0, 0, 0),
+       ('icones/luiza.JPG', 'luiza.monteiro@id.uff.br', 'false', 'Luiza Monteiro', '$2a$10$ldFbPwNYtHLNqNhg8lN7M.vadBTH85kTgRyW3m9YkOUzbW1SqOzmW', '0', '0', 'false', 0, 0, 0),
+       ('icones/jp.JPG', 'jp.fernandes@id.uff.br', 'false', 'João Pedro Fernandes', '$2a$10$mbxFlKCmQjoiWQG7.l1pyuR.Q5B0b3lUpB/sf4V7HlFeGjnLTaaHe', '1', '2', 'false', 0, 0, 0),
+       ('icones/antonio.JPG', 'dutra.tony@id.uff.br', 'false', 'Antônio Dutra Vasconcelos', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '1', 'false', 0, 0, 0);
 
 insert into tb_city (id, name)
 values ('a8648c4c-7a31-4c79-bebe-ab5ca149e0f4','Rio de Janeiro'),
@@ -175,11 +175,11 @@ values
     ('c8e682c8-bbba-429e-b5f3-e743c2e8e3c7', '707fbaf8-d46d-4b3b-9e1c-742849d41c14'),
     ('db1a8f76-5b38-490c-a5c4-8f484d39e9da', '707fbaf8-d46d-4b3b-9e1c-742849d41c14');
 
-insert into tb_chat (status, is_evaluated, date_open, id, id_announcement, id_user, id_advertiser, date_last_message)
+insert into tb_chat (status, date_open, id, id_announcement, id_user, id_advertiser, date_last_message, is_evaluated_by_advertiser, is_evaluated_by_user)
 values
-    ('0', 'false','2024-10-30 14:08:56', '6e41c98b-0c13-4bae-942d-710efa65986c', 'c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'tatiana.costa@id.uff.br', 'luiza.monteiro@id.uff.br', '2024-11-20 18:16:50'),
-    ('1', 'false', '2024-12-20 11:10:56', 'db1a8f76-5b38-490c-a5c4-8f484d39e9da', 'b07d028f-e4c6-4e1e-b37f-6828f2255c12', 'tatiana.costa@id.uff.br', 'jp.fernandes@id.uff.br', '2024-12-20 11:10:56'),
-    ('0', 'false', '2024-09-20 15:40:56', '92f14b73-0ccf-4b1f-92b5-0f634d5a7c15', 'c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'tatiana.costa@id.uff.br', 'arthur.lima@id.uff.br', '2024-09-20 15:40:56');
+    ('0', '2024-10-30 14:08:56', '6e41c98b-0c13-4bae-942d-710efa65986c', 'c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'tatiana.costa@id.uff.br', 'luiza.monteiro@id.uff.br', '2024-11-20 18:16:50', 'false', 'false'),
+    ('1', '2024-12-20 11:10:56', 'db1a8f76-5b38-490c-a5c4-8f484d39e9da', 'b07d028f-e4c6-4e1e-b37f-6828f2255c12', 'tatiana.costa@id.uff.br', 'jp.fernandes@id.uff.br', '2024-12-20 11:10:56', 'false', 'false'),
+    ('0', '2024-09-20 15:40:56', '92f14b73-0ccf-4b1f-92b5-0f634d5a7c15', 'c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'tatiana.costa@id.uff.br', 'arthur.lima@id.uff.br', '2024-09-20 15:40:56', 'false', 'false');
 
 insert into tb_message(id, id_chat, id_sender, content, date)
 values

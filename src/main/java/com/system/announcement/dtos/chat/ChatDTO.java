@@ -25,7 +25,7 @@ public record ChatDTO(
                 new AnnouncementBasicDTO(chat.getAnnouncement()),
                 chat.getStatus(),
                 chat.getDateLastMessage(),
-                chat.getIsEvaluated()
+                (user.getEmail().equals(chat.getUser().getEmail())) ? chat.getIsEvaluatedByUser() : chat.getIsEvaluatedByAdvertiser()
         );
     }
 }
