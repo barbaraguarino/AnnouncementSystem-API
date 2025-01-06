@@ -94,6 +94,7 @@ public class User implements Serializable, UserDetails {
     public User() {
         this.blocked = false;
         this.deleted = false;
+
         this.score = 0;
         this.grade = 0;
         this.numAssessment = 0;
@@ -105,10 +106,13 @@ public class User implements Serializable, UserDetails {
                 UserRole role) {
         this.email = email;
         this.name = name;
+
         this.type = type;
-        this.blocked = false;
         this.role = role;
+
+        this.blocked = false;
         this.deleted = false;
+
         this.score = 0;
         this.grade = 0;
         this.numAssessment = 0;
@@ -120,7 +124,7 @@ public class User implements Serializable, UserDetails {
         this.scoreCalculator();
     }
 
-    public void scoreCalculator(){
+    private void scoreCalculator(){
         this.score = this.grade / this.numAssessment;
     }
 
