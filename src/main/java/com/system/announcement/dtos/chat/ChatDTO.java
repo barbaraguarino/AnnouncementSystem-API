@@ -15,7 +15,8 @@ public record ChatDTO(
         @NotNull UserBasicDTO participant,
         @NotNull AnnouncementBasicDTO announcement,
         @NotNull ChatStatus chatStatus,
-        Timestamp dateLastMessage
+        Timestamp dateLastMessage,
+        @NotNull Boolean isEvaluated
 ){
     public ChatDTO(Chat chat, User user) {
         this(
@@ -23,7 +24,8 @@ public record ChatDTO(
                 (user.getEmail().equals(chat.getUser().getEmail())) ? new UserBasicDTO(chat.getAdvertiser()) : new UserBasicDTO(chat.getUser()),
                 new AnnouncementBasicDTO(chat.getAnnouncement()),
                 chat.getStatus(),
-                chat.getDateLastMessage()
+                chat.getDateLastMessage(),
+                chat.getIsEvaluated()
         );
     }
 }

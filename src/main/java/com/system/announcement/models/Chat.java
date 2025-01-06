@@ -60,9 +60,13 @@ public class Chat implements Serializable {
     @Column(nullable = false)
     private Timestamp dateLastMessage;
 
+    private Boolean isEvaluated;
+
     public Chat() {
         this.dateOpen = new Timestamp(System.currentTimeMillis());
         this.status = ChatStatus.OPEN;
+        this.isEvaluated = false;
+        this.dateLastMessage = new Timestamp(System.currentTimeMillis());
     }
 
     public Chat(User user, Announcement announcement) {
@@ -72,6 +76,7 @@ public class Chat implements Serializable {
         this.advertiser = announcement.getAuthor();
         this.announcement = announcement;
         this.dateLastMessage = new Timestamp(System.currentTimeMillis());
+        this.isEvaluated = false;
     }
 
     public void close(){
