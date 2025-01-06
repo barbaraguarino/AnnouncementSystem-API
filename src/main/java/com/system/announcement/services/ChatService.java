@@ -28,20 +28,28 @@ public class ChatService {
     private final AuthDetails authDetails;
     private final AnnouncementService announcementService;
 
-    public ChatService(ChatRepository chatRepository, AuthDetails authDetails, AnnouncementService announcementService) {
+    public ChatService(ChatRepository chatRepository,
+                       AuthDetails authDetails,
+                       AnnouncementService announcementService) {
         this.chatRepository = chatRepository;
         this.authDetails = authDetails;
         this.announcementService = announcementService;
     }
 
     public Chat findById(@NotBlank UUID chat) {
-        return chatRepository.findById(chat).orElseThrow(ChatNotFoundException::new);
+        return chatRepository.findById(chat)
+                .orElseThrow(ChatNotFoundException::new);
     }
 
     public Page<ChatDTO> getChats(Pageable pageable) {
         var user = authDetails.getAuthenticatedUser();
-        Pageable pageableWithSorting = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Order.desc("dateLastMessage")));
-        Page<Chat> chats = chatRepository.findAll(new ChatSpecification(user), pageableWithSorting);
+
+        Pageable pageableWithSorting = PageRequest.of(pageable.getPageNumber(),
+                pageable.getPageSize(), Sort.by(Sort.Order.desc("dateLastMessage")));
+
+        Page<Chat> chats = chatRepository
+                .findAll(new ChatSpecification(user), pageableWithSorting);
+
         return chats.map((chat) -> new ChatDTO(chat, user));
     }
 
@@ -50,31 +58,51 @@ public class ChatService {
     }
 
     public ChatDTO createChat(@Valid UUID idAnnouncement) {
-        var announcement = announcementService.getAnnouncementById(idAnnouncement);
-        if(announcement.getStatus() != AnnouncementStatus.VISIBLE) throw new NoAuthorizationException();
+        var announcement = announcementService.getById(idAnnouncement);
+
+        if(announcement.getStatus() != AnnouncementStatus.VISIBLE)
+            throw new NoAuthorizationException();
+
         var user = authDetails.getAuthenticatedUser();
-        if(announcement.getAuthor().getEmail().equals(user.getEmail())) throw new NoAuthorizationException();
+
+        if(announcement.getAuthor().getEmail().equals(user.getEmail()))
+            throw new NoAuthorizationException();
+
         var chatOptional = chatRepository.findChatByAnnouncementAndUser(announcement, user);
+
         if(chatOptional.isPresent()) {
             var chat = chatOptional.get();
-            if(chat.getStatus() == ChatStatus.OPEN) return new ChatDTO(chat, user);
+
+            if(chat.getStatus() == ChatStatus.OPEN)
+                return new ChatDTO(chat, user);
+
             chat.setStatus(ChatStatus.OPEN);
             chat = chatRepository.save(chat);
+
             return new ChatDTO(chat, user);
         }
+
         var chat = new Chat(user, announcement);
         chat = chatRepository.save(chat);
+
         return new ChatDTO(chat, user);
     }
 
     public ChatDTO closeChat(@Valid UUID idChat) {
-        var chat = chatRepository.findById(idChat).orElseThrow(ChatNotFoundException::new);
+
+        var chat = chatRepository.findById(idChat)
+                .orElseThrow(ChatNotFoundException::new);
         var user = authDetails.getAuthenticatedUser();
-        if(chat.getAdvertiser().getEmail().equals(user.getEmail()) || chat.getUser().getEmail().equals(user.getEmail())) {
+
+        if(chat.getAdvertiser().getEmail().equals(user.getEmail())
+                || chat.getUser().getEmail().equals(user.getEmail())) {
+
             chat.close();
             chatRepository.save(chat);
+
             return new ChatDTO(chat, user);
         }
+
         throw new NoAuthorizationException();
     }
 }
