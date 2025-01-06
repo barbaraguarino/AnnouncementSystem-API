@@ -5,7 +5,8 @@ import com.system.announcement.auxiliary.enums.AnnouncementStatus;
 import com.system.announcement.dtos.announcement.FilterAnnouncementDTO;
 import com.system.announcement.dtos.announcement.SaveAnnouncementDTO;
 import com.system.announcement.dtos.announcement.AnnouncementDTO;
-import com.system.announcement.exceptions.AdClosedException;
+import com.system.announcement.exceptions.AnnouncementIsClosedException;
+import com.system.announcement.exceptions.AnnouncementIsDeletedException;
 import com.system.announcement.exceptions.AnnouncementNotFoundException;
 import com.system.announcement.exceptions.WithoutAuthorizationException;
 import com.system.announcement.infra.specifications.AnnouncementSpecification;
@@ -90,6 +91,7 @@ public class AnnouncementService {
     }
 
     public Page<AnnouncementDTO> findAllClosed(Pageable pageable){
+
         Page<Announcement> announcements = announcementRepository
                 .findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(),
                         AnnouncementStatus.CLOSED, pageable);
@@ -98,6 +100,7 @@ public class AnnouncementService {
     }
 
     public Page<AnnouncementDTO> findAllSuspended(Pageable pageable) {
+
         Page<Announcement> announcements = announcementRepository
                 .findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(),
                         AnnouncementStatus.SUSPENDED, pageable);
@@ -106,6 +109,7 @@ public class AnnouncementService {
     }
 
     public Page<AnnouncementDTO> findAllOpen(Pageable pageable){
+
         Page<Announcement> announcements = announcementRepository
                 .findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(),
                         AnnouncementStatus.VISIBLE, pageable);
@@ -121,15 +125,16 @@ public class AnnouncementService {
 
         if(!announcement.getAuthor().getEmail().equals(user.getEmail()))
             throw new WithoutAuthorizationException();
-        if(!announcement.getStatus().equals(AnnouncementStatus.VISIBLE))
-            throw new AdClosedException();
+
+        if(announcement.getStatus().equals(AnnouncementStatus.DELETED))
+            throw new AnnouncementIsDeletedException();
+
+        if(announcement.getStatus().equals(AnnouncementStatus.CLOSED))
+            throw new AnnouncementIsClosedException();
 
         announcement.setTitle(editAnnouncementDTO.title());
         announcement.setContent(editAnnouncementDTO.content());
-
-        if(editAnnouncementDTO.price() != 0.0f)
-            announcement.setPrice(editAnnouncementDTO.price());
-
+        announcement.setPrice(editAnnouncementDTO.price());
         announcement.setCity(cityService.getById(editAnnouncementDTO.city()));
         announcement.setCategories(categoryService.getAllById(editAnnouncementDTO.categories()));
 
@@ -143,7 +148,6 @@ public class AnnouncementService {
         var optional = announcementRepository.findById(id);
 
         if(optional.isEmpty()) throw new AnnouncementNotFoundException();
-
         return optional.get();
     }
 

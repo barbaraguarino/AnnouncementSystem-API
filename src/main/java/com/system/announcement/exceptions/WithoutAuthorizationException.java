@@ -7,6 +7,6 @@ public class WithoutAuthorizationException extends RuntimeException {
     }
 
     public WithoutAuthorizationException() {
-        super("User does not have authorization.");
+        super("Usuário não possui autorização para realizar requisição.");
     }
 }
