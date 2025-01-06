@@ -98,5 +98,6 @@ public class Chat implements Serializable {
     public void delete(){
         this.dateDeleted = new Timestamp(System.currentTimeMillis());
         this.status = ChatStatus.DELETED;
+        this.dateClose = new Timestamp(System.currentTimeMillis());
     }
 }
