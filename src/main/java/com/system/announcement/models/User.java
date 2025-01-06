@@ -57,6 +57,12 @@ public class User implements Serializable, UserDetails {
 
     private Timestamp deletedDate;
 
+    @Column(nullable = false)
+    private float grade;
+
+    @Column(nullable = false)
+    private float numAssessment;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private Set<Announcement> announcements = new HashSet<>();
@@ -77,9 +83,20 @@ public class User implements Serializable, UserDetails {
     @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
     private Set<Message> messages = new HashSet<>();
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "evaluatorUser", fetch = FetchType.LAZY)
+    private Set<Assessment> myReviews = new HashSet<>();
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "ratedUser", fetch = FetchType.LAZY)
+    private Set<Assessment> assessments = new HashSet<>();
+
     public User() {
         this.blocked = false;
         this.deleted = false;
+        this.score = 0;
+        this.grade = 0;
+        this.numAssessment = 0;
     }
 
     public User(String email,
@@ -93,6 +110,18 @@ public class User implements Serializable, UserDetails {
         this.role = role;
         this.deleted = false;
         this.score = 0;
+        this.grade = 0;
+        this.numAssessment = 0;
+    }
+
+    public void newAssessment(float note){
+        this.grade = this.grade + note ;
+        this.numAssessment = this.numAssessment + 1;
+        this.scoreCalculator();
+    }
+
+    public void scoreCalculator(){
+        this.score = this.grade / this.numAssessment;
     }
 
     @Override

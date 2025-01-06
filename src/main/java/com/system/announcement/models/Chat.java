@@ -60,12 +60,21 @@ public class Chat implements Serializable {
     @Column(nullable = false)
     private Timestamp dateLastMessage;
 
-    private Boolean isEvaluated;
+    @Column(nullable = false)
+    private Boolean isEvaluatedByAdvertiser;
+
+    @Column(nullable = false)
+    private Boolean isEvaluatedByUser;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "chat", fetch = FetchType.LAZY)
+    private Set<Assessment> assessments = new HashSet<>();
 
     public Chat() {
         this.dateOpen = new Timestamp(System.currentTimeMillis());
         this.status = ChatStatus.OPEN;
-        this.isEvaluated = false;
+        this.isEvaluatedByAdvertiser = false;
+        this.isEvaluatedByUser = false;
         this.dateLastMessage = new Timestamp(System.currentTimeMillis());
     }
 
@@ -76,7 +85,8 @@ public class Chat implements Serializable {
         this.advertiser = announcement.getAuthor();
         this.announcement = announcement;
         this.dateLastMessage = new Timestamp(System.currentTimeMillis());
-        this.isEvaluated = false;
+        this.isEvaluatedByAdvertiser = false;
+        this.isEvaluatedByUser = false;
     }
 
     public void close(){
