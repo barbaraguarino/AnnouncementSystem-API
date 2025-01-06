@@ -4,7 +4,7 @@ import com.system.announcement.auxiliary.components.AuthDetails;
 import com.system.announcement.dtos.assessment.AssessmentDTO;
 import com.system.announcement.dtos.assessment.CreateAssessmentDTO;
 import com.system.announcement.exceptions.AssessmentAlreadyDoneException;
-import com.system.announcement.exceptions.NoAuthorizationException;
+import com.system.announcement.exceptions.WithoutAuthorizationException;
 import com.system.announcement.models.Assessment;
 import com.system.announcement.repositories.AssessmentRepository;
 import jakarta.transaction.Transactional;
@@ -70,7 +70,7 @@ public class AssessmentService {
             chatService.save(chat);
 
         }else
-            throw new NoAuthorizationException();
+            throw new WithoutAuthorizationException();
     }
 
     public Page<AssessmentDTO> getMyAssessments(Pageable pageable) {

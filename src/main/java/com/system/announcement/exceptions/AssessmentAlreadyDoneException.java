@@ -6,7 +6,4 @@ public class AssessmentAlreadyDoneException extends RuntimeException {
         super("Avaliação já realizada com sucesso.");
     }
 
-    public AssessmentAlreadyDoneException(String message) {
-        super(message);
-    }
 }

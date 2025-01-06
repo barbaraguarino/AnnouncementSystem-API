@@ -6,7 +6,4 @@ public class AnnouncementNotFoundException extends RuntimeException{
         super("Anúncio não encontrado.");
     }
 
-    public AnnouncementNotFoundException(String message){
-        super(message);
-    }
 }
