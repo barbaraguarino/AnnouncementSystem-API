@@ -25,6 +25,12 @@ public class Message implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column(nullable = false, columnDefinition = "text")
+    private String content;
+
+    @Column(nullable = false)
+    private Timestamp date;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_chat", nullable = false)
@@ -35,11 +41,6 @@ public class Message implements Serializable {
     @JoinColumn(name = "id_sender", nullable = false)
     private User sender;
 
-    @Column(nullable = false, columnDefinition = "text")
-    private String content;
-
-    private Timestamp date;
-
     public Message() {
         this.date = new Timestamp(System.currentTimeMillis());
     }
@@ -47,6 +48,7 @@ public class Message implements Serializable {
     public Message(Chat chat, User sender, String content) {
         this.chat = chat;
         this.sender = sender;
+
         this.content = content;
         this.date = new Timestamp(System.currentTimeMillis());
     }
