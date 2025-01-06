@@ -4,6 +4,7 @@ import com.system.announcement.dtos.announcement.requestAnnouncementRecordDTO;
 import com.system.announcement.services.AnnouncementService;
 import com.system.announcement.dtos.announcement.requestFilterAnnouncementRecordDTO;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +28,18 @@ public class AnnouncementController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseAnnouncement);
     }
 
+    @PostMapping("/edit/{id}")
+    public ResponseEntity<Object> editAnnouncement(@RequestBody @Valid SaveAnnouncementDTO saveAnnouncementDTO, @PathVariable @NotNull UUID id) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(announcementService.editById(saveAnnouncementDTO, id));
+    }
+
     @PostMapping("/filter")
     public ResponseEntity<Object> filterAnnouncements(@RequestBody @Valid requestFilterAnnouncementRecordDTO filterDTO, Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(announcementService.findAllWithFilter(filterDTO, pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getAnnouncementById(@PathVariable UUID id) {
+    public ResponseEntity<Object> getAnnouncementById(@Valid @PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(announcementService.findById(id));
     }
 
@@ -50,6 +56,12 @@ public class AnnouncementController {
     @GetMapping("/open")
     public ResponseEntity<Object> getOpenAnnouncements(Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(announcementService.findAllOpen(pageable));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteAnnouncement(@PathVariable @Valid UUID id) {
+        announcementService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }
