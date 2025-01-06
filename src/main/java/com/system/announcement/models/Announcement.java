@@ -3,6 +3,7 @@ package com.system.announcement.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.system.announcement.auxiliary.enums.AnnouncementStatus;
 import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,6 +33,18 @@ public class Announcement implements Serializable {
     @Column(nullable = false, columnDefinition = "text")
     private String content;
 
+    @Column(nullable = false)
+    private Timestamp date;
+
+    private float price;
+
+    @Column(nullable = false)
+    private AnnouncementStatus status;
+
+    private Timestamp deletionDate;
+
+    private String imageArchive;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_author", nullable = false)
@@ -42,8 +55,6 @@ public class Announcement implements Serializable {
     @JoinColumn(name = "id_city", nullable = false)
     private City city;
 
-    private Timestamp date;
-
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -53,15 +64,6 @@ public class Announcement implements Serializable {
                     nullable = false)
     )
     private Set<Category> categories = new HashSet<>();
-
-    private float price;
-
-    @Column(nullable = false)
-    private AnnouncementStatus status;
-
-    private Timestamp deletionDate;
-
-    private String imageArchive;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "announcement", fetch = FetchType.LAZY)
