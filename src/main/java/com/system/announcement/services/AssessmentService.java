@@ -23,7 +23,10 @@ public class AssessmentService {
     private final UserService userService;
     private final ChatService chatService;
 
-    public AssessmentService(AssessmentRepository assessmentRepository, AuthDetails authDetails, UserService userService, ChatService chatService) {
+    public AssessmentService(AssessmentRepository assessmentRepository,
+                             AuthDetails authDetails,
+                             UserService userService,
+                             ChatService chatService) {
         this.assessmentRepository = assessmentRepository;
         this.authDetails = authDetails;
         this.userService = userService;
@@ -31,10 +34,13 @@ public class AssessmentService {
     }
 
     public void createAssessment(CreateAssessmentDTO assessmentDTO) {
+
         var chat = chatService.findById(assessmentDTO.chat());
         var user = authDetails.getAuthenticatedUser();
+
         if(user.getEmail().equals(chat.getUser().getEmail())) {
-            if(chat.getIsEvaluatedByUser()) throw new AssessmentAlreadyDoneException();
+            if(chat.getIsEvaluatedByUser())
+                throw new AssessmentAlreadyDoneException();
 
             var assessment = new Assessment(assessmentDTO.title(),
                     assessmentDTO.description(), assessmentDTO.grade(),
@@ -46,8 +52,11 @@ public class AssessmentService {
 
             chat.setIsEvaluatedByUser(true);
             chatService.save(chat);
+
         }else if(user.getEmail().equals(chat.getAdvertiser().getEmail())) {
-            if(chat.getIsEvaluatedByAdvertiser()) throw new AssessmentAlreadyDoneException();
+
+            if(chat.getIsEvaluatedByAdvertiser())
+                throw new AssessmentAlreadyDoneException();
 
             var assessment = new Assessment(assessmentDTO.title(),
                     assessmentDTO.description(), assessmentDTO.grade(),
@@ -60,30 +69,35 @@ public class AssessmentService {
             chat.setIsEvaluatedByUser(true);
             chatService.save(chat);
 
-        }else throw new NoAuthorizationException();
+        }else
+            throw new NoAuthorizationException();
     }
 
     public Page<AssessmentDTO> getMyAssessments(Pageable pageable) {
         var user = authDetails.getAuthenticatedUser();
+
         Pageable pageableWithSort = PageRequest.of(
                 pageable.getPageNumber(),
                 pageable.getPageSize(),
                 Sort.by(Sort.Direction.DESC, "date")
         );
-        var assessments = assessmentRepository.findAllByRatedUser(user, pageableWithSort);
-        return assessments.map((assessment -> new AssessmentDTO(assessment, user)));
 
+        var assessments = assessmentRepository.findAllByRatedUser(user, pageableWithSort);
+
+        return assessments.map((assessment -> new AssessmentDTO(assessment, user)));
     }
 
     public Page<AssessmentDTO> getMyReviews(Pageable pageable) {
         var user = authDetails.getAuthenticatedUser();
+
         Pageable pageableWithSort = PageRequest.of(
                 pageable.getPageNumber(),
                 pageable.getPageSize(),
                 Sort.by(Sort.Direction.DESC, "date")
         );
-        var reviews = assessmentRepository.findAllByEvaluatorUser(user, pageableWithSort);
-        return reviews.map((review -> new AssessmentDTO(review, user)));
 
+        var reviews = assessmentRepository.findAllByEvaluatorUser(user, pageableWithSort);
+
+        return reviews.map((review -> new AssessmentDTO(review, user)));
     }
 }
