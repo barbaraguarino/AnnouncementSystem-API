@@ -28,27 +28,8 @@ public class Chat implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_user", nullable = false)
-    private User user;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_advertiser", nullable = false)
-    private User advertiser;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_announcement", nullable = false)
-    private Announcement announcement;
-
     @Column(nullable = false)
     private ChatStatus status;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Message> messages = new HashSet<>();
 
     @Column(nullable = false)
     private Timestamp dateOpen;
@@ -67,24 +48,49 @@ public class Chat implements Serializable {
     private Boolean isEvaluatedByUser;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user", nullable = false)
+    private User user;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_advertiser", nullable = false)
+    private User advertiser;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_announcement", nullable = false)
+    private Announcement announcement;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Message> messages = new HashSet<>();
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "chat", fetch = FetchType.LAZY)
     private Set<Assessment> assessments = new HashSet<>();
 
     public Chat() {
         this.dateOpen = new Timestamp(System.currentTimeMillis());
+        this.dateLastMessage = new Timestamp(System.currentTimeMillis());
+
         this.status = ChatStatus.OPEN;
+
         this.isEvaluatedByAdvertiser = false;
         this.isEvaluatedByUser = false;
-        this.dateLastMessage = new Timestamp(System.currentTimeMillis());
     }
 
     public Chat(User user, Announcement announcement) {
         this.dateOpen = new Timestamp(System.currentTimeMillis());
+        this.dateLastMessage = new Timestamp(System.currentTimeMillis());
+
         this.status = ChatStatus.OPEN;
+
         this.user = user;
         this.advertiser = announcement.getAuthor();
+
         this.announcement = announcement;
-        this.dateLastMessage = new Timestamp(System.currentTimeMillis());
+
         this.isEvaluatedByAdvertiser = false;
         this.isEvaluatedByUser = false;
     }
@@ -92,12 +98,14 @@ public class Chat implements Serializable {
     public void close(){
         this.dateClose = new Timestamp(System.currentTimeMillis());
         this.dateLastMessage = new Timestamp(System.currentTimeMillis());
+
         this.status = ChatStatus.CLOSED;
     }
 
     public void delete(){
         this.dateDeleted = new Timestamp(System.currentTimeMillis());
-        this.status = ChatStatus.DELETED;
         this.dateClose = new Timestamp(System.currentTimeMillis());
+
+        this.status = ChatStatus.DELETED;
     }
 }
