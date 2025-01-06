@@ -1,6 +1,6 @@
 package com.system.announcement.dtos.announcement;
 
-import com.system.announcement.dtos.user.responseAuthorRecordDTO;
+import com.system.announcement.dtos.user.AuthorDTO;
 import com.system.announcement.models.Announcement;
 import com.system.announcement.models.Category;
 import com.system.announcement.models.City;
@@ -15,7 +15,7 @@ public record AnnouncementDTO(
         @NotNull UUID id,
         @NotBlank String title,
         @NotBlank String content,
-        @NotNull responseAuthorRecordDTO author,
+        @NotNull AuthorDTO author,
         @NotNull City city,
         @NotNull Set<Category> categories,
         @NotNull Timestamp date,
@@ -29,7 +29,7 @@ public record AnnouncementDTO(
                 announcement.getId(),
                 announcement.getTitle(),
                 announcement.getContent(),
-                new responseAuthorRecordDTO(announcement.getAuthor()),
+                new AuthorDTO(announcement.getAuthor()),
                 announcement.getCity(),
                 announcement.getCategories(),
                 announcement.getDate(),

@@ -2,6 +2,6 @@ package com.system.announcement.dtos.category;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record requestCategoryRecordDTO(
+public record CategoryDTO(
         @NotBlank String name
 ){}

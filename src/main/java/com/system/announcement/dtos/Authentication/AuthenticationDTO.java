@@ -2,14 +2,14 @@ package com.system.announcement.dtos.authentication;
 
 import com.system.announcement.models.User;
 
-public record responseAuthenticationRecordDTO(
+public record AuthenticationDTO(
         String nome,
         String email,
         String type,
         String role,
         String token
 ){
-    public responseAuthenticationRecordDTO(User user, String token){
+    public AuthenticationDTO(User user, String token){
         this(
                 user.getName(),
                 user.getEmail(),

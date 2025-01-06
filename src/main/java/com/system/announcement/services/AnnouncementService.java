@@ -2,8 +2,8 @@ package com.system.announcement.services;
 
 import com.system.announcement.auxiliary.components.AuthDetails;
 import com.system.announcement.auxiliary.enums.AnnouncementStatus;
+import com.system.announcement.dtos.announcement.FilterAnnouncementDTO;
 import com.system.announcement.dtos.announcement.SaveAnnouncementDTO;
-import com.system.announcement.dtos.announcement.requestFilterAnnouncementRecordDTO;
 import com.system.announcement.dtos.announcement.AnnouncementDTO;
 import com.system.announcement.exceptions.AdClosedException;
 import com.system.announcement.exceptions.AnnouncementNotFoundException;
@@ -66,7 +66,7 @@ public class AnnouncementService {
 
     }
 
-    public Page<AnnouncementDTO> findAllWithFilter(requestFilterAnnouncementRecordDTO filterDTO, Pageable pageable) {
+    public Page<AnnouncementDTO> findAllWithFilter(FilterAnnouncementDTO filterDTO, Pageable pageable) {
         Pageable pageableWithSorting = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Order.desc("date")));
         Page<Announcement> announcements = announcementRepository.findAll(new AnnouncementSpecification(filterDTO), pageableWithSorting);
         return announcements.map(AnnouncementDTO::new);
@@ -135,7 +135,6 @@ public class AnnouncementService {
         });
 
     }
-
 
     public Announcement getAnnouncementById(UUID id){
         var optional = announcementRepository.findById(id);

@@ -5,7 +5,7 @@ import com.system.announcement.auxiliary.enums.UserType;
 import java.util.Set;
 import java.util.UUID;
 
-public record requestFilterAnnouncementRecordDTO(
+public record FilterAnnouncementDTO(
         String title,
         String content,
         Set<UUID> cities,

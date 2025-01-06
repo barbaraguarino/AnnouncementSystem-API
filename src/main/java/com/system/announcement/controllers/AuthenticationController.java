@@ -1,6 +1,6 @@
 package com.system.announcement.controllers;
 
-import com.system.announcement.dtos.authentication.requestAuthenticationRecordDTO;
+import com.system.announcement.dtos.authentication.LoginDTO;
 import com.system.announcement.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class AuthenticationController{
 
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody @Valid requestAuthenticationRecordDTO authenticationRecordDTO){
+    public ResponseEntity<Object> login(@RequestBody @Valid LoginDTO authenticationRecordDTO){
         var responseDTO = userService.login(authenticationRecordDTO);
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }

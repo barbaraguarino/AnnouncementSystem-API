@@ -1,7 +1,7 @@
 package com.system.announcement.services;
 
-import com.system.announcement.dtos.authentication.requestAuthenticationRecordDTO;
-import com.system.announcement.dtos.authentication.responseAuthenticationRecordDTO;
+import com.system.announcement.dtos.authentication.LoginDTO;
+import com.system.announcement.dtos.authentication.AuthenticationDTO;
 import com.system.announcement.infra.token.TokenService;
 import com.system.announcement.models.User;
 import com.system.announcement.repositories.UserRepository;
@@ -25,11 +25,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public responseAuthenticationRecordDTO login(@Valid requestAuthenticationRecordDTO authenticationRecordDTO) {
+    public AuthenticationDTO login(@Valid LoginDTO authenticationRecordDTO) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationRecordDTO.email(), authenticationRecordDTO.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
         var token = tokenService.generateToken((User) auth.getPrincipal());
-        return new responseAuthenticationRecordDTO((User) auth.getPrincipal(), token);
+        return new AuthenticationDTO((User) auth.getPrincipal(), token);
     }
 
     public User getUserByEmail(String email) {

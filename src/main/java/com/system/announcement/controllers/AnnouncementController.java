@@ -1,8 +1,8 @@
 package com.system.announcement.controllers;
 
+import com.system.announcement.dtos.announcement.FilterAnnouncementDTO;
 import com.system.announcement.dtos.announcement.SaveAnnouncementDTO;
 import com.system.announcement.services.AnnouncementService;
-import com.system.announcement.dtos.announcement.requestFilterAnnouncementRecordDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +33,7 @@ public class AnnouncementController {
     }
 
     @PostMapping("/filter")
-    public ResponseEntity<Object> filterAnnouncements(@RequestBody @Valid requestFilterAnnouncementRecordDTO filterDTO, Pageable pageable) {
+    public ResponseEntity<Object> filterAnnouncements(@RequestBody @Valid FilterAnnouncementDTO filterDTO, Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(announcementService.findAllWithFilter(filterDTO, pageable));
     }
 
