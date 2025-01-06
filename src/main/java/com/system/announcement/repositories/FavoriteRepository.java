@@ -12,11 +12,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FavoriteRepository extends JpaRepository<Favorite, FavoriteId> {
 
-    Boolean existsFavoriteByAnnouncementAndUser(Announcement announcement, User user);
+    Boolean existsFavoriteByAnnouncementAndUser(Announcement announcement,
+                                                User user);
 
-    Page<Favorite> getAllByUser(User user, Pageable pageable);
+    Page<Favorite> getAllByUser(User user,
+                                Pageable pageable);
 
-    void deleteByAnnouncementAndUser(Announcement announcement, User user);
+    void deleteByAnnouncementAndUser(Announcement announcement,
+                                     User user);
 
     void deleteAllByAnnouncement(Announcement announcement);
 
