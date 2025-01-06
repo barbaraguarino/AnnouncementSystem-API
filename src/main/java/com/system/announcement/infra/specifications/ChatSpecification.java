@@ -23,7 +23,9 @@ public class ChatSpecification implements Specification<Chat> {
     }
 
     @Override
-    public Predicate toPredicate(Root<Chat> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+    public Predicate toPredicate(Root<Chat> root,
+                                 CriteriaQuery<?> query,
+                                 CriteriaBuilder criteriaBuilder) {
 
         List<Predicate> predicates = new ArrayList<>();
 
