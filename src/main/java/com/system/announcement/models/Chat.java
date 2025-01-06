@@ -57,6 +57,7 @@ public class Chat implements Serializable {
 
     private Timestamp dateClose;
 
+    @Column(nullable = false)
     private Timestamp dateLastMessage;
 
     public Chat() {
@@ -70,6 +71,7 @@ public class Chat implements Serializable {
         this.user = user;
         this.advertiser = announcement.getAuthor();
         this.announcement = announcement;
+        this.dateLastMessage = new Timestamp(System.currentTimeMillis());
     }
 
     public void close(){

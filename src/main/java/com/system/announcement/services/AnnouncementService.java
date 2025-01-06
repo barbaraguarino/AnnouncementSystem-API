@@ -63,6 +63,12 @@ public class AnnouncementService {
         throw new AnnouncementNotFoundException();
     }
 
+    public Announcement getAnnouncementById(UUID id){
+        var optional = announcementRepository.findById(id);
+        if(optional.isPresent()) return optional.get();
+        throw new AnnouncementNotFoundException();
+    }
+
     public Page<responseOneAnnouncementRecordDTO> findAllClosed(Pageable pageable){
         Page<Announcement> announcements = announcementRepository.findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(), AnnouncementStatus.CLOSED, pageable);
         return announcements.map(responseOneAnnouncementRecordDTO::new);
