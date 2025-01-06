@@ -25,11 +25,13 @@ public class AssessmentController {
 
     @GetMapping("/reviews")
     public ResponseEntity<Object> getMyReviews(Pageable pageable){
-        return ResponseEntity.status(HttpStatus.OK).body(assessmentService.getMyReviews(pageable));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(assessmentService.getMyReviews(pageable));
     }
 
     @GetMapping("/assessments")
     public ResponseEntity<Object> getMyAssessments(Pageable pageable){
-        return ResponseEntity.status(HttpStatus.OK).body(assessmentService.getMyAssessments(pageable));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(assessmentService.getMyAssessments(pageable));
     }
 }

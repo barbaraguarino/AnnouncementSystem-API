@@ -21,16 +21,19 @@ public class ChatController {
 
     @GetMapping
     public ResponseEntity<Object> getChats(Pageable pageable) {
-        return ResponseEntity.status(HttpStatus.OK).body(chatService.getChats(pageable));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(chatService.getChats(pageable));
     }
 
     @PostMapping("/{id}")
     public ResponseEntity<Object> createChat(@PathVariable @Valid UUID id) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(chatService.createChat(id));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(chatService.createChat(id));
     }
 
     @PostMapping("/close/{id}")
     public ResponseEntity<Object> closeChat(@PathVariable @Valid UUID id) {
-        return ResponseEntity.status(HttpStatus.OK).body(chatService.closeChat(id));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(chatService.closeChat(id));
     }
 }
