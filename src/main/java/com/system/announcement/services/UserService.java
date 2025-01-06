@@ -19,16 +19,21 @@ public class UserService {
     private final TokenService tokenService;
     private final UserRepository userRepository;
 
-    public UserService(AuthenticationManager authenticationManager, TokenService tokenService, UserRepository userRepository) {
+    public UserService(AuthenticationManager authenticationManager,
+                       TokenService tokenService,
+                       UserRepository userRepository) {
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
         this.userRepository = userRepository;
     }
 
     public AuthenticationDTO login(@Valid LoginDTO authenticationRecordDTO) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationRecordDTO.email(), authenticationRecordDTO.password());
+        var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationRecordDTO.email(),
+                authenticationRecordDTO.password());
+
         var auth = this.authenticationManager.authenticate(usernamePassword);
         var token = tokenService.generateToken((User) auth.getPrincipal());
+
         return new AuthenticationDTO((User) auth.getPrincipal(), token);
     }
 
