@@ -31,17 +31,14 @@ class CategoryServiceTest {
         @Test
         @DisplayName("Deve retornar todas as categorias ordenadas por nome.")
         void shouldReturnAllCategoriesOrderedByName () {
-            // Arrange
             List<Category> mockCategories = List.of(
                     new Category(UUID.randomUUID(), "Categoria A"),
                     new Category(UUID.randomUUID(), "Categoria B")
             );
             Mockito.when(categoryRepository.findAllByOrderByName()).thenReturn(mockCategories);
 
-            // Act
             Set<Category> result = categoryService.getAll();
 
-            // Assert
             Assertions.assertNotNull(result);
             Assertions.assertEquals(2, result.size());
             Assertions.assertTrue(result.stream().anyMatch(cat -> cat.getName().equals("Categoria A")));
@@ -53,13 +50,10 @@ class CategoryServiceTest {
         @Test
         @DisplayName("Deve retornar um conjunto vazio quando o repositório estiver vazio")
         void shouldReturnEmptySetWhenRepositoryIsEmpty() {
-            // Arrange
             Mockito.when(categoryRepository.findAllByOrderByName()).thenReturn(Collections.emptyList());
 
-            // Act
             Set<Category> result = categoryService.getAll();
 
-            // Assert
             Assertions.assertNotNull(result);
             Assertions.assertTrue(result.isEmpty(), "O resultado deve ser um conjunto vazio");
 
@@ -74,7 +68,6 @@ class CategoryServiceTest {
         @Test
         @DisplayName("Deve retornar as categorias correspondentes para IDs válidos")
         void shouldReturnCategoriesForValidIds() {
-            // Arrange
             UUID id1 = UUID.randomUUID();
             UUID id2 = UUID.randomUUID();
             Set<UUID> ids = Set.of(id1, id2);
@@ -85,10 +78,8 @@ class CategoryServiceTest {
             Mockito.when(categoryRepository.findById(id1)).thenReturn(Optional.of(category1));
             Mockito.when(categoryRepository.findById(id2)).thenReturn(Optional.of(category2));
 
-            // Act
             Set<Category> result = categoryService.getAllById(ids);
 
-            // Assert
             Assertions.assertNotNull(result);
             Assertions.assertEquals(2, result.size());
             Assertions.assertTrue(result.contains(category1));
@@ -101,13 +92,11 @@ class CategoryServiceTest {
         @Test
         @DisplayName("Deve lançar CategoryNotFoundException para IDs inválidos")
         void shouldThrowCategoryNotFoundExceptionForInvalidId() {
-            // Arrange
             UUID invalidId = UUID.randomUUID();
             Set<UUID> ids = Set.of(invalidId);
 
             Mockito.when(categoryRepository.findById(invalidId)).thenReturn(Optional.empty());
 
-            // Act & Assert
             Assertions.assertThrows(CategoryNotFoundException.class, () -> categoryService.getAllById(ids));
 
             Mockito.verify(categoryRepository, Mockito.times(1)).findById(invalidId);
@@ -116,13 +105,11 @@ class CategoryServiceTest {
         @Test
         @DisplayName("Deve lançar CategoryIsEmptyException quando o conjunto de retorno for vazio")
         void shouldThrowCategoryIsEmptyExceptionWhenResultIsEmpty() {
-            // Arrange
-            Set<UUID> ids = Set.of(); // Nenhum ID fornecido
+            Set<UUID> ids = Set.of();
 
-            // Act & Assert
             Assertions.assertThrows(CategoryIsEmptyException.class, () -> categoryService.getAllById(ids));
 
-            Mockito.verifyNoInteractions(categoryRepository); // O repositório não deve ser chamado
+            Mockito.verifyNoInteractions(categoryRepository);
         }
 
     }

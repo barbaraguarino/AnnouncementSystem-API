@@ -30,17 +30,14 @@ class AuthorizationServiceTest {
         @Test
         @DisplayName("Deve carregar o usuário com sucesso para um email válido")
         void shouldLoadUserByUsernameSuccessfully() {
-            // Arrange
             String email = "usuario@exemplo.com";
             User user = new User(email, "Usuário Teste", UserType.EMPLOYEE, UserRole.USER);
             user.setPassword("senha");
 
             Mockito.when(userRepository.findByEmail(email)).thenReturn(user);
 
-            // Act
             UserDetails result = authorizationService.loadUserByUsername(email);
 
-            // Assert
             Assertions.assertNotNull(result, "O usuário retornado não deve ser nulo");
             Assertions.assertEquals(email, result.getUsername(), "O email do usuário deve corresponder ao fornecido");
             Assertions.assertEquals("senha", result.getPassword(), "A senha do usuário deve corresponder ao fornecido");
