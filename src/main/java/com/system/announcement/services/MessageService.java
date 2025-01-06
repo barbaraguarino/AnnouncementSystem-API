@@ -23,7 +23,10 @@ public class MessageService {
     private final SimpMessagingTemplate messagingTemplate;
     private final UserService userService;
 
-    public MessageService(MessageRepository messageRepository, ChatService chatService, SimpMessagingTemplate messagingTemplate, UserService userService) {
+    public MessageService(MessageRepository messageRepository,
+                          ChatService chatService,
+                          SimpMessagingTemplate messagingTemplate,
+                          UserService userService) {
         this.messageRepository = messageRepository;
         this.chatService = chatService;
         this.messagingTemplate = messagingTemplate;
@@ -32,7 +35,9 @@ public class MessageService {
 
     public List<SendMessageDTO> getMessagesByChat(UUID idChat) {
         var chat = chatService.findById(idChat);
+
         List<Message> messages = messageRepository.findByChatOrderByDateAsc(chat);
+
         return messages.stream()
                 .map(SendMessageDTO::new)
                 .collect(Collectors.toList());
@@ -46,8 +51,11 @@ public class MessageService {
         message = messageRepository.save(message);
 
         var sendMessageDTO = new SendMessageDTO(message);
-        messagingTemplate.convertAndSendToUser(chat.getUser().getEmail(), "/queue/messages", sendMessageDTO);
-        messagingTemplate.convertAndSendToUser(chat.getAdvertiser().getEmail(), "/queue/messages", sendMessageDTO);
+
+        messagingTemplate.convertAndSendToUser(chat.getUser().getEmail(),
+                "/queue/messages", sendMessageDTO);
+        messagingTemplate.convertAndSendToUser(chat.getAdvertiser().getEmail(),
+                "/queue/messages", sendMessageDTO);
 
         chat.setDateLastMessage(new Timestamp(System.currentTimeMillis()));
         chatService.save(chat);
