@@ -8,7 +8,7 @@ public enum AnnouncementStatus {
     VISIBLE("Visível"),
     CLOSED("Fechado"),
     SUSPENDED("Suspenso"),
-    DELETED("Excluido");
+    DELETED("Excluído");
 
     private final String status;
 
