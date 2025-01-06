@@ -4,8 +4,7 @@ import com.system.announcement.auxiliary.components.AuthDetails;
 import com.system.announcement.auxiliary.enums.AnnouncementStatus;
 import com.system.announcement.auxiliary.enums.ChatStatus;
 import com.system.announcement.dtos.chat.ChatDTO;
-import com.system.announcement.exceptions.ChatNotFoundException;
-import com.system.announcement.exceptions.NoAuthorizationException;
+import com.system.announcement.exceptions.*;
 import com.system.announcement.infra.specifications.ChatSpecification;
 import com.system.announcement.models.Chat;
 import com.system.announcement.repositories.ChatRepository;
@@ -60,13 +59,16 @@ public class ChatService {
     public ChatDTO createChat(@Valid UUID idAnnouncement) {
         var announcement = announcementService.getById(idAnnouncement);
 
-        if(announcement.getStatus() != AnnouncementStatus.VISIBLE)
-            throw new NoAuthorizationException();
+        if(announcement.getStatus().equals(AnnouncementStatus.DELETED))
+            throw new AnnouncementIsDeletedException();
+
+        if(announcement.getStatus().equals(AnnouncementStatus.CLOSED))
+            throw new AnnouncementIsClosedException();
 
         var user = authDetails.getAuthenticatedUser();
 
         if(announcement.getAuthor().getEmail().equals(user.getEmail()))
-            throw new NoAuthorizationException();
+            throw new WithoutAuthorizationException();
 
         var chatOptional = chatRepository.findChatByAnnouncementAndUser(announcement, user);
 
@@ -90,8 +92,7 @@ public class ChatService {
 
     public ChatDTO closeChat(@Valid UUID idChat) {
 
-        var chat = chatRepository.findById(idChat)
-                .orElseThrow(ChatNotFoundException::new);
+        var chat = this.findById(idChat);
         var user = authDetails.getAuthenticatedUser();
 
         if(chat.getAdvertiser().getEmail().equals(user.getEmail())
@@ -103,6 +104,6 @@ public class ChatService {
             return new ChatDTO(chat, user);
         }
 
-        throw new NoAuthorizationException();
+        throw new WithoutAuthorizationException();
     }
 }

@@ -3,7 +3,7 @@ package com.system.announcement.exceptions;
 public class CategoryIsEmptyException extends RuntimeException {
 
     public CategoryIsEmptyException(){
-        super("Category is Empty");
+        super("Categoria está vazia. Escolha uma ou mais categorias.");
     }
 
     public CategoryIsEmptyException(String message){

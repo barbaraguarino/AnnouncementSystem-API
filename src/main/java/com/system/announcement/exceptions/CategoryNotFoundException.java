@@ -7,7 +7,7 @@ public class CategoryNotFoundException extends RuntimeException {
     }
 
     public CategoryNotFoundException(){
-        super("Category not found");
+        super("Categoria não encontrada. Por favor verifique os dados passados novamente.");
     }
 
 }
