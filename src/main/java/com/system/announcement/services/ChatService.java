@@ -51,7 +51,7 @@ public class ChatService {
         var announcement = announcementService.getAnnouncementById(idAnnouncement);
         var user = authDetails.getAuthenticatedUser();
         if(announcement.getAuthor().getEmail().equals(user.getEmail())) throw new NoAuthorizationException();
-        var chatOptional = chatRepository.findChatByAnnouncementAndAdvertiser(announcement, user);
+        var chatOptional = chatRepository.findChatByAnnouncementAndUser(announcement, user);
         if(chatOptional.isPresent()) return new ChatDTO(chatOptional.get(), user);
         var chat = new Chat(user, announcement);
         chat = chatRepository.save(chat);

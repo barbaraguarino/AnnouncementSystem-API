@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Repository
 public interface ChatRepository extends JpaRepository<Chat, UUID>, JpaSpecificationExecutor<Chat> {
-    Optional<Chat> findChatByAnnouncementAndAdvertiser(Announcement announcement, User advertiser);
+    Optional<Chat> findChatByAnnouncementAndUser(Announcement announcement, User user);
 
 }
 

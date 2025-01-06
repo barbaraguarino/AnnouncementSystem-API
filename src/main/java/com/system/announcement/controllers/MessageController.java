@@ -22,31 +22,14 @@ import java.util.stream.Collectors;
 public class MessageController {
 
     private final MessageService messageService;
-    private final ChatService chatService;
-    private final SimpMessagingTemplate messagingTemplate;
-    private final UserService userService;
 
-    public MessageController(MessageService messageService, ChatService chatService, SimpMessagingTemplate messagingTemplate, UserService userService) {
+    public MessageController(MessageService messageService) {
         this.messageService = messageService;
-        this.chatService = chatService;
-        this.messagingTemplate = messagingTemplate;
-        this.userService = userService;
     }
 
     @MessageMapping("/send-message")
     public void sendMessage(@RequestBody ReceiveMessageDTO receiveMessageDTO) {
-        Chat chat = chatService.findById(receiveMessageDTO.chat());
-        var sender = userService.getUserByEmail(receiveMessageDTO.email());
-
-        Message message = new Message(chat, sender, receiveMessageDTO.message());
-        message = messageService.saveMessage(message);
-
-        var sendMessageDTO = new SendMessageDTO(message);
-        messagingTemplate.convertAndSendToUser(chat.getUser().getEmail(), "/queue/messages", sendMessageDTO);
-        messagingTemplate.convertAndSendToUser(chat.getAdvertiser().getEmail(), "/queue/messages", sendMessageDTO);
-
-        chat.setDateLastMessage(new Timestamp(System.currentTimeMillis()));
-        chatService.save(chat);
+        messageService.sendMessage(receiveMessageDTO);
     }
 
     @GetMapping("/{chatId}")
