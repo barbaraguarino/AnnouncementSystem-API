@@ -11,9 +11,15 @@ public class AuthDetails {
 
     public User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !(authentication.getPrincipal() instanceof User)) {
-            throw new AuthenticationCredentialsNotFoundException();
+
+        if (authentication == null) {
+            throw new AuthenticationCredentialsNotFoundException("Usuário não autenticado.");
         }
+
+        if (!(authentication.getPrincipal() instanceof User)) {
+            throw new AuthenticationCredentialsNotFoundException("Autenticação inválida ou não reconhecida.");
+        }
+
         return (User) authentication.getPrincipal();
     }
 
