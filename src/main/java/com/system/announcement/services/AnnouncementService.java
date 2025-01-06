@@ -118,6 +118,8 @@ public class AnnouncementService {
         announcementRepository.save(announcement);
 
         favoriteRepository.deleteAllByAnnouncement(announcement);
+
+        // Deletar os chats
     }
 
 
