@@ -81,6 +81,7 @@ public class Chat implements Serializable {
 
     public void close(){
         this.dateClose = new Timestamp(System.currentTimeMillis());
+        this.dateLastMessage = new Timestamp(System.currentTimeMillis());
         this.status = ChatStatus.CLOSED;
     }
 

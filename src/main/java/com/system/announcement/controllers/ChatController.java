@@ -28,4 +28,9 @@ public class ChatController {
     public ResponseEntity<Object> createChat(@PathVariable @Valid UUID id) {
         return ResponseEntity.status(HttpStatus.CREATED).body(chatService.createChat(id));
     }
+
+    @PostMapping("/close/{id}")
+    public ResponseEntity<Object> closeChat(@PathVariable @Valid UUID id) {
+        return ResponseEntity.status(HttpStatus.OK).body(chatService.closeChat(id));
+    }
 }

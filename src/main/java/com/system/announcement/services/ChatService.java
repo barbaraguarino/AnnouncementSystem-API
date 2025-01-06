@@ -57,4 +57,15 @@ public class ChatService {
         chat = chatRepository.save(chat);
         return new ChatDTO(chat, user);
     }
+
+    public ChatDTO closeChat(@Valid UUID idChat) {
+        var chat = chatRepository.findById(idChat).orElseThrow(ChatNotFoundException::new);
+        var user = authDetails.getAuthenticatedUser();
+        if(chat.getAdvertiser().getEmail().equals(user.getEmail()) || chat.getUser().getEmail().equals(user.getEmail())) {
+            chat.close();
+            chatRepository.save(chat);
+            return new ChatDTO(chat, user);
+        }
+        throw new NoAuthorizationException();
+    }
 }
