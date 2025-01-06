@@ -2,15 +2,16 @@ package com.system.announcement.services;
 
 import com.system.announcement.auxiliary.components.AuthDetails;
 import com.system.announcement.auxiliary.enums.AnnouncementStatus;
-import com.system.announcement.dtos.Announcement.SaveAnnouncementDTO;
-import com.system.announcement.dtos.Announcement.requestFilterAnnouncementRecordDTO;
-import com.system.announcement.dtos.Announcement.AnnouncementDTO;
+import com.system.announcement.dtos.announcement.SaveAnnouncementDTO;
+import com.system.announcement.dtos.announcement.requestFilterAnnouncementRecordDTO;
+import com.system.announcement.dtos.announcement.AnnouncementDTO;
 import com.system.announcement.exceptions.AdClosedException;
 import com.system.announcement.exceptions.AnnouncementNotFoundException;
 import com.system.announcement.exceptions.WithoutAuthorizationException;
 import com.system.announcement.infra.specifications.AnnouncementSpecification;
 import com.system.announcement.models.Announcement;
 import com.system.announcement.repositories.AnnouncementRepository;
+import com.system.announcement.repositories.FavoriteRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -31,14 +32,14 @@ public class AnnouncementService {
     private final AnnouncementRepository announcementRepository;
     private final CityService cityService;
     private final CategoryService categoryService;
-    private final FavoriteService favoriteService;
+    private final FavoriteRepository favoriteRepository;
 
-    public AnnouncementService(AuthDetails authDetails, AnnouncementRepository announcementRepository, CityService cityService, CategoryService categoryService, FavoriteService favoriteService) {
+    public AnnouncementService(AuthDetails authDetails, AnnouncementRepository announcementRepository, CityService cityService, CategoryService categoryService, FavoriteRepository favoriteRepository) {
         this.authDetails = authDetails;
         this.announcementRepository = announcementRepository;
         this.cityService = cityService;
         this.categoryService = categoryService;
-        this.favoriteService = favoriteService;
+        this.favoriteRepository = favoriteRepository;
     }
 
     public AnnouncementDTO save(@Valid SaveAnnouncementDTO requestDTO) {
@@ -107,17 +108,22 @@ public class AnnouncementService {
         return optional.get();
     }
 
-    public void delete(@Valid UUID id) {
-        var optional = announcementRepository.findById(id);
-        if(optional.isEmpty()) throw new AnnouncementNotFoundException();
-        var announcement = optional.get();
-
-        if(announcement.getAuthor().getEmail().equals(authDetails.getAuthenticatedUser().getEmail())) throw new WithoutAuthorizationException();
-
+    public void delete(UUID id) {
+        var announcement = getById(id);
+        if (!announcement.getAuthor().getEmail().equals(authDetails.getAuthenticatedUser().getEmail())) {
+            throw new WithoutAuthorizationException();
+        }
         announcement.setStatus(AnnouncementStatus.DELETED);
         announcement.setDeletionDate(new Timestamp(System.currentTimeMillis()));
         announcementRepository.save(announcement);
 
-        favoriteService.deleteAll(announcement);
+        favoriteRepository.deleteAllByAnnouncement(announcement);
+    }
+
+
+    public Announcement getAnnouncementById(UUID id){
+        var optional = announcementRepository.findById(id);
+        if(optional.isPresent()) return optional.get();
+        throw new AnnouncementNotFoundException();
     }
 }

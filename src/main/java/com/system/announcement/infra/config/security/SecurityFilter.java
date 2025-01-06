@@ -1,4 +1,4 @@
-package com.system.announcement.infra.security;
+package com.system.announcement.infra.config.security;
 
 import com.system.announcement.infra.token.TokenService;
 import com.system.announcement.services.AuthorizationService;

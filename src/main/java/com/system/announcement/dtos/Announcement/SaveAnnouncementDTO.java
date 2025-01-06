@@ -1,4 +1,4 @@
-package com.system.announcement.dtos.Announcement;
+package com.system.announcement.dtos.announcement;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,6 +1,5 @@
-package com.system.announcement.dtos.Announcement;
+package com.system.announcement.dtos.announcement;
 
-import com.system.announcement.auxiliary.enums.AnnouncementStatus;
 import com.system.announcement.auxiliary.enums.UserType;
 
 import java.util.Set;

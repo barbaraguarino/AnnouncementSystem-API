@@ -3,7 +3,6 @@ package com.system.announcement.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.system.announcement.auxiliary.enums.AnnouncementStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -67,6 +66,10 @@ public class Announcement implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "announcement", fetch = FetchType.LAZY)
     private Set<Favorite> favorites = new HashSet<>();
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "announcement", fetch = FetchType.LAZY)
+    private Set<Chat> chats = new HashSet<>();
 
     public Announcement(){
         this.date = new Timestamp(System.currentTimeMillis());
