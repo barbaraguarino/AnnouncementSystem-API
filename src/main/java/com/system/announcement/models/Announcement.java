@@ -58,6 +58,10 @@ public class Announcement implements Serializable {
     @OneToMany(mappedBy = "announcement", fetch = FetchType.LAZY)
     private Set<Chat> chats = new HashSet<>();
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "announcement", fetch = FetchType.LAZY)
+    private Set<Favorite> favorites = new HashSet<>();
+
     private float price;
 
     @Column(nullable = false)
