@@ -2,6 +2,7 @@ package com.system.announcement.infra.config.websocket;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.system.announcement.infra.token.TokenService;
+import io.micrometer.common.lang.NonNull;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +23,11 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
     }
 
     @Override
-    public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
+    public boolean beforeHandshake(ServerHttpRequest request,
+                                   @NonNull ServerHttpResponse response,
+                                   @NonNull WebSocketHandler wsHandler,
+                                   @NonNull Map<String, Object> attributes){
+
         String token = request.getURI().getQuery().replaceAll("token=", "");
 
         if (token.isBlank()) {
@@ -45,18 +50,25 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
             );
 
             return true;
+
         } catch (JWTVerificationException e) {
+
             response.setStatusCode(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR);
+
             return false;
         }
     }
 
     @Override
-    public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {
-        if (exception == null) {
+    public void afterHandshake(@NonNull ServerHttpRequest request,
+                               @NonNull ServerHttpResponse response,
+                               @NonNull WebSocketHandler wsHandler,
+                               Exception exception) {
+
+        if (exception == null)
             System.out.println("Handshake bem-sucedido!");
-        } else {
+        else
             System.err.println("Erro durante o handshake: " + exception.getMessage());
-        }
+
     }
 }

@@ -11,8 +11,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ChatRepository extends JpaRepository<Chat, UUID>, JpaSpecificationExecutor<Chat> {
-    Optional<Chat> findChatByAnnouncementAndUser(Announcement announcement, User user);
+public interface ChatRepository extends JpaRepository<Chat, UUID>,
+        JpaSpecificationExecutor<Chat> {
+
+    Optional<Chat> findChatByAnnouncementAndUser(Announcement announcement,
+                                                 User user);
 
 }
 

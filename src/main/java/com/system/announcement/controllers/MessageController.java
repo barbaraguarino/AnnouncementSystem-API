@@ -26,6 +26,7 @@ public class MessageController {
 
     @GetMapping("/{chatId}")
     public ResponseEntity<Object> getMessages(@PathVariable UUID chatId) {
-        return ResponseEntity.status(HttpStatus.OK).body(messageService.getMessagesByChat(chatId));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(messageService.getMessagesByChat(chatId));
     }
 }

@@ -2,10 +2,11 @@ package com.system.announcement.services;
 
 import com.system.announcement.auxiliary.components.AuthDetails;
 import com.system.announcement.auxiliary.enums.AnnouncementStatus;
+import com.system.announcement.dtos.announcement.FilterAnnouncementDTO;
 import com.system.announcement.dtos.announcement.SaveAnnouncementDTO;
-import com.system.announcement.dtos.announcement.requestFilterAnnouncementRecordDTO;
 import com.system.announcement.dtos.announcement.AnnouncementDTO;
-import com.system.announcement.exceptions.AdClosedException;
+import com.system.announcement.exceptions.AnnouncementIsClosedException;
+import com.system.announcement.exceptions.AnnouncementIsDeletedException;
 import com.system.announcement.exceptions.AnnouncementNotFoundException;
 import com.system.announcement.exceptions.WithoutAuthorizationException;
 import com.system.announcement.infra.specifications.AnnouncementSpecification;
@@ -56,71 +57,107 @@ public class AnnouncementService {
 
         announcement.setTitle(requestDTO.title());
         announcement.setContent(requestDTO.content());
-        if(requestDTO.price() != 0.0f) announcement.setPrice(requestDTO.price());
+        announcement.setPrice(requestDTO.price());
         announcement.setCity(cityService.getById(requestDTO.city()));
         announcement.setCategories(categoryService.getAllById(requestDTO.categories()));
         announcement.setAuthor(user);
-        if(requestDTO.imageArchive() != null && !requestDTO.imageArchive().isEmpty()) announcement.setImageArchive(requestDTO.imageArchive());
+
+        if(requestDTO.imageArchive() != null && !requestDTO.imageArchive().isEmpty())
+            announcement.setImageArchive(requestDTO.imageArchive());
+
         announcement = announcementRepository.save(announcement);
+
         return new AnnouncementDTO(announcement);
 
     }
 
-    public Page<AnnouncementDTO> findAllWithFilter(requestFilterAnnouncementRecordDTO filterDTO, Pageable pageable) {
-        Pageable pageableWithSorting = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Order.desc("date")));
-        Page<Announcement> announcements = announcementRepository.findAll(new AnnouncementSpecification(filterDTO), pageableWithSorting);
+    public Page<AnnouncementDTO> findAllWithFilter(@Valid FilterAnnouncementDTO filterDTO,
+                                                   Pageable pageable) {
+        Pageable pageableWithSorting = PageRequest.of(pageable.getPageNumber(),
+                pageable.getPageSize(), Sort.by(Sort.Order.desc("date")));
+
+        Page<Announcement> announcements = announcementRepository
+                .findAll(new AnnouncementSpecification(filterDTO), pageableWithSorting);
+
         return announcements.map(AnnouncementDTO::new);
     }
 
-    public AnnouncementDTO findById(UUID id){
+    public AnnouncementDTO findById(@NotNull UUID id){
         var optional = announcementRepository.findById(id);
+
         if(optional.isPresent()) return new AnnouncementDTO(optional.get());
+
         throw new AnnouncementNotFoundException();
     }
 
     public Page<AnnouncementDTO> findAllClosed(Pageable pageable){
-        Page<Announcement> announcements = announcementRepository.findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(), AnnouncementStatus.CLOSED, pageable);
+
+        Page<Announcement> announcements = announcementRepository
+                .findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(),
+                        AnnouncementStatus.CLOSED, pageable);
+
         return announcements.map(AnnouncementDTO::new);
     }
 
     public Page<AnnouncementDTO> findAllSuspended(Pageable pageable) {
-        Page<Announcement> announcements = announcementRepository.findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(), AnnouncementStatus.SUSPENDED, pageable);
+
+        Page<Announcement> announcements = announcementRepository
+                .findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(),
+                        AnnouncementStatus.SUSPENDED, pageable);
+
         return announcements.map(AnnouncementDTO::new);
     }
 
     public Page<AnnouncementDTO> findAllOpen(Pageable pageable){
-        Page<Announcement> announcements = announcementRepository.findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(), AnnouncementStatus.VISIBLE, pageable);
+
+        Page<Announcement> announcements = announcementRepository
+                .findAllByAuthorAndStatus(authDetails.getAuthenticatedUser(),
+                        AnnouncementStatus.VISIBLE, pageable);
+
         return announcements.map(AnnouncementDTO::new);
     }
 
-    public AnnouncementDTO editById(@Valid @NotNull SaveAnnouncementDTO editAnnouncementDTO, @NotNull UUID id) {
-        var announcementOptional = announcementRepository.findById(id);
-        if(announcementOptional.isEmpty()) throw new AnnouncementNotFoundException();
-        var announcement = announcementOptional.get();
+    public AnnouncementDTO editById(@Valid SaveAnnouncementDTO editAnnouncementDTO,
+                                    @NotNull UUID id) {
+
+        var announcement = this.getById(id);
         var user = authDetails.getAuthenticatedUser();
-        if(!announcement.getAuthor().getEmail().equals(user.getEmail())) throw new WithoutAuthorizationException();
-        if(!announcement.getStatus().equals(AnnouncementStatus.VISIBLE)) throw new AdClosedException();
+
+        if(!announcement.getAuthor().getEmail().equals(user.getEmail()))
+            throw new WithoutAuthorizationException();
+
+        if(announcement.getStatus().equals(AnnouncementStatus.DELETED))
+            throw new AnnouncementIsDeletedException();
+
+        if(announcement.getStatus().equals(AnnouncementStatus.CLOSED))
+            throw new AnnouncementIsClosedException();
 
         announcement.setTitle(editAnnouncementDTO.title());
         announcement.setContent(editAnnouncementDTO.content());
-        if(editAnnouncementDTO.price() != 0.0f) announcement.setPrice(editAnnouncementDTO.price());
+        announcement.setPrice(editAnnouncementDTO.price());
         announcement.setCity(cityService.getById(editAnnouncementDTO.city()));
         announcement.setCategories(categoryService.getAllById(editAnnouncementDTO.categories()));
-        if(editAnnouncementDTO.imageArchive() != null && !editAnnouncementDTO.imageArchive().isEmpty()) announcement.setImageArchive(editAnnouncementDTO.imageArchive());
+
+        if(editAnnouncementDTO.imageArchive() != null && !editAnnouncementDTO.imageArchive().isEmpty())
+            announcement.setImageArchive(editAnnouncementDTO.imageArchive());
+
         return new AnnouncementDTO(announcementRepository.save(announcement));
     }
 
     public Announcement getById(UUID id){
         var optional = announcementRepository.findById(id);
+
         if(optional.isEmpty()) throw new AnnouncementNotFoundException();
         return optional.get();
     }
 
     public void delete(UUID id) {
-        var announcement = getById(id);
-        if (!announcement.getAuthor().getEmail().equals(authDetails.getAuthenticatedUser().getEmail())) {
+        var announcement = this.getById(id);
+
+        if (!announcement.getAuthor().getEmail()
+                .equals(authDetails.getAuthenticatedUser().getEmail()))
             throw new WithoutAuthorizationException();
-        }
+
         announcement.setStatus(AnnouncementStatus.DELETED);
         announcement.setDeletionDate(new Timestamp(System.currentTimeMillis()));
         announcement = announcementRepository.save(announcement);
@@ -128,17 +165,10 @@ public class AnnouncementService {
         favoriteRepository.deleteAllByAnnouncement(announcement);
 
         var chats = announcement.getChats();
-        chats.stream().map((chat) -> {
+        chats.forEach(chat -> {
             chat.delete();
             chatRepository.save(chat);
-            return null;
         });
     }
 
-
-    public Announcement getAnnouncementById(UUID id){
-        var optional = announcementRepository.findById(id);
-        if(optional.isPresent()) return optional.get();
-        throw new AnnouncementNotFoundException();
-    }
 }

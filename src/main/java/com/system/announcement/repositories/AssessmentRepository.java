@@ -11,6 +11,10 @@ import java.util.UUID;
 
 @Repository
 public interface AssessmentRepository extends JpaRepository<Assessment, UUID> {
-    Page<Assessment> findAllByEvaluatorUser(User evaluatorUser, Pageable pageable);
-    Page<Assessment> findAllByRatedUser(User ratedUser, Pageable pageable);
+
+    Page<Assessment> findAllByEvaluatorUser(User evaluatorUser,
+                                            Pageable pageable);
+
+    Page<Assessment> findAllByRatedUser(User ratedUser,
+                                        Pageable pageable);
 }

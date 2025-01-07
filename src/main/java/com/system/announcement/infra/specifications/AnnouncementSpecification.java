@@ -1,8 +1,8 @@
 package com.system.announcement.infra.specifications;
 
 import com.system.announcement.auxiliary.enums.AnnouncementStatus;
+import com.system.announcement.dtos.announcement.FilterAnnouncementDTO;
 import com.system.announcement.models.Announcement;
-import com.system.announcement.dtos.announcement.requestFilterAnnouncementRecordDTO;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -13,10 +13,10 @@ import java.util.List;
 
 public class AnnouncementSpecification implements Specification<Announcement> {
 
-    private final requestFilterAnnouncementRecordDTO filterDTO;
+    private final FilterAnnouncementDTO filterDTO;
     private final AnnouncementStatus announcementStatus;
 
-    public AnnouncementSpecification(requestFilterAnnouncementRecordDTO filterDTO) {
+    public AnnouncementSpecification(FilterAnnouncementDTO filterDTO) {
         this.filterDTO = filterDTO;
         this.announcementStatus = AnnouncementStatus.VISIBLE;
     }

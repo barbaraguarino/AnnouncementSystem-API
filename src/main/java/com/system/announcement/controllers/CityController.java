@@ -19,6 +19,7 @@ public class CityController {
 
     @GetMapping
     public ResponseEntity<Object> getAllCities(){
-        return ResponseEntity.status(HttpStatus.OK).body(cityService.getAll());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(cityService.getAll());
     }
 }

@@ -11,9 +11,10 @@ public class AuthDetails {
 
     public User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !(authentication.getPrincipal() instanceof User)) {
+
+        if (authentication == null || !(authentication.getPrincipal() instanceof User))
             throw new AuthenticationCredentialsNotFoundException();
-        }
+
         return (User) authentication.getPrincipal();
     }
 
