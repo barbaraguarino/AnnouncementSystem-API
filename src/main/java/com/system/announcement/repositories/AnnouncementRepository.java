@@ -12,10 +12,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface AnnouncementRepository extends JpaRepository<Announcement, UUID>,
-        JpaSpecificationExecutor<Announcement> {
-
-   Page<Announcement> findAllByAuthorAndStatus(User author,
-                                               AnnouncementStatus status,
-                                               Pageable pageable);
+public interface AnnouncementRepository extends JpaRepository<Announcement, UUID>, JpaSpecificationExecutor<Announcement> {
+   public Page<Announcement> findAllByAuthorAndStatus(User author, AnnouncementStatus status, Pageable pageable);
 }

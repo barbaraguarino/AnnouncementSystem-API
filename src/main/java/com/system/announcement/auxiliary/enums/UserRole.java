@@ -1,8 +1,5 @@
 package com.system.announcement.auxiliary.enums;
 
-import lombok.Getter;
-
-@Getter
 public enum UserRole {
 
     USER("Usuário"),
@@ -15,4 +12,7 @@ public enum UserRole {
         this.role = role;
     }
 
+    public String getRole() {
+        return this.role;
+    }
 }
