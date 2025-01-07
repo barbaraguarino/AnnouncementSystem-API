@@ -2,6 +2,7 @@ package com.system.announcement.services;
 
 import com.system.announcement.dtos.authentication.LoginDTO;
 import com.system.announcement.dtos.authentication.AuthenticationDTO;
+import com.system.announcement.exceptions.UserNotFoundException;
 import com.system.announcement.infra.token.TokenService;
 import com.system.announcement.models.User;
 import com.system.announcement.repositories.UserRepository;
@@ -38,7 +39,7 @@ public class UserService {
     }
 
     public User getUserByEmail(String email) {
-        return (User) userRepository.findByEmail(email);
+        return userRepository.getUserByEmail(email).orElseThrow(UserNotFoundException::new);
     }
 
     public void save(User user) {
