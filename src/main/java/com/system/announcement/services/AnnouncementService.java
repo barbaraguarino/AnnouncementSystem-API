@@ -11,6 +11,7 @@ import com.system.announcement.exceptions.WithoutAuthorizationException;
 import com.system.announcement.infra.specifications.AnnouncementSpecification;
 import com.system.announcement.models.Announcement;
 import com.system.announcement.repositories.AnnouncementRepository;
+import com.system.announcement.repositories.ChatRepository;
 import com.system.announcement.repositories.FavoriteRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -33,13 +34,20 @@ public class AnnouncementService {
     private final CityService cityService;
     private final CategoryService categoryService;
     private final FavoriteRepository favoriteRepository;
+    private final ChatRepository chatRepository;
 
-    public AnnouncementService(AuthDetails authDetails, AnnouncementRepository announcementRepository, CityService cityService, CategoryService categoryService, FavoriteRepository favoriteRepository) {
+    public AnnouncementService(AuthDetails authDetails,
+                               AnnouncementRepository announcementRepository,
+                               CityService cityService,
+                               CategoryService categoryService,
+                               FavoriteRepository favoriteRepository,
+                               ChatRepository chatRepository) {
         this.authDetails = authDetails;
         this.announcementRepository = announcementRepository;
         this.cityService = cityService;
         this.categoryService = categoryService;
         this.favoriteRepository = favoriteRepository;
+        this.chatRepository = chatRepository;
     }
 
     public AnnouncementDTO save(@Valid SaveAnnouncementDTO requestDTO) {
@@ -115,11 +123,16 @@ public class AnnouncementService {
         }
         announcement.setStatus(AnnouncementStatus.DELETED);
         announcement.setDeletionDate(new Timestamp(System.currentTimeMillis()));
-        announcementRepository.save(announcement);
+        announcement = announcementRepository.save(announcement);
 
         favoriteRepository.deleteAllByAnnouncement(announcement);
 
-        // Deletar os chats
+        var chats = announcement.getChats();
+        chats.stream().map((chat) -> {
+            chat.delete();
+            chatRepository.save(chat);
+            return null;
+        });
     }
 
 
