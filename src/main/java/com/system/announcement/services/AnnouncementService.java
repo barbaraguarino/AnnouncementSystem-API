@@ -169,7 +169,6 @@ public class AnnouncementService {
             chat.delete();
             chatRepository.save(chat);
         });
-
     }
 
 }

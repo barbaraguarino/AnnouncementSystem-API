@@ -18,6 +18,7 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
     private final UserRepository userRepository;
+    private final AuthDetails authDetails;
 
     public UserService(AuthenticationManager authenticationManager,
                        TokenService tokenService,
@@ -25,6 +26,7 @@ public class UserService {
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
         this.userRepository = userRepository;
+        this.authDetails = authDetails;
     }
 
     public AuthenticationDTO login(@Valid LoginDTO authenticationRecordDTO) {
@@ -43,5 +45,10 @@ public class UserService {
 
     public void save(User user) {
         userRepository.save(user);
+    }
+
+    public UserDTO getUser() {
+        var user = authDetails.getAuthenticatedUser();
+        return new UserDTO(user);
     }
 }
