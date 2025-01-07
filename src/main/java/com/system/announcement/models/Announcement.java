@@ -3,7 +3,7 @@ package com.system.announcement.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.system.announcement.auxiliary.enums.AnnouncementStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,27 +33,8 @@ public class Announcement implements Serializable {
     @Column(nullable = false, columnDefinition = "text")
     private String content;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_author", nullable = false)
-    private User author;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_city", nullable = false)
-    private City city;
-
+    @Column(nullable = false)
     private Timestamp date;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "TB_ANNOUNCEMENT_CATEGORY",
-            joinColumns = @JoinColumn(name = "id_announcement"),
-            inverseJoinColumns = @JoinColumn(name = "id_category",
-                    nullable = false)
-    )
-    private Set<Category> categories = new HashSet<>();
 
     private float price;
 
@@ -65,8 +46,32 @@ public class Announcement implements Serializable {
     private String imageArchive;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_author", nullable = false)
+    private User author;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_city", nullable = false)
+    private City city;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "TB_ANNOUNCEMENT_CATEGORY",
+            joinColumns = @JoinColumn(name = "id_announcement"),
+            inverseJoinColumns = @JoinColumn(name = "id_category",
+                    nullable = false)
+    )
+    private Set<Category> categories = new HashSet<>();
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "announcement", fetch = FetchType.LAZY)
     private Set<Favorite> favorites = new HashSet<>();
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "announcement", fetch = FetchType.LAZY)
+    private Set<Chat> chats = new HashSet<>();
 
     public Announcement(){
         this.date = new Timestamp(System.currentTimeMillis());

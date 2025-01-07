@@ -27,16 +27,21 @@ public class CategoryService {
     }
 
     public Set<Category> getAllById(@NotNull Set<UUID> categories) {
+
         Set<Category> responseCategories = new HashSet<>();
+
         for(UUID id : categories){
             var optionalCategory = categoryRepository.findById(id);
-            if(optionalCategory.isPresent()){
+
+            if(optionalCategory.isPresent())
                 responseCategories.add(optionalCategory.get());
-            }else{
+            else
                 throw new CategoryNotFoundException();
-            }
         }
-        if(responseCategories.isEmpty()) throw new CategoryIsEmptyException();
+
+        if(responseCategories.isEmpty())
+            throw new CategoryIsEmptyException();
+
         return responseCategories;
     }
 }

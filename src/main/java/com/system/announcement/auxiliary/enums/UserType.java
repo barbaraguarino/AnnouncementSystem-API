@@ -1,5 +1,8 @@
 package com.system.announcement.auxiliary.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum UserType {
 
     STUDENT("Aluno"),
@@ -12,7 +15,4 @@ public enum UserType {
         this.type = type;
     }
 
-    public String getType() {
-        return this.type;
-    }
 }

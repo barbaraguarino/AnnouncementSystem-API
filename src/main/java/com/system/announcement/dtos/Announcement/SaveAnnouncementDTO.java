@@ -1,7 +1,8 @@
-package com.system.announcement.dtos.Announcement;
+package com.system.announcement.dtos.announcement;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 
 import java.util.Set;
 import java.util.UUID;
@@ -12,6 +13,6 @@ public record SaveAnnouncementDTO(
         @NotNull UUID city,
         @NotNull Set<UUID> categories,
         String imageArchive,
-        float price
+        @PositiveOrZero float price
 ) {
 }

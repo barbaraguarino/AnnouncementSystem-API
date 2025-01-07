@@ -1,10 +1,10 @@
-insert into tb_user (icon, email, blocked, name, password, role, type, deleted, score)
-values ('icones/tatiana.JPG', 'tatiana.costa@id.uff.br', 'false', 'Tatiana Costa', '$2a$10$ldFbPwNYtHLNqNhg8lN7M.vadBTH85kTgRyW3m9YkOUzbW1SqOzmW', '2', '2', 'false', 0),
-       ('icones/arthur.JPG', 'arthur.lima@id.uff.br', 'false', 'Arthur Lima', '$2a$10$mbxFlKCmQjoiWQG7.l1pyuR.Q5B0b3lUpB/sf4V7HlFeGjnLTaaHe', '1', '2', 'false', 0),
-       ('icones/julia.JPG', 'julia.medeiros@id.uff.br', 'false', 'Julia Medeiros', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '0', 'false', 0),
-       ('icones/luiza.JPG', 'luiza.monteiro@id.uff.br', 'false', 'Luiza Monteiro', '$2a$10$ldFbPwNYtHLNqNhg8lN7M.vadBTH85kTgRyW3m9YkOUzbW1SqOzmW', '0', '0', 'false', 0),
-       ('icones/jp.JPG', 'jp.fernandes@id.uff.br', 'false', 'João Pedro Fernandes', '$2a$10$mbxFlKCmQjoiWQG7.l1pyuR.Q5B0b3lUpB/sf4V7HlFeGjnLTaaHe', '1', '2', 'false', 0),
-       ('icones/antonio.JPG', 'dutra.tony@id.uff.br', 'false', 'Antônio Dutra Vasconcelos', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '1', 'false', 0);
+insert into tb_user (icon, email, blocked, name, password, role, type, deleted, score, grade, num_assessment)
+values ('icones/tatiana.JPG', 'tatiana.costa@id.uff.br', 'false', 'Tatiana Costa', '$2a$10$ldFbPwNYtHLNqNhg8lN7M.vadBTH85kTgRyW3m9YkOUzbW1SqOzmW', '2', '2', 'false', 0, 0, 0),
+       ('icones/arthur.JPG', 'arthur.lima@id.uff.br', 'false', 'Arthur Lima', '$2a$10$mbxFlKCmQjoiWQG7.l1pyuR.Q5B0b3lUpB/sf4V7HlFeGjnLTaaHe', '1', '2', 'false', 0, 0, 0),
+       ('icones/julia.JPG', 'julia.medeiros@id.uff.br', 'false', 'Julia Medeiros', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '0', 'false', 0, 0, 0),
+       ('icones/luiza.JPG', 'luiza.monteiro@id.uff.br', 'false', 'Luiza Monteiro', '$2a$10$ldFbPwNYtHLNqNhg8lN7M.vadBTH85kTgRyW3m9YkOUzbW1SqOzmW', '0', '0', 'false', 0, 0, 0),
+       ('icones/jp.JPG', 'jp.fernandes@id.uff.br', 'false', 'João Pedro Fernandes', '$2a$10$mbxFlKCmQjoiWQG7.l1pyuR.Q5B0b3lUpB/sf4V7HlFeGjnLTaaHe', '1', '2', 'false', 0, 0, 0),
+       ('icones/antonio.JPG', 'dutra.tony@id.uff.br', 'false', 'Antônio Dutra Vasconcelos', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '1', 'false', 0, 0, 0);
 
 insert into tb_city (id, name)
 values ('a8648c4c-7a31-4c79-bebe-ab5ca149e0f4','Rio de Janeiro'),
@@ -53,7 +53,7 @@ values
     ('d90180e6-a156-4d65-a227-a75cef595c42', 'Quarto para Alugar', 'Alugo quarto em apartamento próximo à faculdade com preço acessível.', 850.0, 'tatiana.costa@id.uff.br', '6e41c98b-0c13-4bae-942d-710efa65986c', '2024-10-06 17:50:00', '0'),
     ('29fcb896-0893-4c55-841b-3a0c476dff9b', 'Aulas Particulares de Física', 'Aulas particulares de física para alunos de engenharia.', 80.0, 'tatiana.costa@id.uff.br', '6e41c98b-0c13-4bae-942d-710efa65986c', '2024-10-04 11:20:00', '0'),
     ('3987a4a2-2c10-468d-ae27-b4c39164f456', 'Procura-se Notebook Perdido', 'Perdi meu notebook no bloco de ciências exatas. Quem encontrou, por favor entrar em contato.', 0, 'arthur.lima@id.uff.br', '6e41c98b-0c13-4bae-942d-710efa65986c', '2024-10-05 21:05:00', '0'),
-    ('c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'Casa para Aluguar', 'Alugo quarto em casa próximo à faculdade com preço acessível para estudantes.', 2500.0, 'luiza.monteiro@id.uff.br', '6e41c98b-0c13-4bae-942d-710efa65986c','2024-09-18 10:11:00', '0'),
+    ('c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'Casa para Alugar', 'Alugo quarto em casa próximo à faculdade com preço acessível para estudantes.', 2500.0, 'luiza.monteiro@id.uff.br', '6e41c98b-0c13-4bae-942d-710efa65986c','2024-09-18 10:11:00', '0'),
     ('8d9c2b8e-893b-47b3-87e1-b3f5c2d5fd62', 'Chave de Carro Encontrada no Bloco A', 'Encontrei uma chave de carro no Bloco A, próximo à entrada principal. Parece ser de um carro modelo sedã. Quem perdeu, por favor entrar em contato para recuperar.', 0, 'tatiana.costa@id.uff.br', '6e41c98b-0c13-4bae-942d-710efa65986c','2024-10-13 17:15:00', '0'),
     ('6f4b9f52-4a82-4fa3-9b90-f7c89e05d8d9', 'Mentoria para Novos Alunos de Engenharia', 'Ofereço mentoria para novos alunos de Engenharia que buscam orientação sobre o curso e dicas para o início da vida acadêmica. Encontros semanais e dicas de estudo.', 0, 'luiza.monteiro@id.uff.br', '6e41c98b-0c13-4bae-942d-710efa65986c','2024-10-12 11:00:00', '0'),
 
@@ -174,3 +174,18 @@ values
     ('e4b5d4f2-4ac1-4b43-8b9d-e1b9d8ddefb5', '707fbaf8-d46d-4b3b-9e1c-742849d41c14'),
     ('c8e682c8-bbba-429e-b5f3-e743c2e8e3c7', '707fbaf8-d46d-4b3b-9e1c-742849d41c14'),
     ('db1a8f76-5b38-490c-a5c4-8f484d39e9da', '707fbaf8-d46d-4b3b-9e1c-742849d41c14');
+
+insert into tb_chat (status, date_open, id, id_announcement, id_user, id_advertiser, date_last_message, is_evaluated_by_advertiser, is_evaluated_by_user)
+values
+    ('0', '2024-10-30 14:08:56', '6e41c98b-0c13-4bae-942d-710efa65986c', 'c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'tatiana.costa@id.uff.br', 'luiza.monteiro@id.uff.br', '2024-11-20 18:16:50', 'false', 'false'),
+    ('1', '2024-12-20 11:10:56', 'db1a8f76-5b38-490c-a5c4-8f484d39e9da', 'b07d028f-e4c6-4e1e-b37f-6828f2255c12', 'tatiana.costa@id.uff.br', 'jp.fernandes@id.uff.br', '2024-12-20 11:10:56', 'false', 'false'),
+    ('0', '2024-09-20 15:40:56', '92f14b73-0ccf-4b1f-92b5-0f634d5a7c15', 'c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'tatiana.costa@id.uff.br', 'arthur.lima@id.uff.br', '2024-09-20 15:40:56', 'false', 'false');
+
+insert into tb_message(id, id_chat, id_sender, content, date)
+values
+    ('db1a8f76-5b38-490c-a5c4-8f484d39e9da', '6e41c98b-0c13-4bae-942d-710efa65986c', 'tatiana.costa@id.uff.br', 'Oi, estou interessado no anuncio', '2024-11-20 15:40:56'),
+    ('c8e682c8-bbba-429e-b5f3-e743c2e8e3c7', '6e41c98b-0c13-4bae-942d-710efa65986c', 'luiza.monteiro@id.uff.br', 'Oi, boa tarde! Que bom que você está interessado. Quais dados a mais você precisa?', '2024-11-20 16:15:57'),
+    ('e4b5d4f2-4ac1-4b43-8b9d-e1b9d8ddefb5', '6e41c98b-0c13-4bae-942d-710efa65986c', 'tatiana.costa@id.uff.br', 'Preciso saber como faço para encontrar você?', '2024-11-20 16:30:41'),
+    ('f3e9a8c4-1f67-41f8-b3f1-0983f0b4b197', '6e41c98b-0c13-4bae-942d-710efa65986c', 'luiza.monteiro@id.uff.br', 'Podemos fechar a transação por aqui?', '2024-11-20 18:10:00'),
+    ('a432e2ec-1989-4e73-aad7-7d0d59ec32ec', '6e41c98b-0c13-4bae-942d-710efa65986c', 'tatiana.costa@id.uff.br', 'Acho melhor nos encontramos. Que dia você pode?', '2024-11-20 18:15:00'),
+    ('707fbaf8-d46d-4b3b-9e1c-742849d41c14', '6e41c98b-0c13-4bae-942d-710efa65986c', 'luiza.monteiro@id.uff.br', '... Não sei porque está assim... ', '2024-11-20 18:16:50');

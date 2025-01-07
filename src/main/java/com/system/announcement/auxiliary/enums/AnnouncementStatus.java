@@ -1,11 +1,14 @@
 package com.system.announcement.auxiliary.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum AnnouncementStatus {
 
     VISIBLE("Visível"),
     CLOSED("Fechado"),
     SUSPENDED("Suspenso"),
-    DELETED("Excluido");
+    DELETED("Excluído");
 
     private final String status;
 
@@ -13,7 +16,4 @@ public enum AnnouncementStatus {
         this.status = status;
     }
 
-    public String getStatus() {
-        return this.status;
-    }
 }

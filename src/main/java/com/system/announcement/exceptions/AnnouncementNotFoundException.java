@@ -3,10 +3,7 @@ package com.system.announcement.exceptions;
 public class AnnouncementNotFoundException extends RuntimeException{
 
     public AnnouncementNotFoundException(){
-        super("Announcement not found");
+        super("Anúncio não encontrado.");
     }
 
-    public AnnouncementNotFoundException(String message){
-        super(message);
-    }
 }
