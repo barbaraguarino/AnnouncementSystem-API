@@ -26,12 +26,10 @@ public class CityService {
     }
 
     public City getById(@NotNull UUID city){
-
         var optionalCity = cityRepository.findById(city);
-
-        if(optionalCity.isPresent())
+        if(optionalCity.isPresent()){
             return optionalCity.get();
-
+        }
         throw new CityNotFoundException();
     }
 }

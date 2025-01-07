@@ -6,6 +6,6 @@ public class CityNotFoundException extends RuntimeException {
     }
 
     public CityNotFoundException(){
-        super("Cidade não encontrada. Por favor, verifique os dados e tente novamente.");
+        super("City not found");
     }
 }

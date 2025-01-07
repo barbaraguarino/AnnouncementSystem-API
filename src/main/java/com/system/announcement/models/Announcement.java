@@ -3,7 +3,7 @@ package com.system.announcement.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.system.announcement.auxiliary.enums.AnnouncementStatus;
 import jakarta.persistence.*;
-
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,18 +33,6 @@ public class Announcement implements Serializable {
     @Column(nullable = false, columnDefinition = "text")
     private String content;
 
-    @Column(nullable = false)
-    private Timestamp date;
-
-    private float price;
-
-    @Column(nullable = false)
-    private AnnouncementStatus status;
-
-    private Timestamp deletionDate;
-
-    private String imageArchive;
-
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_author", nullable = false)
@@ -54,6 +42,8 @@ public class Announcement implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_city", nullable = false)
     private City city;
+
+    private Timestamp date;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany(fetch = FetchType.EAGER)
@@ -65,13 +55,18 @@ public class Announcement implements Serializable {
     )
     private Set<Category> categories = new HashSet<>();
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "announcement", fetch = FetchType.LAZY)
-    private Set<Favorite> favorites = new HashSet<>();
+    private float price;
+
+    @Column(nullable = false)
+    private AnnouncementStatus status;
+
+    private Timestamp deletionDate;
+
+    private String imageArchive;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "announcement", fetch = FetchType.LAZY)
-    private Set<Chat> chats = new HashSet<>();
+    private Set<Favorite> favorites = new HashSet<>();
 
     public Announcement(){
         this.date = new Timestamp(System.currentTimeMillis());

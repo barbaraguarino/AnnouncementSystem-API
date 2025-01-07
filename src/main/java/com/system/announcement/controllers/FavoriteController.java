@@ -27,15 +27,13 @@ public class FavoriteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Boolean> isFavorite(@Valid @PathVariable UUID id){
-        if(favoriteService.isFavorite(id))
-            return ResponseEntity.status(HttpStatus.OK).body(true);
+        if(favoriteService.isFavorite(id)) return ResponseEntity.status(HttpStatus.OK).body(true);
         return ResponseEntity.status(HttpStatus.OK).body(false);
     }
 
     @GetMapping
     public ResponseEntity<Object> getAllFavorites(Pageable pageable){
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(favoriteService.getMyAllFavorite(pageable));
+        return ResponseEntity.status(HttpStatus.OK).body(favoriteService.getMyAllFavorite(pageable));
     }
 
     @DeleteMapping("/{id}")

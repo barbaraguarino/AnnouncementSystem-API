@@ -1,12 +1,10 @@
 package com.system.announcement.services;
 
-import com.system.announcement.auxiliary.components.AuthDetails;
-import com.system.announcement.dtos.authentication.LoginDTO;
-import com.system.announcement.dtos.authentication.AuthenticationDTO;
-import com.system.announcement.dtos.user.UserDTO;
+import com.system.announcement.dtos.Announcement.AnnouncementDTO;
+import com.system.announcement.dtos.Authentication.requestAuthenticationRecordDTO;
+import com.system.announcement.dtos.Authentication.responseAuthenticationRecordDTO;
 import com.system.announcement.infra.token.TokenService;
 import com.system.announcement.models.User;
-import com.system.announcement.repositories.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import jakarta.transaction.Transactional;
@@ -19,39 +17,16 @@ public class UserService {
 
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
-    private final UserRepository userRepository;
-    private final AuthDetails authDetails;
 
-    public UserService(AuthenticationManager authenticationManager,
-                       TokenService tokenService,
-                       UserRepository userRepository,
-                        AuthDetails authDetails) {
+    public UserService(AuthenticationManager authenticationManager, TokenService tokenService) {
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
-        this.userRepository = userRepository;
-        this.authDetails = authDetails;
     }
 
-    public AuthenticationDTO login(@Valid LoginDTO authenticationRecordDTO) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationRecordDTO.email(),
-                authenticationRecordDTO.password());
-
+    public responseAuthenticationRecordDTO login(@Valid requestAuthenticationRecordDTO authenticationRecordDTO) {
+        var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationRecordDTO.email(), authenticationRecordDTO.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
         var token = tokenService.generateToken((User) auth.getPrincipal());
-
-        return new AuthenticationDTO((User) auth.getPrincipal(), token);
-    }
-
-    public User getUserByEmail(String email) {
-        return (User) userRepository.findByEmail(email);
-    }
-
-    public void save(User user) {
-        userRepository.save(user);
-    }
-
-    public UserDTO getUser() {
-        var user = authDetails.getAuthenticatedUser();
-        return new UserDTO(user);
+        return new responseAuthenticationRecordDTO((User) auth.getPrincipal(), token);
     }
 }

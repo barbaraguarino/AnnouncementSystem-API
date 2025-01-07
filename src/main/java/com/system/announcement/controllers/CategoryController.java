@@ -19,7 +19,6 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<Object> getAllCategory(){
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(categoryService.getAll());
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.getAll());
     }
 }
