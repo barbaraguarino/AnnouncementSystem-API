@@ -1,7 +1,9 @@
 package com.system.announcement.services;
 
+import com.system.announcement.auxiliary.components.AuthDetails;
 import com.system.announcement.dtos.authentication.LoginDTO;
 import com.system.announcement.dtos.authentication.AuthenticationDTO;
+import com.system.announcement.dtos.user.UserDTO;
 import com.system.announcement.infra.token.TokenService;
 import com.system.announcement.models.User;
 import com.system.announcement.repositories.UserRepository;
@@ -22,7 +24,8 @@ public class UserService {
 
     public UserService(AuthenticationManager authenticationManager,
                        TokenService tokenService,
-                       UserRepository userRepository) {
+                       UserRepository userRepository,
+                       AuthDetails authDetails) {
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
         this.userRepository = userRepository;
