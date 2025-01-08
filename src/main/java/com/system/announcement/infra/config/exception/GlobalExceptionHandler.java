@@ -1,4 +1,4 @@
-package com.system.announcement.infra.exception;
+package com.system.announcement.infra.config.exception;
 
 import com.system.announcement.exceptions.*;
 import io.micrometer.common.lang.NonNull;
@@ -93,6 +93,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(CityNotFoundException.class)
     private ResponseEntity<Object> CityNotFoundException(CityNotFoundException ex){
         logger.error("Erro ao buscar cidade: " + ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    private ResponseEntity<Object> UserNotFoundException(UserNotFoundException ex){
+        logger.error("Erro ao buscar usuário: " + ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
