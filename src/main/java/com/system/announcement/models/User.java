@@ -61,7 +61,7 @@ public class User implements Serializable, UserDetails {
     private float grade;
 
     @Column(nullable = false)
-    private float numAssessment;
+    private int numAssessment;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
