@@ -1,9 +1,11 @@
 package com.system.announcement.controllers;
 
 import com.system.announcement.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,8 +19,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public ResponseEntity<Object> getUser() {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.getUser());
+    @GetMapping("/{email}")
+    public ResponseEntity<Object> getUserById(@Valid @PathVariable String email) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUser(email));
     }
 }

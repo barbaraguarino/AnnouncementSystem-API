@@ -51,8 +51,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public UserDTO getUser() {
-        var user = authDetails.getAuthenticatedUser();
-        return new UserDTO(user);
+    public UserDTO getUser(String email) {
+        return new UserDTO(this.getUserByEmail(email));
     }
 }
