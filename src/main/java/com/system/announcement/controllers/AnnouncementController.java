@@ -72,4 +72,9 @@ public class AnnouncementController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @GetMapping("/user/{email}")
+    public ResponseEntity<Object> getAnnouncementByEmail(@PathVariable @Valid String email, Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(announcementService.getByAuthor(email, pageable));
+    }
+
 }

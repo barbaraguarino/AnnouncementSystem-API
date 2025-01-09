@@ -36,19 +36,21 @@ public class AnnouncementService {
     private final CategoryService categoryService;
     private final FavoriteRepository favoriteRepository;
     private final ChatRepository chatRepository;
+    private final UserService userService;
 
     public AnnouncementService(AuthDetails authDetails,
                                AnnouncementRepository announcementRepository,
                                CityService cityService,
                                CategoryService categoryService,
                                FavoriteRepository favoriteRepository,
-                               ChatRepository chatRepository) {
+                               ChatRepository chatRepository, UserService userService) {
         this.authDetails = authDetails;
         this.announcementRepository = announcementRepository;
         this.cityService = cityService;
         this.categoryService = categoryService;
         this.favoriteRepository = favoriteRepository;
         this.chatRepository = chatRepository;
+        this.userService = userService;
     }
 
     public AnnouncementDTO save(@Valid SaveAnnouncementDTO requestDTO) {
@@ -171,4 +173,16 @@ public class AnnouncementService {
         });
     }
 
+    public Page<AnnouncementDTO> getByAuthor(@Valid String email, Pageable pageable) {
+
+        var user = userService.getUserByEmail(email);
+
+        Pageable pageableWithSorting = PageRequest.of(pageable.getPageNumber(),
+                pageable.getPageSize(), Sort.by(Sort.Order.desc("date")));
+
+        var announcements = announcementRepository.findAllByAuthorAndStatus(user, AnnouncementStatus.VISIBLE, pageableWithSorting);
+
+        return announcements.map(AnnouncementDTO::new);
+
+    }
 }
