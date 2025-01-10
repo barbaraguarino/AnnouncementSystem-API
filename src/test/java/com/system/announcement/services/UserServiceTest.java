@@ -4,6 +4,7 @@ import com.system.announcement.auxiliary.enums.UserRole;
 import com.system.announcement.auxiliary.enums.UserType;
 import com.system.announcement.dtos.authentication.AuthenticationDTO;
 import com.system.announcement.dtos.authentication.LoginDTO;
+import com.system.announcement.dtos.user.UserDTO;
 import com.system.announcement.exceptions.UserNotFoundException;
 import com.system.announcement.infra.token.TokenService;
 import com.system.announcement.models.User;
@@ -140,5 +141,26 @@ class UserServiceTest {
             verify(userRepository).save(user);
         }
     }
+
+    @Nested
+    class GetUser {
+
+        @Test
+        @DisplayName("Deve retornar UserDTO quando usuário encontrado")
+        void shouldReturnUserDTOWhenUserFound() {
+            String email = "test@example.com";
+            User user = new User(email, "Test User", UserType.EMPLOYEE, UserRole.USER);
+            UserDTO expectedUserDTO = new UserDTO(user);
+
+            when(userRepository.getUserByEmail(email)).thenReturn(Optional.of(user));
+
+            UserDTO result = userService.getUser(email);
+
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals(expectedUserDTO.email(), result.email());
+            verify(userRepository).getUserByEmail(email);
+        }
+    }
+
 
 }

@@ -50,6 +50,9 @@ class AnnouncementServiceTest {
     @Mock
     private ChatRepository chatRepository;
 
+    @Mock
+    private UserService userService;
+
     @InjectMocks
     private AnnouncementService announcementService;
 
@@ -653,6 +656,53 @@ class AnnouncementServiceTest {
             );
             Mockito.verify(announcementRepository, Mockito.times(0)).save(announcement);
         }
+
+    }
+
+    @Nested
+    class GetByAuthor{
+
+        @Test
+        @DisplayName("Deve retornar anúncios de um autor com sucesso")
+        void shouldReturnAnnouncementsByAuthorSuccessfully() {
+            String email = "user@example.com";
+            User user = new User(email, "Author", UserType.EMPLOYEE, UserRole.USER);
+            Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Order.desc("date")));
+
+            Announcement announcement = new Announcement();
+            announcement.setId(UUID.randomUUID());
+            announcement.setTitle("Anúncio de Teste");
+            announcement.setAuthor(user);
+            announcement.setStatus(AnnouncementStatus.VISIBLE);
+
+            Page<Announcement> page = new PageImpl<>(List.of(announcement), pageable, 1);
+
+            Mockito.when(userService.getUserByEmail(email)).thenReturn(user);
+            Mockito.when(announcementRepository.findAllByAuthorAndStatus(Mockito.any(User.class),
+                            Mockito.eq(AnnouncementStatus.VISIBLE), Mockito.any(Pageable.class)))
+                    .thenReturn(page);
+
+            Page<AnnouncementDTO> result = announcementService.getByAuthor(email, pageable);
+
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals(1, result.getTotalElements());
+            Assertions.assertEquals("Anúncio de Teste", result.getContent().getFirst().title());
+            Mockito.verify(announcementRepository, Mockito.times(1))
+                    .findAllByAuthorAndStatus(Mockito.any(User.class), Mockito.eq(AnnouncementStatus.VISIBLE), Mockito.any(Pageable.class));
+        }
+
+        @Test
+        @DisplayName("Deve lançar uma exceção quando o autor não for encontrado")
+        void shouldThrowExceptionWhenAuthorNotFound() {
+            String email = "user@example.com";
+            Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Order.desc("date")));
+
+            Mockito.when(userService.getUserByEmail(email)).thenThrow(new UserNotFoundException());
+
+            Assertions.assertThrows(UserNotFoundException.class, () -> announcementService.getByAuthor(email, pageable));
+            Mockito.verify(userService, Mockito.times(1)).getUserByEmail(email);
+        }
+
 
     }
 

@@ -8,6 +8,7 @@ import com.system.announcement.exceptions.WithoutAuthorizationException;
 import com.system.announcement.models.Assessment;
 import com.system.announcement.repositories.AssessmentRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -74,8 +75,8 @@ public class AssessmentService {
             throw new WithoutAuthorizationException();
     }
 
-    public Page<AssessmentDTO> getMyAssessments(Pageable pageable) {
-        var user = authDetails.getAuthenticatedUser();
+    public Page<AssessmentDTO> getMyAssessments(@Valid String email, Pageable pageable) {
+        var user = userService.getUserByEmail(email);
 
         Pageable pageableWithSort = PageRequest.of(
                 pageable.getPageNumber(),

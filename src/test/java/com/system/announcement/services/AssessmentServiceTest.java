@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.UUID;
+import java.util.function.Function;
 
 import static org.mockito.Mockito.*;
 
@@ -100,33 +101,48 @@ class AssessmentServiceTest {
         @Test
         @DisplayName("Deve retornar todas as avaliações feitas pelo usuário")
         void shouldReturnAllAssessmentsMadeByUser() {
+            String email = "user@example.com";
             User user = mock(User.class);
             Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "date"));
             Page<Assessment> assessmentsPage = mock(Page.class);
+            Page<AssessmentDTO> assessmentsDTOPage = mock(Page.class);
 
-            when(authDetails.getAuthenticatedUser()).thenReturn(user);
+            when(userService.getUserByEmail(email)).thenReturn(user);
+
             when(assessmentRepository.findAllByRatedUser(user, pageable)).thenReturn(assessmentsPage);
-            when(assessmentsPage.map(any())).thenReturn(mock(Page.class));
 
-            Page<AssessmentDTO> result = assessmentService.getMyAssessments(pageable);
+            when(assessmentsPage.map(any(Function.class))).thenAnswer(invocation -> {
+                Function<Assessment, AssessmentDTO> mapper = invocation.getArgument(0);
+                return assessmentsDTOPage;
+            });
+
+            Page<AssessmentDTO> result = assessmentService.getMyAssessments(email, pageable);
 
             Assertions.assertNotNull(result);
+            Assertions.assertSame(assessmentsDTOPage, result);
+
+            verify(userService).getUserByEmail(email);
             verify(assessmentRepository).findAllByRatedUser(user, pageable);
         }
 
         @Test
         @DisplayName("Deve retornar uma página vazia caso o usuário não tenha avaliações")
         void shouldReturnEmptyPageIfUserHasNoAssessments() {
+            String email = "user@example.com";
             User user = mock(User.class);
             Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "date"));
             Page<Assessment> emptyAssessments = Page.empty();
 
-            when(authDetails.getAuthenticatedUser()).thenReturn(user);
+            when(userService.getUserByEmail(email)).thenReturn(user);
+
             when(assessmentRepository.findAllByRatedUser(user, pageable)).thenReturn(emptyAssessments);
 
-            Page<AssessmentDTO> result = assessmentService.getMyAssessments(pageable);
+            Page<AssessmentDTO> result = assessmentService.getMyAssessments(email, pageable);
 
+            Assertions.assertNotNull(result);
             Assertions.assertTrue(result.isEmpty());
+
+            verify(userService).getUserByEmail(email);
             verify(assessmentRepository).findAllByRatedUser(user, pageable);
         }
     }

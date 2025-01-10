@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 
 public record UserDTO(
         @NotBlank String email,
+        @NotBlank String name,
         @NotBlank String icon,
         @NotBlank String type,
         @NotNull float score,
@@ -16,7 +17,7 @@ public record UserDTO(
         Timestamp deleteDate
 ) {
     public UserDTO(User user) {
-        this(user.getEmail(), user.getIcon(), user.getType().getType(), user.getScore(), user.getNumAssessment(),
+        this(user.getEmail(), user.getName(), user.getIcon(), user.getType().getType(), user.getScore(), user.getNumAssessment(),
                 user.getRole().getRole(), user.getDeletedDate());
     }
 }
