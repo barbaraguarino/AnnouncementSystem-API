@@ -30,7 +30,7 @@ public class AssessmentController {
                 .body(assessmentService.getMyReviews(pageable));
     }
 
-    @GetMapping("/assessments/{email}")
+    @GetMapping("/{email}/")
     public ResponseEntity<Object> getMyAssessments(@PathVariable @Valid String email, Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(assessmentService.getMyAssessments(email, pageable));

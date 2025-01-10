@@ -291,6 +291,9 @@ Representa as avaliações feitas pelos usuários após conversa no chat.
 - **GET /announcement/user/{email}**  
   Retorna uma lista de todos os anúncios abertos que o usuário dono do email passado pelo url possui.
 
+- **POST /announcement/close/{id}**  
+  Encerra o anúncio passado por id na url.
+
 ### 2. **Autenticação**
 
 - **POST /auth/login**  
