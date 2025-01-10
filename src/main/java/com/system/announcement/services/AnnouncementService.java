@@ -185,4 +185,27 @@ public class AnnouncementService {
         return announcements.map(AnnouncementDTO::new);
 
     }
+
+    public AnnouncementDTO closeAnnouncement(@Valid UUID id) {
+        var user = authDetails.getAuthenticatedUser();
+        var announcement = this.getById(id);
+        if(!announcement.getAuthor().getEmail().equals(user.getEmail()))
+            throw new WithoutAuthorizationException();
+        if(announcement.getStatus().equals(AnnouncementStatus.CLOSED))
+            throw new AnnouncementIsClosedException();
+
+        announcement.setStatus(AnnouncementStatus.CLOSED);
+        announcement = announcementRepository.save(announcement);
+
+        favoriteRepository.deleteAllByAnnouncement(announcement);
+
+        var chats = announcement.getChats();
+        chats.forEach(chat -> {
+            chat.close();
+            chatRepository.save(chat);
+        });
+
+        return new AnnouncementDTO(announcement);
+
+    }
 }

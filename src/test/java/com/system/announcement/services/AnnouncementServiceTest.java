@@ -706,4 +706,76 @@ class AnnouncementServiceTest {
 
     }
 
+    @Nested
+    class CloseAnnouncement {
+
+        @Test
+        @DisplayName("Deve fechar o anúncio com sucesso se o usuário for o autor e o status for visível")
+        void shouldCloseAnnouncementSuccessfullyIfUserIsAuthorAndStatusIsVisible() {
+            UUID announcementId = UUID.randomUUID();
+            Announcement announcement = new Announcement();
+            announcement.setId(announcementId);
+            announcement.setStatus(AnnouncementStatus.VISIBLE);
+            announcement.setAuthor(new User("user@example.com", "User", UserType.EMPLOYEE, UserRole.USER));
+
+            Chat chat = new Chat();
+            chat.setId(UUID.randomUUID());
+            announcement.setChats(new HashSet<>(List.of(chat)));
+
+            Mockito.when(announcementRepository.findById(announcementId)).thenReturn(Optional.of(announcement));
+            Mockito.when(authDetails.getAuthenticatedUser()).thenReturn(announcement.getAuthor());
+            Mockito.when(announcementRepository.save(Mockito.any(Announcement.class))).thenReturn(announcement);
+            Mockito.when(chatRepository.save(Mockito.any(Chat.class))).thenReturn(chat);
+            Mockito.doNothing().when(favoriteRepository).deleteAllByAnnouncement(Mockito.any(Announcement.class));
+
+            AnnouncementDTO result = announcementService.closeAnnouncement(announcementId);
+
+            Assertions.assertEquals(AnnouncementStatus.CLOSED, announcement.getStatus());
+            Mockito.verify(announcementRepository, Mockito.times(1)).save(announcement);
+            Mockito.verify(favoriteRepository, Mockito.times(1)).deleteAllByAnnouncement(announcement);
+            Mockito.verify(chatRepository, Mockito.times(1)).save(Mockito.any(Chat.class));
+
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals(announcementId, result.id());
+        }
+
+        @Test
+        @DisplayName("Deve lançar exceção se o usuário não for o autor do anúncio")
+        void shouldThrowExceptionIfUserIsNotAuthor() {
+            UUID announcementId = UUID.randomUUID();
+            Announcement announcement = new Announcement();
+            announcement.setId(announcementId);
+            announcement.setStatus(AnnouncementStatus.VISIBLE);
+            announcement.setAuthor(new User("author@example.com", "Author", UserType.EMPLOYEE, UserRole.USER));
+
+            Mockito.when(announcementRepository.findById(announcementId)).thenReturn(Optional.of(announcement));
+            Mockito.when(authDetails.getAuthenticatedUser()).thenReturn(new User("user@example.com", "User", UserType.EMPLOYEE, UserRole.USER));
+
+            Assertions.assertThrows(WithoutAuthorizationException.class, () ->
+                    announcementService.closeAnnouncement(announcementId)
+            );
+
+            Mockito.verify(announcementRepository, Mockito.times(0)).save(announcement);
+        }
+
+        @Test
+        @DisplayName("Deve lançar exceção se o anúncio já estiver fechado")
+        void shouldThrowExceptionIfAnnouncementIsAlreadyClosed() {
+            UUID announcementId = UUID.randomUUID();
+            Announcement announcement = new Announcement();
+            announcement.setId(announcementId);
+            announcement.setStatus(AnnouncementStatus.CLOSED);
+            announcement.setAuthor(new User("user@example.com", "User", UserType.EMPLOYEE, UserRole.USER));
+
+            Mockito.when(announcementRepository.findById(announcementId)).thenReturn(Optional.of(announcement));
+            Mockito.when(authDetails.getAuthenticatedUser()).thenReturn(announcement.getAuthor());
+
+            Assertions.assertThrows(AnnouncementIsClosedException.class, () ->
+                    announcementService.closeAnnouncement(announcementId)
+            );
+
+            Mockito.verify(announcementRepository, Mockito.times(0)).save(announcement);
+        }
+    }
+
 }
