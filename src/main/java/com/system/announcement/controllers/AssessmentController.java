@@ -2,10 +2,13 @@ package com.system.announcement.controllers;
 
 import com.system.announcement.dtos.assessment.CreateAssessmentDTO;
 import com.system.announcement.services.AssessmentService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("assessment")
@@ -29,9 +32,10 @@ public class AssessmentController {
                 .body(assessmentService.getMyReviews(pageable));
     }
 
-    @GetMapping("/assessments")
-    public ResponseEntity<Object> getMyAssessments(Pageable pageable){
+    @GetMapping("/assessments/{email}")
+    public ResponseEntity<Object> getMyAssessments(@PathVariable @Valid String email, Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK)
-                .body(assessmentService.getMyAssessments(pageable));
+                .body(assessmentService.getMyAssessments(email, pageable));
     }
+
 }
