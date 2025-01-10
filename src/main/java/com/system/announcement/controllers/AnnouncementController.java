@@ -77,4 +77,9 @@ public class AnnouncementController {
         return ResponseEntity.status(HttpStatus.OK).body(announcementService.getByAuthor(email, pageable));
     }
 
+    @PostMapping("/close/{id}")
+    ResponseEntity<Object> closeAnnouncement(@PathVariable @Valid UUID id) {
+        return ResponseEntity.status(HttpStatus.OK).body(announcementService.closeAnnouncement(id));
+    }
+
 }
