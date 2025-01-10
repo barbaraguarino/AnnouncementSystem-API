@@ -51,13 +51,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(WithoutAuthorizationException.class)
     private ResponseEntity<Object> WithoutAuthorizationException(WithoutAuthorizationException ex){
         logger.error("Erro na tentativa de execução da requisição: " + ex.getMessage(), ex);
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ex.getMessage());
     }
 
     @ExceptionHandler(AnnouncementIsClosedException.class)
     private ResponseEntity<Object> AnnouncementIsClosedException(AnnouncementIsClosedException ex){
         logger.error("Erro na tentativa de modificar um anúncio fechado: " + ex.getMessage(), ex);
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ex.getMessage());
     }
 
     @ExceptionHandler(AnnouncementIsDeletedException.class)
