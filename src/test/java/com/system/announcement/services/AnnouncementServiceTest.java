@@ -219,14 +219,14 @@ class AnnouncementServiceTest {
             User author = new User("user@example.com", "User", UserType.EMPLOYEE, UserRole.USER);
             announcement.setAuthor(author);
 
-            Mockito.when(announcementRepository.findById(announcementId)).thenReturn(Optional.of(announcement));
+            Mockito.when(announcementRepository.findOneByIdAndStatusIsNot(announcementId, AnnouncementStatus.DELETED)).thenReturn(Optional.of(announcement));
 
             AnnouncementDTO result = announcementService.findById(announcementId);
 
             Assertions.assertNotNull(result);
             Assertions.assertEquals(announcementId, result.id());
             Assertions.assertEquals("user@example.com", result.author().email());
-            Mockito.verify(announcementRepository, Mockito.times(1)).findById(announcementId);
+            Mockito.verify(announcementRepository, Mockito.times(1)).findOneByIdAndStatusIsNot(announcementId, AnnouncementStatus.DELETED);
         }
 
         @Test
@@ -234,13 +234,13 @@ class AnnouncementServiceTest {
         void shouldThrowAnnouncementNotFoundExceptionWhenNotFoundById() {
             UUID announcementId = UUID.randomUUID();
 
-            Mockito.when(announcementRepository.findById(announcementId)).thenReturn(Optional.empty());
+            Mockito.when(announcementRepository.findOneByIdAndStatusIsNot(announcementId, AnnouncementStatus.DELETED)).thenReturn(Optional.empty());
 
             Assertions.assertThrows(AnnouncementNotFoundException.class, () ->
                 announcementService.findById(announcementId)
             );
 
-            Mockito.verify(announcementRepository, Mockito.times(1)).findById(announcementId);
+            Mockito.verify(announcementRepository, Mockito.times(1)).findOneByIdAndStatusIsNot(announcementId, AnnouncementStatus.DELETED);
         }
 
     }
