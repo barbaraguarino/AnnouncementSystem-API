@@ -49,10 +49,16 @@ values ('2905ffd5-7976-4fd6-9f61-e19dbc19ce65', 'Aluguel'),
        ('e37e639e-35f6-405f-89cc-67bb0dc5787b', 'Móveis'),
        ('b5a18c33-3836-4b4d-80a1-bc1e812f6d3a', 'Networking e Parcerias');
 
+insert into tb_announcement (id, title, content, price, id_author, id_city, date, status, image_archive)
+values
+    -- Niterói
+    ('d90180e6-a156-4d65-a227-a75cef595c42', 'Quarto para Alugar', 'Alugo quarto em apartamento próximo à faculdade com preço acessível.', 850.0, 'tatiana.costa@id.uff.br', '6e41c98b-0c13-4bae-942d-710efa65986c', '2025-01-06 17:50:00', '0', '2abd8107-2255-47ab-ae4a-f06abfa226c6'),
+    ('e5219417-14de-4f83-9e31-c2477df1024a', 'Quarto para Alugar', 'Alugo quarto em apartamento com preço acessível.', 650.0, 'jp.fernandes@id.uff.br', '9bc05733-ceb1-4412-b3dd-13e9e02538ac','2024-12-30 20:00:00', '0', '4f2b068a-0600-40ba-b30b-2a86fe29914f');
+
+
 insert into tb_announcement (id, title, content, price, id_author, id_city, date, status)
 values
     -- Niterói
-    ('d90180e6-a156-4d65-a227-a75cef595c42', 'Quarto para Alugar', 'Alugo quarto em apartamento próximo à faculdade com preço acessível.', 850.0, 'tatiana.costa@id.uff.br', '6e41c98b-0c13-4bae-942d-710efa65986c', '2024-10-06 17:50:00', '0'),
     ('29fcb896-0893-4c55-841b-3a0c476dff9b', 'Aulas Particulares de Física', 'Aulas particulares de física para alunos de engenharia.', 80.0, 'tatiana.costa@id.uff.br', '6e41c98b-0c13-4bae-942d-710efa65986c', '2024-10-04 11:20:00', '0'),
     ('3987a4a2-2c10-468d-ae27-b4c39164f456', 'Procura-se Notebook Perdido', 'Perdi meu notebook no bloco de ciências exatas. Quem encontrou, por favor entrar em contato.', 0, 'arthur.lima@id.uff.br', '6e41c98b-0c13-4bae-942d-710efa65986c', '2024-10-05 21:05:00', '0'),
     ('c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'Casa para Alugar', 'Alugo quarto em casa próximo à faculdade com preço acessível para estudantes.', 2500.0, 'luiza.monteiro@id.uff.br', '6e41c98b-0c13-4bae-942d-710efa65986c','2024-09-18 10:11:00', '0'),
@@ -64,7 +70,6 @@ values
     ('8a63df5e-68c6-41a2-9314-58e9a4e02cfc', 'Estágio em Desenvolvimento de Software', 'Vaga de estágio para estudantes de Ciência da Computação ou áreas correlatas. Atuação em desenvolvimento de software com tecnologias modernas e ambiente colaborativo.', 0, 'luiza.monteiro@id.uff.br', '9bc05733-ceb1-4412-b3dd-13e9e02538ac','2024-10-29 12:50:00', '0'),
     ('f94f7315-4ff4-4ae6-8e7a-2b6e06cc2858', 'Venda de Livro de Programação', 'Vendo livro ''Introdução à Programação em Java''. Material novíssimo, utilizado apenas uma vez. Excelente para quem quer aprender a programar.', 0, 'luiza.monteiro@id.uff.br', '9bc05733-ceb1-4412-b3dd-13e9e02538ac','2024-09-18 16:15:00', '0'),
     ('a8648c4c-7a31-4c79-bebe-ab5ca149e0f4', 'Doação de Móveis Usados', 'Estou doando móveis usados, incluindo uma mesa de jantar e cadeiras. Todos em bom estado. Ideal para quem está mudando de casa.', 0, 'luiza.monteiro@id.uff.br', '9bc05733-ceb1-4412-b3dd-13e9e02538ac','2024-10-16 14:45:00', '0'),
-    ('e5219417-14de-4f83-9e31-c2477df1024a', 'Quarto para Alugar', 'Alugo quarto em apartamento com preço acessível.', 650.0, 'jp.fernandes@id.uff.br', '9bc05733-ceb1-4412-b3dd-13e9e02538ac','2024-09-06 20:00:00', '0'),
     ('e8c71d30-02b4-4db2-9e54-0cb36776f743', 'Festa de Aniversário na República', 'Venha celebrar meu aniversário com muita música e diversão! A festa será na república, com início às 18h. Traga sua bebida favorita!', 0, 'jp.fernandes@id.uff.br', '9bc05733-ceb1-4412-b3dd-13e9e02538ac','2024-10-05 07:50:00', '0'),
     ('a432e2ec-1989-4e73-aad7-7d0d59ec32ec', 'Curso de Desenvolvimento Web Completo', 'Aprenda a criar websites do zero! O curso abrange HTML, CSS, JavaScript e frameworks modernos. Inscrições abertas.', 299.10, 'jp.fernandes@id.uff.br', '9bc05733-ceb1-4412-b3dd-13e9e02538ac','2024-10-14 06:40:00', '0'),
 
