@@ -85,7 +85,7 @@ public class AnnouncementService {
     }
 
     public AnnouncementDTO findById(@NotNull UUID id){
-        var optional = announcementRepository.findById(id);
+        var optional = announcementRepository.findOneByIdAndStatusIsNot(id, AnnouncementStatus.DELETED);
 
         if(optional.isPresent()) return new AnnouncementDTO(optional.get());
 
