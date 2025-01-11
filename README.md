@@ -331,7 +331,7 @@ Representa as avaliações feitas pelos usuários após conversa no chat.
 - **GET /assessment/reviews**  
   Retorna uma lista de avaliações que o usuário requeredor realizou.
 
-- **GET /assessment/assessments/{email}**  
+- **GET /assessment/{email}/**  
   Retorna uma lista de avaliações do usuário dono do email passado pela url.
 
 ### 7. **Chat**
