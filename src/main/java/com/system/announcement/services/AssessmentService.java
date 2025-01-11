@@ -45,7 +45,7 @@ public class AssessmentService {
 
             var assessment = new Assessment(assessmentDTO.title(),
                     assessmentDTO.description(), assessmentDTO.grade(),
-                    user, chat.getUser(), chat);
+                    user, chat.getAdvertiser(), chat);
             assessment = assessmentRepository.save(assessment);
 
             var rateUser = chat.getAdvertiser();
@@ -62,7 +62,7 @@ public class AssessmentService {
 
             var assessment = new Assessment(assessmentDTO.title(),
                     assessmentDTO.description(), assessmentDTO.grade(),
-                    chat.getAdvertiser(), user, chat);
+                    user, chat.getUser(), chat);
             assessment = assessmentRepository.save(assessment);
 
             user.newAssessment(assessment.getGrade());
