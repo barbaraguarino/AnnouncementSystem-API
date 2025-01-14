@@ -6,7 +6,8 @@ values ('icones/tatiana.JPG', 'tatiana.costa@id.uff.br', 'false', 'Tatiana Costa
        ('icones/julia.JPG', 'julia.medeiros@id.uff.br', 'false', 'Julia Medeiros', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '0', 'false', 0, 0, 0),
        ('icones/luiza.JPG', 'luiza.monteiro@id.uff.br', 'false', 'Luiza Monteiro', '$2a$10$ldFbPwNYtHLNqNhg8lN7M.vadBTH85kTgRyW3m9YkOUzbW1SqOzmW', '0', '0', 'false', 4.5, 4.5, 1),
        ('icones/jp.JPG', 'jp.fernandes@id.uff.br', 'false', 'João Pedro Fernandes', '$2a$10$mbxFlKCmQjoiWQG7.l1pyuR.Q5B0b3lUpB/sf4V7HlFeGjnLTaaHe', '1', '2', 'false', 0, 0, 0),
-       ('icones/antonio.JPG', 'dutra.tony@id.uff.br', 'false', 'Antônio Dutra Vasconcelos', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '1', 'false', 0, 0, 0);
+       ('icones/antonio.JPG', 'dutra.tony@id.uff.br', 'false', 'Antônio Dutra Vasconcelos', '$2a$10$EBhF33AK6HpbRugqQZMH.eBhqX6LT0uWXTk1WLkL5ll5HGvR5CTsO', '0', '1', 'false', 0, 0, 0)
+ON CONFLICT (email) DO NOTHING;
 
 insert into tb_city (id, name)
 values ('a8648c4c-7a31-4c79-bebe-ab5ca149e0f4','Rio de Janeiro'),
@@ -23,7 +24,8 @@ values ('a8648c4c-7a31-4c79-bebe-ab5ca149e0f4','Rio de Janeiro'),
        ('9bc05733-ceb1-4412-b3dd-13e9e02538ac','São Gonçalo'),
        ('7e3ff6e4-c06a-40ca-99e3-9c9979d5f113','Volta Redonda'),
        ('22d4ecac-71e5-4e86-9ade-9c4e926ce5d9','Nova Friburgo'),
-       ('ffac3bc2-935d-41b5-8f4d-593ec5e18b11','Barra Mansa');
+       ('ffac3bc2-935d-41b5-8f4d-593ec5e18b11','Barra Mansa')
+ON CONFLICT (id) DO NOTHING;
 
 insert into tb_category (id, name)
 values ('2905ffd5-7976-4fd6-9f61-e19dbc19ce65', 'Aluguel'),
@@ -47,13 +49,15 @@ values ('2905ffd5-7976-4fd6-9f61-e19dbc19ce65', 'Aluguel'),
        ('ddbcf1bf-d54f-4176-aacb-05b11f21659d', 'Mobilidade Acadêmica'),
        ('707fbaf8-d46d-4b3b-9e1c-742849d41c14', 'Cursos e Workshops'),
        ('e37e639e-35f6-405f-89cc-67bb0dc5787b', 'Móveis'),
-       ('b5a18c33-3836-4b4d-80a1-bc1e812f6d3a', 'Networking e Parcerias');
+       ('b5a18c33-3836-4b4d-80a1-bc1e812f6d3a', 'Networking e Parcerias')
+ON CONFLICT (id) DO NOTHING;
 
 insert into tb_announcement (id, title, content, price, id_author, id_city, date, status, image_archive)
 values
     -- Niterói
     ('d90180e6-a156-4d65-a227-a75cef595c42', 'Quarto para Alugar', 'Alugo quarto em apartamento próximo à faculdade com preço acessível.', 850.0, 'tatiana.costa@id.uff.br', '6e41c98b-0c13-4bae-942d-710efa65986c', '2025-01-06 17:50:00', '0', '2abd8107-2255-47ab-ae4a-f06abfa226c6'),
-    ('e5219417-14de-4f83-9e31-c2477df1024a', 'Quarto para Alugar', 'Alugo quarto em apartamento com preço acessível.', 650.0, 'jp.fernandes@id.uff.br', '9bc05733-ceb1-4412-b3dd-13e9e02538ac','2024-12-30 20:00:00', '0', '4f2b068a-0600-40ba-b30b-2a86fe29914f');
+    ('e5219417-14de-4f83-9e31-c2477df1024a', 'Quarto para Alugar', 'Alugo quarto em apartamento com preço acessível.', 650.0, 'jp.fernandes@id.uff.br', '9bc05733-ceb1-4412-b3dd-13e9e02538ac','2024-12-30 20:00:00', '0', '4f2b068a-0600-40ba-b30b-2a86fe29914f')
+ON CONFLICT (id) DO NOTHING;
 
 
 insert into tb_announcement (id, title, content, price, id_author, id_city, date, status)
@@ -66,7 +70,7 @@ values
     ('6f4b9f52-4a82-4fa3-9b90-f7c89e05d8d9', 'Mentoria para Novos Alunos de Engenharia', 'Ofereço mentoria para novos alunos de Engenharia que buscam orientação sobre o curso e dicas para o início da vida acadêmica. Encontros semanais e dicas de estudo.', 0, 'luiza.monteiro@id.uff.br', '6e41c98b-0c13-4bae-942d-710efa65986c','2024-10-12 11:00:00', '0'),
 
     -- São Gonçalo
-    ('87ae5802-d813-48b5-98b9-2c26f6a1a333', 'Coaching de Carreira para Alunos de Economia', 'Sessões de coaching para alunos de Economia interessados em planejamento de carreira e desenvolvimento profissional. Aulas quinzenais com foco em networking e habilidades específicas do setor.', 0, 'luiza.monteiro@id.uff.br', '9bc05733-ceb1-4412-b3dd-13e9e02538ac','2024-10-30 11:45:00', '0'),
+    ('87ae5802-d813-48b5-98b9-2c26f6a1a333', 'Coaching de Carreira para Alunos de Economia', 'Sessões de coaching para alunos de Economia interessados em planejamento de carreira e desenvolvimento profissional. Aulas quinzenais com foco em networking e habilidades específicas do setor.', 15, 'luiza.monteiro@id.uff.br', '9bc05733-ceb1-4412-b3dd-13e9e02538ac','2024-10-30 11:45:00', '0'),
     ('8a63df5e-68c6-41a2-9314-58e9a4e02cfc', 'Estágio em Desenvolvimento de Software', 'Vaga de estágio para estudantes de Ciência da Computação ou áreas correlatas. Atuação em desenvolvimento de software com tecnologias modernas e ambiente colaborativo.', 0, 'luiza.monteiro@id.uff.br', '9bc05733-ceb1-4412-b3dd-13e9e02538ac','2024-10-29 12:50:00', '0'),
     ('f94f7315-4ff4-4ae6-8e7a-2b6e06cc2858', 'Venda de Livro de Programação', 'Vendo livro ''Introdução à Programação em Java''. Material novíssimo, utilizado apenas uma vez. Excelente para quem quer aprender a programar.', 0, 'luiza.monteiro@id.uff.br', '9bc05733-ceb1-4412-b3dd-13e9e02538ac','2024-09-18 16:15:00', '0'),
     ('a8648c4c-7a31-4c79-bebe-ab5ca149e0f4', 'Doação de Móveis Usados', 'Estou doando móveis usados, incluindo uma mesa de jantar e cadeiras. Todos em bom estado. Ideal para quem está mudando de casa.', 0, 'luiza.monteiro@id.uff.br', '9bc05733-ceb1-4412-b3dd-13e9e02538ac','2024-10-16 14:45:00', '0'),
@@ -108,7 +112,8 @@ values
 
     -- Volta Redonda
     ('c1ab93a1-2300-4ed0-90ff-700a445c0912', 'Estudo sobre Impacto da Tecnologia na Educação', 'Busco estudantes para ajudar em pesquisa sobre o impacto das tecnologias digitais no aprendizado dos alunos. Experiência em educação é bem-vinda.', 0, 'dutra.tony@id.uff.br', '7e3ff6e4-c06a-40ca-99e3-9c9979d5f113','2024-10-15 07:15:00', '0'),
-    ('f3fbc9bb-4ff3-40fa-a548-8a0f4f84f35e', 'Desenvolvedor Java Sênior', 'Estamos contratando um desenvolvedor Java sênior para trabalhar em projetos desafiadores. É necessário ter experiência em Spring Boot e Microservices.', 0, 'dutra.tony@id.uff.br', '7e3ff6e4-c06a-40ca-99e3-9c9979d5f113','2024-10-5 09:30:00', '0');
+    ('f3fbc9bb-4ff3-40fa-a548-8a0f4f84f35e', 'Desenvolvedor Java Sênior', 'Estamos contratando um desenvolvedor Java sênior para trabalhar em projetos desafiadores. É necessário ter experiência em Spring Boot e Microservices.', 0, 'dutra.tony@id.uff.br', '7e3ff6e4-c06a-40ca-99e3-9c9979d5f113','2024-10-5 09:30:00', '0')
+ON CONFLICT (id) DO NOTHING;
 
 insert into tb_announcement_category (id_announcement, id_category)
 values
@@ -180,13 +185,15 @@ values
     ('f3e9a8c4-1f67-41f8-b3f1-0983f0b4b197', '707fbaf8-d46d-4b3b-9e1c-742849d41c14'),
     ('e4b5d4f2-4ac1-4b43-8b9d-e1b9d8ddefb5', '707fbaf8-d46d-4b3b-9e1c-742849d41c14'),
     ('c8e682c8-bbba-429e-b5f3-e743c2e8e3c7', '707fbaf8-d46d-4b3b-9e1c-742849d41c14'),
-    ('db1a8f76-5b38-490c-a5c4-8f484d39e9da', '707fbaf8-d46d-4b3b-9e1c-742849d41c14');
+    ('db1a8f76-5b38-490c-a5c4-8f484d39e9da', '707fbaf8-d46d-4b3b-9e1c-742849d41c14')
+ON CONFLICT (id_announcement, id_category) DO NOTHING;
 
 insert into tb_chat (status, date_open, id, id_announcement, id_user, id_advertiser, date_last_message, is_evaluated_by_advertiser, is_evaluated_by_user)
 values
     ('1', '2024-10-30 14:08:56', '6e41c98b-0c13-4bae-942d-710efa65986c', 'c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'tatiana.costa@id.uff.br', 'luiza.monteiro@id.uff.br', '2024-11-20 18:16:50', 'true', 'true'),
     ('0', '2024-12-20 11:10:56', 'db1a8f76-5b38-490c-a5c4-8f484d39e9da', 'b07d028f-e4c6-4e1e-b37f-6828f2255c12', 'tatiana.costa@id.uff.br', 'jp.fernandes@id.uff.br', '2024-12-20 11:10:56', 'false', 'false'),
-    ('0', '2024-09-20 15:40:56', '92f14b73-0ccf-4b1f-92b5-0f634d5a7c15', 'c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'tatiana.costa@id.uff.br', 'arthur.lima@id.uff.br', '2024-09-20 15:40:56', 'false', 'false');
+    ('0', '2024-09-20 15:40:56', '92f14b73-0ccf-4b1f-92b5-0f634d5a7c15', 'c7b0ac04-dc11-439b-b4b6-3e2c6930d3be', 'tatiana.costa@id.uff.br', 'arthur.lima@id.uff.br', '2024-09-20 15:40:56', 'false', 'false')
+ON CONFLICT (id) DO NOTHING;
 
 insert into tb_message(id, id_chat, id_sender, content, date)
 values
@@ -197,9 +204,11 @@ values
     ('a432e2ec-1989-4e73-aad7-7d0d59ec32ec', '6e41c98b-0c13-4bae-942d-710efa65986c', 'tatiana.costa@id.uff.br', 'Acho melhor nos encontramos. Que dia você pode?', '2024-11-20 18:15:00'),
     ('707fbaf8-d46d-4b3b-9e1c-742849d41c14', '6e41c98b-0c13-4bae-942d-710efa65986c', 'luiza.monteiro@id.uff.br', 'Se for mesmo necessários nos encontramos, posso amanhã as 15h.', '2024-11-20 18:16:50'),
     ('4937b15c-d46e-4a9f-a3fc-205cbf4867b4', '6e41c98b-0c13-4bae-942d-710efa65986c', 'tatiana.costa@id.uff.br', 'Ok. Vejo você em frente ao prédio H.', '2024-11-20 18:30:00'),
-    ('5d29e612-dc5f-48d5-9c5e-fc364cf1b08e', '6e41c98b-0c13-4bae-942d-710efa65986c', 'luiza.monteiro@id.uff.br', ' Foi ótimo fazer negócios com você. Até mais!', '2024-11-21 07:00:50');
+    ('5d29e612-dc5f-48d5-9c5e-fc364cf1b08e', '6e41c98b-0c13-4bae-942d-710efa65986c', 'luiza.monteiro@id.uff.br', ' Foi ótimo fazer negócios com você. Até mais!', '2024-11-21 07:00:50')
+ON CONFLICT (id) DO NOTHING;
 
 insert into tb_assessment (id, date, title, grade, description, id_chat, id_evaluator_user, id_rated_user)
 values
     ('db1a8f76-5b38-490c-a5c4-8f484d39e9da','2024-11-22 10:00:50','Bom, mas...', 4.5, 'Bom, mas o anúnciante é muito desconfiado, demorou a concordar a se encontrar.', '6e41c98b-0c13-4bae-942d-710efa65986c', 'tatiana.costa@id.uff.br', 'luiza.monteiro@id.uff.br'),
-    ('c8e682c8-bbba-429e-b5f3-e743c2e8e3c7','2024-11-21 07:00:50','Boa transição, mas...', 5, 'Foi uma boa transição, mas o usuário foi muito insistente para se encontrar.', '6e41c98b-0c13-4bae-942d-710efa65986c', 'luiza.monteiro@id.uff.br', 'tatiana.costa@id.uff.br');
+    ('c8e682c8-bbba-429e-b5f3-e743c2e8e3c7','2024-11-21 07:00:50','Boa transição, mas...', 5, 'Foi uma boa transição, mas o usuário foi muito insistente para se encontrar.', '6e41c98b-0c13-4bae-942d-710efa65986c', 'luiza.monteiro@id.uff.br', 'tatiana.costa@id.uff.br')
+ON CONFLICT (id) DO NOTHING;

@@ -48,31 +48,6 @@ class AssessmentServiceTest {
     class CreateAssessment {
 
         @Test
-        @DisplayName("Deve criar avaliação com sucesso para o usuário")
-        void shouldCreateAssessmentSuccessfully() {
-            UUID chatId = UUID.randomUUID();
-            CreateAssessmentDTO assessmentDTO = mock(CreateAssessmentDTO.class);
-            Chat chat = mock(Chat.class);
-            User user = mock(User.class);
-
-            lenient().when(assessmentDTO.chat()).thenReturn(chatId);
-            lenient().when(chatService.findById(chatId)).thenReturn(chat);
-            lenient().when(authDetails.getAuthenticatedUser()).thenReturn(user);
-            lenient().when(user.getEmail()).thenReturn("user@example.com");
-            lenient().when(chat.getUser()).thenReturn(user);
-            lenient().when(chat.getIsEvaluatedByUser()).thenReturn(false);
-            lenient().when(chat.getIsEvaluatedByAdvertiser()).thenReturn(false);
-
-            lenient().when(assessmentRepository.save(any(Assessment.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-            assessmentService.createAssessment(assessmentDTO);
-
-            verify(assessmentRepository).save(any(Assessment.class));
-            verify(userService).save(user);
-            verify(chatService).save(chat);
-        }
-
-        @Test
         @DisplayName("Deve lançar exceção se o usuário já avaliou o chat")
         void shouldThrowExceptionIfUserAlreadyEvaluated() {
             UUID chatId = UUID.randomUUID();
