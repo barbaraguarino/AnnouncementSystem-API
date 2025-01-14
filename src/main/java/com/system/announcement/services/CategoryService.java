@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,8 +23,8 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public Set<Category> getAll() {
-        return new HashSet<>(categoryRepository.findAllByOrderByName());
+    public List<Category> getAll() {
+        return categoryRepository.findAllByOrderByName();
     }
 
     public Set<Category> getAllById(@NotNull Set<UUID> categories) {
