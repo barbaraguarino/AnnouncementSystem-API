@@ -36,7 +36,7 @@ class CityServiceTest {
             );
             Mockito.when(cityRepository.findAllByOrderByName()).thenReturn(mockCities);
 
-            Set<City> result = cityService.getAll();
+            List<City> result = cityService.getAll();
 
             Assertions.assertNotNull(result);
             Assertions.assertEquals(2, result.size());
@@ -51,7 +51,7 @@ class CityServiceTest {
         void shouldReturnEmptySetWhenRepositoryIsEmpty() {
             Mockito.when(cityRepository.findAllByOrderByName()).thenReturn(Collections.emptyList());
 
-            Set<City> result = cityService.getAll();
+            List<City> result = cityService.getAll();
 
             Assertions.assertNotNull(result);
             Assertions.assertTrue(result.isEmpty(), "O resultado deve ser um conjunto vazio");

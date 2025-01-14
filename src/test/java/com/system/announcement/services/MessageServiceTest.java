@@ -1,11 +1,13 @@
 package com.system.announcement.services;
 
+import com.system.announcement.auxiliary.enums.ChatStatus;
 import com.system.announcement.auxiliary.enums.UserRole;
 import com.system.announcement.auxiliary.enums.UserType;
 import com.system.announcement.dtos.chat.ReceiveMessageDTO;
 import com.system.announcement.dtos.chat.SendMessageDTO;
 import com.system.announcement.exceptions.ChatNotFoundException;
 import com.system.announcement.exceptions.UserNotFoundException;
+import com.system.announcement.exceptions.WithoutAuthorizationException;
 import com.system.announcement.models.Chat;
 import com.system.announcement.models.Message;
 import com.system.announcement.models.User;
@@ -104,34 +106,6 @@ class MessageServiceTest {
     class SendMessage {
 
         @Test
-        @DisplayName("Deve enviar mensagem para ambos os usuários do chat")
-        void shouldSendMessageToBothChatUsers() {
-            User user = new User("advertiser@example.com", "Advertiser", UserType.EMPLOYEE, UserRole.USER);
-            User advertiser = new User("user@example.com", "User", UserType.TEACHER, UserRole.USER);
-            Chat chat = mock(Chat.class);
-            var chatID = UUID.randomUUID();
-
-            when(chat.getUser()).thenReturn(user);
-            when(chat.getAdvertiser()).thenReturn(advertiser);
-
-            ReceiveMessageDTO dto = new ReceiveMessageDTO(chatID, advertiser.getEmail(), "Mensagem");
-            Message message = new Message(chat, advertiser, dto.message());
-
-            when(chatService.findById(dto.chat())).thenReturn(chat);
-            when(userService.getUserByEmail(dto.email())).thenReturn(advertiser);
-            when(messageRepository.save(any(Message.class))).thenReturn(message);
-
-            messageService.sendMessage(dto);
-
-            verify(chatService).findById(dto.chat());
-            verify(userService).getUserByEmail(dto.email());
-            verify(messageRepository).save(any(Message.class));
-            verify(messagingTemplate).convertAndSendToUser(eq(user.getEmail()), eq("/queue/messages"), any(SendMessageDTO.class));
-            verify(messagingTemplate).convertAndSendToUser(eq(advertiser.getEmail()), eq("/queue/messages"), any(SendMessageDTO.class));
-            verify(chatService).save(chat);
-        }
-
-        @Test
         @DisplayName("Deve lançar exceção para chat inexistente")
         void shouldThrowExceptionForNonExistentChat() {
             var chatID = UUID.randomUUID();
@@ -148,22 +122,56 @@ class MessageServiceTest {
         }
 
         @Test
-        @DisplayName("Deve lançar exceção para usuário inexistente")
-        void shouldThrowExceptionForNonExistentUser() {
+        @DisplayName("Deve enviar mensagem para ambos os usuários do chat")
+        void shouldSendMessageToBothChatUsers() {
+            User user = new User("advertiser@example.com", "Advertiser", UserType.EMPLOYEE, UserRole.USER);
+            User advertiser = new User("user@example.com", "User", UserType.TEACHER, UserRole.USER);
             Chat chat = mock(Chat.class);
-            ReceiveMessageDTO dto = new ReceiveMessageDTO(chat.getId(), "user@example.com", "Mensagem");
+            var chatID = UUID.randomUUID();
+
+            when(chat.getUser()).thenReturn(user);
+            when(chat.getAdvertiser()).thenReturn(advertiser);
+            when(chat.getStatus()).thenReturn(ChatStatus.OPEN);
+
+            ReceiveMessageDTO dto = new ReceiveMessageDTO(chatID, advertiser.getEmail(), "Mensagem");
+            Message message = new Message(chat, advertiser, dto.message());
 
             when(chatService.findById(dto.chat())).thenReturn(chat);
-            when(userService.getUserByEmail(dto.email())).thenThrow(UserNotFoundException.class);
+            when(userService.getUserByEmail(dto.email())).thenReturn(advertiser);
+            when(messageRepository.save(any(Message.class))).thenReturn(message);
 
-            Assertions.assertThrows(UserNotFoundException.class, () ->
-                    messageService.sendMessage(dto)
-            );
+            messageService.sendMessage(dto);
 
             verify(chatService).findById(dto.chat());
             verify(userService).getUserByEmail(dto.email());
-            verifyNoInteractions(messageRepository, messagingTemplate);
+            verify(messageRepository).save(argThat(msg ->
+                    msg.getChat().equals(chat) &&
+                            msg.getSender().equals(advertiser) &&
+                            msg.getContent().equals(dto.message())
+            ));
+            verify(messagingTemplate).convertAndSendToUser(eq(user.getEmail()), eq("/queue/messages"), any(SendMessageDTO.class));
+            verify(messagingTemplate).convertAndSendToUser(eq(advertiser.getEmail()), eq("/queue/messages"), any(SendMessageDTO.class));
+            verify(chatService).save(chat);
         }
+
+        @Test
+        @DisplayName("Deve lançar exceção para chat com status fechado")
+        void shouldThrowExceptionForClosedChat() {
+            User advertiser = new User("user@example.com", "User", UserType.TEACHER, UserRole.USER);
+            Chat chat = mock(Chat.class);
+            var chatID = UUID.randomUUID();
+
+            when(chat.getStatus()).thenReturn(ChatStatus.CLOSED);
+            when(chatService.findById(chatID)).thenReturn(chat);
+
+            ReceiveMessageDTO dto = new ReceiveMessageDTO(chatID, advertiser.getEmail(), "Mensagem");
+
+            Assertions.assertThrows(WithoutAuthorizationException.class, () -> messageService.sendMessage(dto));
+
+            verify(chatService).findById(dto.chat());
+            verifyNoInteractions(userService, messageRepository, messagingTemplate);
+        }
+
     }
 
 }
