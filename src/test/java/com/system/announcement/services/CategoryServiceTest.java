@@ -37,7 +37,7 @@ class CategoryServiceTest {
             );
             Mockito.when(categoryRepository.findAllByOrderByName()).thenReturn(mockCategories);
 
-            Set<Category> result = categoryService.getAll();
+            List<Category> result = categoryService.getAll();
 
             Assertions.assertNotNull(result);
             Assertions.assertEquals(2, result.size());
@@ -52,7 +52,7 @@ class CategoryServiceTest {
         void shouldReturnEmptySetWhenRepositoryIsEmpty() {
             Mockito.when(categoryRepository.findAllByOrderByName()).thenReturn(Collections.emptyList());
 
-            Set<Category> result = categoryService.getAll();
+            List<Category> result = categoryService.getAll();
 
             Assertions.assertNotNull(result);
             Assertions.assertTrue(result.isEmpty(), "O resultado deve ser um conjunto vazio");
