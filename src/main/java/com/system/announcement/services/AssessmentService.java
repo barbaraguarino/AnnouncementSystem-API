@@ -65,8 +65,9 @@ public class AssessmentService {
                     user, chat.getUser(), chat);
             assessment = assessmentRepository.save(assessment);
 
-            user.newAssessment(assessment.getGrade());
-            userService.save(user);
+            var rateUser = chat.getUser();
+            rateUser.newAssessment(assessment.getGrade());
+            userService.save(rateUser);
 
             chat.setIsEvaluatedByUser(true);
             chatService.save(chat);
