@@ -54,7 +54,7 @@ ON CONFLICT (id) DO NOTHING;
 
 insert into tb_announcement (id, title, content, price, id_author, id_city, date, status, image_archive)
 values
-    ('d90180e6-a156-4d65-a227-a75cef595c42', 'Quarto para Alugar', 'Alugo quarto em apartamento próximo à faculdade com preço acessível.', 850.0, 'tatiana.costa@id.uff.br', '6e41c98b-0c13-4bae-942d-710efa65986c', '2025-01-06 17:50:00', '0', '2abd8107-2255-47ab-ae4a-f06abfa226c6'),
+    ('d90180e6-a156-4d65-a227-a75cef595c42', 'Quartos para Alugar', 'Alugo quartos individuais e compartilhados em apartamentos próximo à faculdade com preço acessível. Valores a partir de R$850,00.', 850.0, 'tatiana.costa@id.uff.br', '6e41c98b-0c13-4bae-942d-710efa65986c', '2025-01-06 17:50:00', '0', '2abd8107-2255-47ab-ae4a-f06abfa226c6'),
     ('8d9c2b8e-893b-47b3-87e1-b3f5c2d5fd62', 'Chave de Carro Encontrada no Bloco A', 'Encontrei uma chave de carro no Bloco A, próximo à entrada principal. Parece ser de um carro modelo sedã. Quem perdeu, por favor entrar em contato para recuperar.', 0, 'tatiana.costa@id.uff.br', '6e41c98b-0c13-4bae-942d-710efa65986c','2024-10-13 17:15:00', '0', 'chave-de-carro'),
     ('c90f5b68-bf69-4ac3-a80b-fd02864d2642', 'Festa Junina da Faculdade', 'Participe da nossa festa junina! Haverá comidas típicas, danças e muita diversão. Data: 15 de junho. Todos estão convidados!', 0, 'julia.medeiros@id.uff.br', 'a8648c4c-7a31-4c79-bebe-ab5ca149e0f4','2024-12-16 02:02:00', '0', 'festa-junina'),
     ('d6c928a2-4bc8-463b-a2d8-244c5e1d1ea3', 'Doação de Brinquedos', 'Doando brinquedos em bom estado para crianças. Se você conhece alguém que possa precisar, entre em contato!', 0, 'jp.fernandes@id.uff.br', 'ffac3bc2-935d-41b5-8f4d-593ec5e18b11','2024-11-30 17:00:00', '0', 'brinquedos'),
