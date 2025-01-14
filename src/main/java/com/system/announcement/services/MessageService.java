@@ -1,7 +1,9 @@
 package com.system.announcement.services;
 
+import com.system.announcement.auxiliary.enums.ChatStatus;
 import com.system.announcement.dtos.chat.ReceiveMessageDTO;
 import com.system.announcement.dtos.chat.SendMessageDTO;
+import com.system.announcement.exceptions.WithoutAuthorizationException;
 import com.system.announcement.models.Chat;
 import com.system.announcement.models.Message;
 import com.system.announcement.repositories.MessageRepository;
@@ -45,6 +47,10 @@ public class MessageService {
 
     public void sendMessage(ReceiveMessageDTO receiveMessageDTO) {
         Chat chat = chatService.findById(receiveMessageDTO.chat());
+
+        if(!chat.getStatus().equals(ChatStatus.OPEN))
+            throw new WithoutAuthorizationException();
+
         var sender = userService.getUserByEmail(receiveMessageDTO.email());
 
         Message message = new Message(chat, sender, receiveMessageDTO.message());
