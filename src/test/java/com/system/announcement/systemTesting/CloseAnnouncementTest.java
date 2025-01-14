@@ -2,7 +2,6 @@
 package com.system.announcement.systemTesting;
 
 import org.junit.Test;
-import org.junit.Before;
 import org.junit.After;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
@@ -35,10 +34,12 @@ public class CloseAnnouncementTest extends LoginTest {
     // 2 | click | linkText=Meus anúncios |
     driver.findElement(By.linkText("Meus anúncios")).click();
     // 3 | click | css=.grid-cols-1:nth-child(1) |
-    driver.findElement(By.cssSelector(".grid-cols-1:nth-child(1)")).click();
-    // 5 | click | css=.text-gray-600 |
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    WebElement button = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.text-gray-600")));
+    WebElement announcement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".grid-cols-1:nth-child(1)")));
+    announcement.click();
+    // 5 | click | css=.text-gray-600 |
+    WebDriverWait wait2 = new WebDriverWait(driver, Duration.ofSeconds(10));
+    WebElement button = wait2.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.text-gray-600")));
     button.click();
     // 6 | assertConfirmation | Tem certeza que deseja fechar este anúncio? |
     assertThat(driver.switchTo().alert().getText(), is("Tem certeza que deseja fechar este anúncio?"));
