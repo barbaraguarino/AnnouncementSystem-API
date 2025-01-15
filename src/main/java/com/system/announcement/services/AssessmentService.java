@@ -69,7 +69,7 @@ public class AssessmentService {
             rateUser.newAssessment(assessment.getGrade());
             userService.save(rateUser);
 
-            chat.setIsEvaluatedByUser(true);
+            chat.setIsEvaluatedByAdvertiser(true);
             chatService.save(chat);
 
         }else
